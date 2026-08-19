@@ -1,0 +1,1332 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#3498db">
+<link rel="manifest" href="./manifest.webmanifest">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="FLUX MARCHANDISE">
+<title>FLUX MARCHANDISE — AJOUTER / RETIRER</title>
+<style>
+:root{--blue:#3498db;--blue2:#2980b9;--green:#27ae60;--green2:#219653;--dark:#34495e;--red:#e74c3c;--orange:#f39c12;--bg:#f4f7fb;--card:#fff;--text:#2c3e50;--muted:#7f8c8d;--border:#dde3ea}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text)}body{min-height:100vh;padding-bottom:76px}.app{max-width:620px;margin:auto;padding:12px}.topbar{position:sticky;top:0;z-index:20;background:rgba(244,247,251,.96);backdrop-filter:blur(8px);padding:8px 0 10px}.title{font-size:24px;font-weight:800;text-align:center;margin:4px 0 10px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tab{border:0;border-radius:10px;padding:13px;font-size:16px;font-weight:800;color:white;cursor:pointer}.tab.add{background:var(--green)}.tab.remove{background:var(--dark)}.tab.active{box-shadow:0 0 0 3px rgba(52,152,219,.22)}.commande-open{width:100%;margin-top:8px;height:48px;border:0;border-radius:10px;background:var(--blue);color:#fff;font-weight:900;font-size:16px;cursor:pointer}.commande-open.active{box-shadow:0 0 0 3px rgba(52,152,219,.22)}.commande-card{background:#fff;border-radius:12px;padding:12px;margin:10px 0;box-shadow:0 2px 10px rgba(0,0,0,.07);border-left:3px solid var(--blue)}.commande-product-name{font-size:18px;font-weight:900;margin-bottom:6px}.commande-meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0}.commande-meta .box{padding:8px;border-radius:8px;text-align:center;border:1px solid var(--border);background:#f8fbff}.commande-meta .label{font-size:11px;font-weight:800;color:var(--muted)}.commande-meta .value{font-size:19px;font-weight:900;margin-top:3px}.commande-address{border:1px solid var(--border);border-radius:9px;padding:9px;margin-top:8px;background:#fbfcfe}.commande-address.selected{border:2px solid var(--blue);background:#eef7ff}.commande-address-head{display:flex;justify-content:space-between;align-items:center;font-weight:900}.commande-batches{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}.commande-batch{border:1px solid var(--border);border-radius:7px;padding:6px;text-align:center}.commande-batch .q{font-weight:900}.commande-batch .d{font-size:11px;color:var(--muted);margin-top:2px}.commande-withdraw{display:flex;align-items:center;gap:7px;margin-top:8px}.commande-withdraw label{font-size:12px;font-weight:800;color:var(--muted);flex:1}.commande-withdraw input{width:120px;height:42px;border:1px solid var(--border);border-radius:8px;text-align:center;font-size:17px}.commande-total{margin-top:8px;text-align:right;font-weight:900}.commande-actions{position:sticky;bottom:76px;z-index:8;background:rgba(244,247,251,.96);padding:8px 0}.commande-missing{border-left-color:var(--red)}.commande-missing .gold{font-size:24px;font-weight:900;color:#219653}.page{display:none}.page.active{display:block}.card{background:var(--card);border-radius:12px;padding:12px;margin:10px 0;box-shadow:0 2px 10px rgba(0,0,0,.07);border-left:3px solid var(--blue);position:relative}.card.add{border-left-color:var(--green)}.card.remove{border-left-color:var(--dark)}.row{display:flex;gap:8px;align-items:center;margin-bottom:9px}.row:last-child{margin-bottom:0}.row input{flex:1;min-width:0;height:48px;border:1px solid var(--border);border-radius:8px;text-align:center;font-size:16px;padding:8px 10px;background:#fff;text-transform:uppercase}.primary:disabled{opacity:.65;pointer-events:none}.scan{height:48px;border:0;border-radius:8px;background:var(--blue);color:#fff;font-weight:800;padding:0 12px;cursor:pointer}.product{background:#f8f9fa;border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center;margin:8px 0}.product .name{font-size:17px;font-weight:800;margin-bottom:9px}.info{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.info .box{padding:8px 4px;border-radius:8px;text-align:center;border:1px solid var(--border)}.info .label{font-size:10px;font-weight:800}.info .value{font-size:18px;font-weight:900;margin-top:3px}.stock{background:#eaf8ef;border-color:#bce7ca!important;color:#219653}.reserve{background:#fff5e6;border-color:#f5c477!important;color:#d35400;cursor:pointer}.uvc{background:#eef6ff;border-color:#bcd9f7!important;color:#2980b9}.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field label{display:block;text-align:center;font-size:11px;font-weight:800;color:var(--muted);margin-bottom:4px}.field input{width:100%;height:46px;border:1px solid var(--border);border-radius:8px;text-align:center;font-size:16px}.section-title{font-weight:900;text-align:center;margin:5px 0 9px}.primary{width:100%;height:48px;border:0;border-radius:9px;color:#fff;font-size:16px;font-weight:900;cursor:pointer}.primary.add{background:var(--green)}.primary.remove{background:var(--dark)}.danger{width:100%;height:44px;border:0;border-radius:9px;color:#fff;background:var(--red);font-weight:800;margin-top:8px}.summary{text-align:center;font-size:12px;color:var(--muted);margin-top:9px}.status{display:none;margin:10px 0;padding:10px;border-radius:9px;text-align:center;font-weight:800}.status.show{display:block}.status.ok{background:#eaf8ef;color:#1e8449}.status.err{background:#fdecea;color:#c0392b}.loading{opacity:.65;pointer-events:none}.address-list{display:flex;flex-direction:column;gap:8px}.address-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer}.address-card.selected{border:2px solid var(--blue);background:#eef7ff}.address-head{display:flex;justify-content:space-between;align-items:center;font-weight:900;margin-bottom:8px}.address-total{background:#eef6ff;color:#2980b9;padding:4px 8px;border-radius:20px;font-size:12px}.batch-list{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.batch{border:1px solid #e5e7eb;border-radius:7px;padding:7px;text-align:center;background:#fafafa}.batch .q{font-size:17px;font-weight:900}.batch .d{font-size:11px;color:#666;margin-top:2px}.batch.empty{opacity:.45}.empty{text-align:center;color:var(--muted);padding:16px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:15px}.modal.show{display:flex}.modalbox{width:min(560px,100%);max-height:90vh;overflow:auto;background:white;border-radius:14px;padding:14px}.modalbox h2{text-align:center;margin:3px 0 12px}.picker-list{display:flex;flex-direction:column;gap:8px}.picker-btn{width:100%;min-height:48px;border:0;border-radius:9px;background:#3498db;color:#fff;font-weight:800;font-size:16px}.picker-btn.existing{background:#27ae60}.picker-btn.new{background:#3498db}.modalclose{width:100%;height:44px;border:0;border-radius:9px;background:var(--red);color:#fff;font-weight:800;margin-top:10px}.scanner-box{background:#111;border-radius:12px;overflow:hidden;min-height:300px;display:flex;align-items:center;justify-content:center;color:#fff}.scanner-box video{width:100%;max-height:60vh;object-fit:cover}.scanner-actions{display:flex;gap:8px;margin-top:8px}.scanner-actions button{flex:1;height:44px;border:0;border-radius:8px;font-weight:800}.small{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}.admin-open-btn{width:100%;margin-top:10px;border:0;border-radius:12px;padding:13px 12px;background:#f39c12;color:#fff;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.08)}.footer-actions{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);padding:8px calc(10px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left));z-index:30}.footer-actions .inner{max-width:620px;margin:auto;display:flex;gap:8px}.footer-actions button{flex:1;height:44px;border:0;border-radius:9px;font-weight:800}.refresh{background:#eef6ff;color:#2980b9}.home{background:#ecf0f1;color:#34495e}@media(max-width:380px){.info{gap:4px}.info .value{font-size:16px}.scan{padding:0 8px;font-size:12px}.batch-list{gap:4px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="title">FLUX MARCHANDISE</div>
+    <div class="tabs">
+      <button class="tab add active" id="tabAdd" onclick="showPage('add')">AJOUTER</button>
+      <button class="tab remove" id="tabRemove" onclick="showPage('remove')">RETIRER</button>
+    </div>
+    <button id="openAdminEmplacementsBtn" type="button" class="admin-open-btn" onclick="openAdminEmplacements()">GESTION DES EMPLACEMENTS</button>
+    <button id="openCommandeBtn" type="button" class="commande-open" onclick="showPage('commande')">COMMANDE</button>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <section id="pageAdd" class="page active">
+    <div class="card add">
+      <div class="row">
+        <input id="addCode" inputmode="numeric" autocomplete="off" placeholder="CODE PRODUIT">
+        <button class="scan" onclick="openScanner('addCode')">SCANNER</button>
+      </div>
+      <div id="addProduct"></div>
+    </div>
+
+    <div class="card add">
+      <div class="section-title">ADRESSE</div>
+      <div class="row"><input id="addAddress" inputmode="tel" pattern="[0-9/]*" autocomplete="off" placeholder="ADRESSE (EX: 6/1)"><button class="scan" type="button" onclick="insertAddressSlash()">/</button></div>
+      <div class="fieldgrid">
+        <div class="field"><label>QTE 1</label><input id="addQ1" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 1</label><input id="addD1" inputmode="numeric" placeholder="JJ/MM/AAAA"></div>
+        <div class="field"><label>QTE 2</label><input id="addQ2" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 2</label><input id="addD2" inputmode="numeric" placeholder="JJ/MM/AAAA"></div>
+        <div class="field"><label>QTE 3</label><input id="addQ3" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 3</label><input id="addD3" inputmode="numeric" placeholder="JJ/MM/AAAA"></div>
+      </div>
+      <button id="submitAddBtn" type="button" class="primary add" onclick="submitAdd()">AJOUTER</button>
+    </div>
+
+    <div class="card add">
+      <div class="section-title">ADRESSES DU PRODUIT</div>
+      <div id="addAddresses" class="address-list"><div class="empty">Entrez le CODE PRODUIT pour afficher les adresses.</div></div>
+    </div>
+  </section>
+
+  <section id="pageRemove" class="page">
+    <div class="card remove">
+      <div class="row">
+        <input id="removeCode" inputmode="numeric" autocomplete="off" placeholder="CODE PRODUIT">
+        <button class="scan" onclick="openScanner('removeCode')">SCANNER</button>
+      </div>
+      <div id="removeProduct"></div>
+    </div>
+
+    <div class="card remove">
+      <div class="section-title">CHOISIR L'ADRESSE</div>
+      <div id="removeAddresses" class="address-list"><div class="empty">Entrez le CODE PRODUIT pour afficher le stock.</div></div>
+    </div>
+
+    <div class="card remove">
+      <div class="section-title">RETIRER DE L'ADRESSE SÉLECTIONNÉE</div>
+      <div id="selectedAddressLabel" class="small">Aucune adresse sélectionnée</div>
+      <div class="fieldgrid">
+        <div class="field"><label>QTE 1</label><input id="removeQ1" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 1</label><input id="removeD1" inputmode="numeric" placeholder="JJ/MM/AAAA" readonly></div>
+        <div class="field"><label>QTE 2</label><input id="removeQ2" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 2</label><input id="removeD2" inputmode="numeric" placeholder="JJ/MM/AAAA" readonly></div>
+        <div class="field"><label>QTE 3</label><input id="removeQ3" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 3</label><input id="removeD3" inputmode="numeric" placeholder="JJ/MM/AAAA" readonly></div>
+      </div>
+      <button id="submitRemoveBtn" type="button" class="primary remove" onclick="submitRemove()">RETIRER</button>
+    </div>
+  </section>
+
+  <section id="pageCommande" class="page">
+    <div class="card">
+      <input id="commandeExcel" type="file" accept=".xlsx,.xls,.csv" style="display:none">
+      <button type="button" class="primary" style="background:var(--blue)" onclick="document.getElementById('commandeExcel').click()">IMPORTER LE FICHIER EXCEL</button>
+      <div id="commandeImportStatus" class="status"></div>
+    </div>
+    <div id="commandeContent"></div>
+    <div id="commandeMissingWrap"></div>
+    <div id="commandeActions" class="commande-actions" style="display:none">
+      <button id="commandeValidateBtn" type="button" class="primary" style="background:var(--green)" onclick="validateCommande()">VALIDER LA COMMANDE</button>
+    </div>
+  </section>
+</div>
+
+<div id="scannerModal" class="modal">
+  <div class="modalbox">
+    <h2>SCANNER</h2>
+    <div id="scannerBox" class="scanner-box"><video id="scannerVideo" playsinline></video></div>
+    <div class="scanner-actions"><button onclick="closeScanner()" style="background:#e74c3c;color:white">FERMER</button><button onclick="switchCamera()" style="background:#3498db;color:white">CAMÉRA</button></div>
+    <div class="small">Visez le CODE EAN avec la caméra.</div>
+  </div>
+</div>
+
+<div id="reserveModal" class="modal">
+  <div class="modalbox"><h2>QTE RESERVE DÉTAILLÉE</h2><div id="reserveContent"></div><button class="modalclose" onclick="closeReserve()">FERMER</button></div>
+</div>
+
+<div id="addressModal" class="modal">
+  <div class="modalbox"><h2>CHOISIR UNE ADRESSE</h2><div id="addressPickerList" class="picker-list"></div><button class="modalclose" onclick="closePicker('addressModal')">ANNULER</button></div>
+</div>
+<div id="dateModal" class="modal">
+  <div class="modalbox"><h2 id="dateModalTitle">CHOISIR UNE DATE</h2><div id="datePickerList" class="picker-list"></div><button class="modalclose" onclick="closePicker('dateModal')">ANNULER</button></div>
+</div>
+
+<div class="footer-actions"><div class="inner"><button class="home" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ HAUT</button><button class="refresh" onclick="refreshCurrent()">↻ ACTUALISER</button></div></div>
+
+<script>
+const state={add:null,remove:null,selectedRow:null,scanner:null,scannerStream:null,scannerTarget:null,scannerFacing:'environment',adminScanner:false};
+const API_URL='https://script.google.com/macros/s/AKfycbzMI_3Hhy6Yk6Q6_3T14hEIvcWITTdVJmek58CT6mE3AlaNmP6Qq4t23ud_Q_CqyldU/exec';
+const COMMANDE_API_URL='https://script.google.com/macros/s/AKfycbwCpbS-HtipulSjBOfmbUe2pFdy2io7IWHafvjSSy9ojtFlEniWyKDNUDtFAAxJPRyt/exec';
+const ACTION_MAP={lookup:'lookup',getProducts:'products',getProduct:'product',getStock:'stock',syncGoldForCode:'syncGold',addStock:'add',finalizeAddStock:'finalizeAdd',removeStock:'remove',ping:'ping'};
+function runServer(name,args=[]){
+  const action=ACTION_MAP[name]||name;
+  let data={};
+  if(name==='lookup'||name==='getProduct'||name==='getStock'||name==='syncGoldForCode') data={code:args[0]};
+  else if(name==='addStock'||name==='finalizeAddStock'||name==='removeStock') data=args[0]||{};
+  return new Promise((resolve,reject)=>{
+    const cb='inventoryCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const script=document.createElement('script');
+    let timer;
+    const cleanup=()=>{clearTimeout(timer);delete window[cb];script.remove();};
+    window[cb]=(result)=>{cleanup();if(result&&result.ok===false)reject(new Error(result.error||'Erreur Apps Script'));else resolve(result);};
+    script.onerror=()=>{cleanup();reject(new Error('Connexion à Apps Script impossible'));};
+    timer=setTimeout(()=>{cleanup();reject(new Error('Délai de connexion à Apps Script dépassé'));},20000);
+    script.src=API_URL+'?action='+encodeURIComponent(action)+'&data='+encodeURIComponent(JSON.stringify(data))+'&callback='+encodeURIComponent(cb)+'&_='+Date.now();
+    document.head.appendChild(script);
+  });
+}
+
+
+function commandeSleep(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms));
+}
+function commandeStockEquivalent(a,b){
+  const ar=(a&&a.rows)||[], br=(b&&b.rows)||[];
+  if(ar.length!==br.length)return false;
+  for(let i=0;i<ar.length;i++){
+    const x=ar[i]||{}, y=br[i]||{};
+    if(String(x.address||'')!==String(y.address||''))return false;
+    for(const k of ['qte1','qte2','qte3']){
+      if(Math.abs(num(x[k])-num(y[k]))>0.000001)return false;
+    }
+  }
+  return Math.abs(num(a?.reserve)-num(b?.reserve))<=0.000001;
+}
+
+const PRODUCT_CACHE_KEY='inventory_recap_pgc_v2';
+const STOCK_CACHE_KEY='inventory_basse_v2';
+const CACHE_META_KEY='inventory_cache_meta_v2';
+let productCache={};
+let stockCache={};
+let cacheReady=false;
+let pendingWrites=0;
+let refreshInFlight=false;
+let addBusy=false;
+// عمليات AJOUTER التي لم يؤكدها Apps Script بعد. لا نسمح للمزامنة أن تمسحها.
+const pendingAdds=new Map();
+let manualAddAddress=false;
+const manualAddDate={1:false,2:false,3:false};
+
+// Cache كبيرة الحجم: لا نستعمل localStorage لأنها محدودة وتسبب QuotaExceededError.
+const DB_NAME='inventory_cache_db_v4';
+const DB_VERSION=1;
+let dbPromise=null;
+
+// JSONP: يقرأ الرد الحقيقي من Apps Script حتى من WebView.
+function commandeRunServer(action,data={}){
+  return new Promise((resolve,reject)=>{
+    const cb='commandeCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const script=document.createElement('script');
+    let timer;
+    const cleanup=()=>{clearTimeout(timer);delete window[cb];script.remove();};
+    window[cb]=(result)=>{
+      cleanup();
+      if(result&&result.ok===false)reject(new Error(result.error||'Erreur COMMANDE Apps Script'));
+      else resolve(result);
+    };
+    script.onerror=()=>{
+      cleanup();
+      reject(new Error('Connexion au serveur COMMANDE impossible'));
+    };
+    timer=setTimeout(()=>{
+      cleanup();
+      reject(new Error('Délai de connexion au serveur COMMANDE dépassé'));
+    },20000);
+    script.src=COMMANDE_API_URL
+      +'?action='+encodeURIComponent(action)
+      +'&data='+encodeURIComponent(JSON.stringify(data))
+      +'&callback='+encodeURIComponent(cb)
+      +'&_='+Date.now();
+    document.head.appendChild(script);
+  });
+}
+
+function openCacheDB(){
+  if(dbPromise)return dbPromise;
+  dbPromise=new Promise((resolve,reject)=>{
+    if(!window.indexedDB)return reject(new Error('IndexedDB غير متاح'));
+    const req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains('cache'))db.createObjectStore('cache');
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error('IndexedDB error'));
+  });
+  return dbPromise;
+}
+function idbGet(key){return openCacheDB().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction('cache','readonly');const r=tx.objectStore('cache').get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);}));}
+function idbSet(key,value){return openCacheDB().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction('cache','readwrite');tx.objectStore('cache').put(value,key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);}));}
+async function saveCaches(){
+  try{
+    await Promise.all([
+      idbSet(PRODUCT_CACHE_KEY,productCache),
+      idbSet(STOCK_CACHE_KEY,stockCache),
+      idbSet(CACHE_META_KEY,{updatedAt:new Date().toISOString()})
+    ]);
+  }catch(e){
+    // فشل التخزين المحلي لا يجب أبداً أن يوقف AJOUTER/RETIRER.
+    console.warn('Cache persistence failed:',e);
+  }
+}
+async function loadCaches(){
+  try{productCache=(await idbGet(PRODUCT_CACHE_KEY))||{};}catch(e){productCache={};}
+  try{stockCache=(await idbGet(STOCK_CACHE_KEY))||{};}catch(e){stockCache={};}
+  // لا نقرأ أي cache كبيرة من localStorage. نحذف المفاتيح القديمة فقط.
+  // هذا يمنع QuotaExceededError ويمنع تحميل بيانات قديمة/فاسدة.
+  try{
+    localStorage.removeItem(PRODUCT_CACHE_KEY);
+    localStorage.removeItem(STOCK_CACHE_KEY);
+    localStorage.removeItem(CACHE_META_KEY);
+  }catch(e){}
+  if(stockCache && typeof stockCache==='object'){
+    for(const code of Object.keys(stockCache)) stockCache[code]=normalizeCachedStockValue(stockCache[code]);
+  }
+}
+function cachedProduct(code){return productCache[normCode(code)]||null;}
+function normalizeCachedStockValue(v){
+  // دعم cache القديمة التي كانت تحفظ rows كمصفوفة مباشرة.
+  if(Array.isArray(v)){
+    const rows=v||[];
+    let reserve=0;
+    rows.forEach(r=>reserve+=num(r?.qte1)+num(r?.qte2)+num(r?.qte3));
+    return {rows,reserve};
+  }
+  if(v && typeof v==='object'){
+    const rows=Array.isArray(v.rows)?v.rows:[];
+    // لا نعتمد على reserve المخزن إذا كان غير موجود/قديم؛ نحسبه محلياً فوراً.
+    let reserve=0;
+    rows.forEach(r=>reserve+=num(r?.qte1)+num(r?.qte2)+num(r?.qte3));
+    return {rows,reserve};
+  }
+  return {rows:[],reserve:0};
+}
+function cachedStock(code){return normalizeCachedStockValue(stockCache[normCode(code)]);}
+function localLookup(code){
+  code=normCode(code);
+  const product=cachedProduct(code);
+  const stock=cachedStock(code);
+  if(product) productCache[code]=product;
+  return {ok:true,product:product||null,stock:{rows:stock.rows,reserve:stock.reserve,gold:product?product.gold:''}};
+}
+function renderLocalLookup(code,mode,clearSelection=true){
+  const r=localLookup(code);
+  const productEl=document.getElementById(mode==='add'?'addProduct':'removeProduct');
+  productEl.innerHTML=productHtml(r.product,r.stock);
+  renderAddresses(r.stock.rows||[],mode);
+  if(mode==='add'){ state.add=r; updateAddAddressMode(); }
+  else {state.remove=r;if(clearSelection) clearRemoveFields();}
+  return r;
+}
+function cacheRows(code){return cachedStock(code);}
+function rebuildLocalStock(code,rows){
+  code=normCode(code);
+  let reserve=0;
+  (rows||[]).forEach(r=>reserve+=num(r.qte1)+num(r.qte2)+num(r.qte3));
+  stockCache[code]={rows:rows||[],reserve};
+  saveCaches();
+}
+async function loadInitialCaches(){
+  await loadCaches();
+  const oldProductCount=Object.keys(productCache).length;
+  const oldStockCount=Object.keys(stockCache).length;
+  if(oldProductCount&&oldStockCount){
+    cacheReady=true;
+    status('Données locales prêtes ✓',true);
+  }else{
+    status('Chargement initial des données…',true);
+  }
+  // À l'ouverture uniquement: RECAP PGC + BASSE DE DONNE.
+  runServer('snapshot',[]).then(r=>{
+    if(!r||!r.ok)throw new Error(r?.error||'Erreur snapshot');
+    const nextProducts={};
+    (r.products||[]).forEach(p=>nextProducts[normCode(p.code)]=p);
+    if(Object.keys(nextProducts).length) productCache=nextProducts;
+    const nextStock=r.stockByCode||{};
+    if(Object.keys(nextStock).length){
+      stockCache={};
+      for(const code of Object.keys(nextStock)) stockCache[code]=normalizeCachedStockValue(nextStock[code]);
+    }
+    saveCaches();
+    cacheReady=true;
+    status('Données chargées ✓',true);
+    refreshVisibleFromCache();
+  }).catch(e=>{
+    if(oldProductCount||oldStockCount){cacheReady=true;status('Mode local — dernière synchronisation conservée',true);refreshVisibleFromCache();}
+    else status('Erreur chargement: '+(e.message||e),false);
+  });
+  // BASSE DE DONNE فقط: تحديث كل 5 ثوانٍ. RECAP لا يُعاد تحميله هنا.
+  setInterval(refreshStockCache,5000);
+}
+function refreshStockCache(){
+  // لا نسمح بتحديث الخلفية أن يكتب فوق التغيير المتفائل أثناء الحفظ.
+  if(pendingWrites>0 || refreshInFlight)return;
+  refreshInFlight=true;
+  runServer('stockAll',[]).then(r=>{
+    if(!r||!r.ok)throw new Error(r?.error||'Erreur BASSE DE DONNE');
+
+    const nextStock=r.stockByCode||{};
+    const nextCache={};
+    for(const code of Object.keys(nextStock)){
+      nextCache[code]=normalizeCachedStockValue(nextStock[code]);
+    }
+
+    // إذا كانت هناك إضافة لم يؤكدها Apps Script بعد، لا نستبدل cache ذلك المنتج
+    // بالنسخة القديمة القادمة من Google Sheets.
+    const pendingCodes=new Set();
+    for(const payload of pendingAdds.values()) pendingCodes.add(normCode(payload.code));
+
+    for(const code of pendingCodes){
+      if(stockCache[code]) nextCache[code]=stockCache[code];
+    }
+
+    stockCache=nextCache;
+    saveCaches();
+    refreshVisibleFromCache();
+
+    // إعادة محاولة الإضافات التي فشل إرسالها سابقاً.
+    // لا نرسل أكثر من عملية واحدة في كل دورة حتى لا يحدث Lock.
+    const first=pendingAdds.entries().next();
+    if(!first.done){
+      const [id,payload]=first.value;
+      pendingWrites++;
+      runServer('addStock',[payload])
+        .then(()=>{
+          pendingAdds.delete(id);
+          status('AJOUTÉ ✓',true);
+        })
+        .catch(()=>{})
+        .finally(()=>{pendingWrites=Math.max(0,pendingWrites-1);});
+    }
+  }).catch(()=>{}).finally(()=>{refreshInFlight=false;});
+}
+function refreshVisibleFromCache(){
+  const addCode=normCode(document.getElementById('addCode').value);
+  const removeCode=normCode(document.getElementById('removeCode').value);
+
+  // لا نعيد رسم نموذج AJOUTER أثناء الكتابة/الاختيار حتى لا نمسح QTE أو DLC.
+  const ae=document.activeElement;
+  const editingAdd=ae && /^add(Q|D|Address)/.test(ae.id||'');
+  const editingRemove=ae && /^removeQ/.test(ae.id||'');
+
+  if(addCode && !editingAdd) renderLocalLookup(addCode,'add',false);
+  if(removeCode && !editingRemove) renderLocalLookup(removeCode,'remove',false);
+}
+function lookupCode(code,mode){
+  code=normCode(code);
+  if(!code){
+    if(mode==='add')document.getElementById('addProduct').innerHTML='';
+    else {document.getElementById('removeProduct').innerHTML='';document.getElementById('removeAddresses').innerHTML='<div class="empty">Entrez le CODE PRODUIT pour afficher le stock.</div>';}
+    return null;
+  }
+  if(!cacheReady){
+    // إذا لم يكتمل التحميل الأول بعد، نستعمل آخر cache إن وُجد.
+    loadCaches();
+  }
+  return renderLocalLookup(code,mode,true);
+}
+function optimisticAdd(code,address,batches){
+  code=normCode(code); const c=cacheRows(code); const rows=(c.rows||[]).map(r=>({...r}));
+  let row=rows.find(r=>addrInput(r.address)===address);
+  if(!row){row={row:0,address,address,qte1:0,dlc1:'',qte2:0,dlc2:'',qte3:0,dlc3:'',palette:0,gold:cachedProduct(code)?.gold||''};rows.push(row);}
+  for(const b of batches){
+    if(!b.qty)continue;
+    let slot=-1;
+    for(let j=1;j<=3;j++)if(b.dlc && clean(row['dlc'+j])===clean(b.dlc)){slot=j;break;}
+    if(slot<0)for(let j=1;j<=3;j++)if(num(row['qte'+j])===0&&!clean(row['dlc'+j])){slot=j;break;}
+    if(slot<0)slot=1;
+    row['qte'+slot]=num(row['qte'+slot])+num(b.qty);
+    row['dlc'+slot]=b.dlc||row['dlc'+slot];
+  }
+  rows.forEach(r=>r.palette=num(r.qte1)+num(r.qte2)+num(r.qte3));
+  rebuildLocalStock(code,rows);
+}
+function optimisticRemove(code,rowIndex,ops){
+  code=normCode(code); const c=cacheRows(code); const rows=(c.rows||[]).map(r=>({...r})); const row=rows[rowIndex]; if(!row)return;
+  for(const op of ops){const slot=op.slot;row['qte'+slot]=Math.max(0,num(row['qte'+slot])-num(op.qty));if(num(row['qte'+slot])===0)row['dlc'+slot]='';}
+  for(let s=1;s<=3;s++)if(num(row['qte'+s])===0)row['dlc'+s]='';
+  if(num(row.qte1)+num(row.qte2)+num(row.qte3)===0)rows.splice(rowIndex,1);
+  rebuildLocalStock(code,rows);
+}
+
+function showPage(p){
+  document.getElementById('pageAdd').classList.toggle('active',p==='add');
+  document.getElementById('pageRemove').classList.toggle('active',p==='remove');
+  document.getElementById('pageCommande').classList.toggle('active',p==='commande');
+  document.getElementById('tabAdd').classList.toggle('active',p==='add');
+  document.getElementById('tabRemove').classList.toggle('active',p==='remove');
+  document.getElementById('openCommandeBtn').classList.toggle('active',p==='commande');
+}
+function status(msg,ok=true){const e=document.getElementById('status');e.textContent=msg;e.className='status show '+(ok?'ok':'err');clearTimeout(status.t);status.t=setTimeout(()=>e.className='status',3500)}
+function normCode(v){return String(v||'').trim().replace(/^'/,'').replace(/\.0+$/,'')}
+function calcQty(v){let s=String(v??'').trim().replace(/,/g,'.').replace(/[xX×]/g,'*');if(!s)return 0;if(/^\d+(?:\.\d+)?(?:\*\d+(?:\.\d+)?)+$/.test(s)){return s.split('*').map(Number).reduce((a,b)=>a*b,1)}const n=Number(s);return Number.isFinite(n)?n:0}
+function num(v){return calcQty(v)}
+function formatQtyField(el){let s=String(el.value||'').replace(/,/g,'.').replace(/[xX×]/g,'*').replace(/[^0-9.*]/g,'');el.value=s;if(/^(?:\d+(?:\.\d+)?)(?:\*\d+(?:\.\d+)?)+$/.test(s)){const n=calcQty(s);if(Number.isFinite(n))el.value=Number.isInteger(n)?String(n):String(n)}}
+function formatDateField(el){let s=String(el.value||'').replace(/\D/g,'').slice(0,8);if(s.length>4)s=s.slice(0,2)+'/'+s.slice(2,4)+'/'+s.slice(4);else if(s.length>2)s=s.slice(0,2)+'/'+s.slice(2);else if(s.length===2)s=s+'/';el.value=s}
+function insertAddressSlash(){const el=document.getElementById('addAddress');const p=el.selectionStart??el.value.length;el.value=el.value.slice(0,p)+'/'+el.value.slice(el.selectionEnd??p);el.focus();el.setSelectionRange(p+1,p+1)}
+function clean(v){return v==null?'':String(v).trim()}
+function addrInput(v){const s=clean(v).toUpperCase().replace(/\s+/g,'');const m=s.match(/^(?:Z)?(\d+)\/(?:P)?(\d+)$/);return m?'Z'+m[1]+'P'+m[2]:s}
+function addrDisplay(v){const s=clean(v);const m=s.match(/^Z(\d+)P(\d+)$/i);return m?m[1]+'/'+m[2]:s}
+function fmtNum(v){const n=num(v);return Number.isInteger(n)?String(n):String(n)}
+function productHtml(p,stock){if(!p)return '<div class="product"><b style="color:#e74c3c">PRODUIT INCONNU</b></div>';const reserve=(stock?.rows||[]).reduce((t,r)=>t+num(r.qte1)+num(r.qte2)+num(r.qte3),0);const gold=stock?.gold!==undefined?stock.gold:p.gold||0;return `<div class="product"><div class="name">${esc(p.name||'PRODUIT')}</div><div class="info"><div class="box stock"><div class="label">QTE GOLD</div><div class="value">${esc(fmtNum(gold))}</div></div><div class="box reserve" onclick="openReserveDetails('${escAttr(p.code)}')"><div class="label">QTE RESERVE</div><div class="value">${esc(fmtNum(reserve))}</div></div><div class="box uvc"><div class="label">UVC/PCB</div><div class="value">${esc(fmtNum(p.uvc||0))}</div></div></div></div>`}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function escAttr(v){return String(v??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+function dateSortKey(v){
+  const m=clean(v).replace(/-/g,'/').match(/^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/);
+  if(!m)return Number.POSITIVE_INFINITY;
+  const y=m[3].length===2?2000+Number(m[3]):Number(m[3]);
+  return new Date(y,Number(m[2])-1,Number(m[1])).getTime();
+}
+function rowCard(r,i,mode){
+  const batches=[{q:r.qte1,d:r.dlc1,s:1},{q:r.qte2,d:r.dlc2,s:2},{q:r.qte3,d:r.dlc3,s:3}];
+  // Always show DLCs from oldest to newest, keeping each quantity attached to its date.
+  batches.sort((a,b)=>{
+    const ak=dateSortKey(a.d), bk=dateSortKey(b.d);
+    if(ak!==bk)return ak-bk;
+    if(!clean(a.d)&&clean(b.d))return 1;
+    if(clean(a.d)&&!clean(b.d))return -1;
+    return a.s-b.s;
+  });
+  const selected=mode==='remove'&&state.selectedRow===i?' selected':'';
+  return `<div class="address-card${selected}" onclick="${mode==='remove'?`selectRemoveRow(${i})`:`selectAddRow(${i})`}"><div class="address-head"><span>${esc(addrDisplay(r.address))}</span><span class="address-total">TOTAL ${fmtNum((num(r.qte1)+num(r.qte2)+num(r.qte3)))}</span></div><div class="batch-list">${batches.map(b=>`<div class="batch ${b.q>0?'':'empty'}"><div class="q">${fmtNum(b.q)}</div><div class="d">${esc(b.d||'—')}</div></div>`).join('')}</div></div>`
+}
+function renderAddresses(rows,mode){const id=mode==='add'?'addAddresses':'removeAddresses';const el=document.getElementById(id);if(!rows.length){el.innerHTML='<div class="empty">AUCUN STOCK DANS LES ADRESSES.</div>';return}el.innerHTML=rows.map((r,i)=>rowCard(r,i,mode)).join('')}
+function closePicker(id){document.getElementById(id).classList.remove('show')}
+function selectedAddRow(){
+  const address=addrInput(document.getElementById('addAddress').value);
+  if(!address)return null;
+  return (state.add?.stock?.rows||[]).find(r=>addrInput(r.address)===address)||null;
+}
+function updateAddAddressMode(){
+  const el=document.getElementById('addAddress');
+  const rows=state.add?.stock?.rows||[];
+  el.readOnly=rows.length>0;
+  if(rows.length===0) el.placeholder='ADRESSE (EX: 6/1)';
+  else el.placeholder='Appuyez pour choisir une adresse';
+  updateAddDateMode();
+}
+function updateAddDateMode(){
+  const row=selectedAddRow();
+  for(let s=1;s<=3;s++){
+    const el=document.getElementById('addD'+s);
+    el.readOnly=!!row;
+    el.placeholder=row?'Appuyez pour choisir une DLC':'JJ/MM/AAAA';
+  }
+}
+function openAddressPicker(){
+  const rows=state.add?.stock?.rows||[];
+  if(!rows.length){document.getElementById('addAddress').readOnly=false;document.getElementById('addAddress').focus();return;}
+  const unique=[];const seen={};
+  rows.forEach(r=>{const a=addrInput(r.address);if(a&&!seen[a]){seen[a]=1;unique.push(a);}});
+  const list=document.getElementById('addressPickerList');
+  list.innerHTML=unique.map(a=>`<button class="picker-btn existing" onclick="chooseAddress('${escAttr(a)}')">${esc(addrDisplay(a))}</button>`).join('')+`<button class="picker-btn new" onclick="chooseNewAddress()">＋ NOUVELLE ADRESSE</button>`;
+  document.getElementById('addressModal').classList.add('show');
+}
+function chooseAddress(address){
+  manualAddAddress=false;
+  document.getElementById('addAddress').value=addrDisplay(address);
+  document.getElementById('addAddress').readOnly=true;
+  ['addQ1','addD1','addQ2','addD2','addQ3','addD3'].forEach(id=>document.getElementById(id).value='');
+  closePicker('addressModal');
+  updateAddDateMode();
+  status('Adresse sélectionnée ✓',true);
+}
+function chooseNewAddress(){
+  manualAddAddress=true;
+  document.getElementById('addAddress').value='';
+  document.getElementById('addAddress').readOnly=false;
+  ['addQ1','addD1','addQ2','addD2','addQ3','addD3'].forEach(id=>document.getElementById(id).value='');
+  closePicker('addressModal');
+  updateAddDateMode();
+  setTimeout(()=>document.getElementById('addAddress').focus(),80);
+}
+function openDatePicker(slot){
+  const row=selectedAddRow();
+  const dates=[];
+  // Si une adresse existante est sélectionnée, proposer ses DLC.
+  // Si l'utilisateur crée une nouvelle adresse, proposer les DLC déjà
+  // utilisées par ce produit dans les autres adresses, puis permettre
+  // d'en saisir une nouvelle.
+  const sourceRows = row ? [row] : (state.add?.stock?.rows || []);
+  sourceRows.forEach(r=>{
+    for(let s=1;s<=3;s++){
+      const d=clean(r['dlc'+s]);
+      if(d&&!dates.some(x=>sameDateText(x,d)))dates.push(d);
+    }
+  });
+  const list=document.getElementById('datePickerList');
+  document.getElementById('dateModalTitle').textContent=row ? ('CHOISIR UNE DATE — DLC '+slot) : ('CHOISIR UNE DATE — DLC '+slot);
+  const existing=dates.map(d=>`<button class="picker-btn existing" onclick="chooseDate('${escAttr(d)}',${slot})">${esc(d)}</button>`).join('');
+  list.innerHTML=(existing || '<div class="admin-modal-note">AUCUNE DATE EXISTANTE POUR CE PRODUIT</div>')+`<button class="picker-btn new" onclick="chooseNewDate(${slot})">＋ SAISIR UNE NOUVELLE DATE</button>`;
+  document.getElementById('dateModal').classList.add('show');
+}
+function sameDateText(a,b){return normalizeDateText(a)===normalizeDateText(b)}
+function normalizeDateText(v){
+  const m=clean(v).replace(/-/g,'/').match(/^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/);
+  if(!m)return clean(v);
+  return String(m[1]).padStart(2,'0')+'/'+String(m[2]).padStart(2,'0')+'/'+(m[3].length===2?'20'+m[3]:m[3]);
+}
+function chooseDate(date,slot){manualAddDate[slot]=false;document.getElementById('addD'+slot).value=normalizeDateText(date);document.getElementById('addD'+slot).readOnly=true;closePicker('dateModal');document.getElementById('addQ'+slot).focus();}
+function chooseNewDate(slot){manualAddDate[slot]=true;const el=document.getElementById('addD'+slot);el.value='';el.readOnly=false;closePicker('dateModal');setTimeout(()=>el.focus(),80);}
+
+function selectAddRow(i){const r=state.add?.stock?.rows?.[i];if(!r)return;document.getElementById('addAddress').value=addrDisplay(r.address);document.getElementById('addAddress').readOnly=true;fillAddBatches(r);updateAddDateMode();window.scrollTo({top:document.getElementById('addAddress').getBoundingClientRect().top+window.scrollY-100,behavior:'smooth'});status('Adresse sélectionnée',true)}
+function fillAddBatches(r){['1','2','3'].forEach(s=>{document.getElementById('addQ'+s).value=r['qte'+s]||'';document.getElementById('addD'+s).value=r['dlc'+s]||''})}
+function selectRemoveRow(i){const r=state.remove?.stock?.rows?.[i];if(!r)return;state.selectedRow=i;document.getElementById('selectedAddressLabel').textContent='ADRESSE: '+addrDisplay(r.address);for(let s=1;s<=3;s++){document.getElementById('removeD'+s).value=r['dlc'+s]||'';document.getElementById('removeQ'+s).value=''}renderAddresses(state.remove.stock.rows,'remove');status('Adresse sélectionnée. Choisissez la DLC et la quantité à retirer.',true)}
+function clearRemoveFields(){state.selectedRow=null;document.getElementById('selectedAddressLabel').textContent='Aucune adresse sélectionnée';for(let s=1;s<=3;s++){document.getElementById('removeD'+s).value='';document.getElementById('removeQ'+s).value=''}}
+function clearAddFields(){manualAddAddress=false;manualAddDate[1]=manualAddDate[2]=manualAddDate[3]=false;['addAddress','addQ1','addD1','addQ2','addD2','addQ3','addD3'].forEach(id=>document.getElementById(id).value='');document.getElementById('addAddress').readOnly=(state.add?.stock?.rows||[]).length>0;updateAddDateMode()}
+function submitAdd(){
+  if(addBusy)return;
+  const code=normCode(document.getElementById('addCode').value),address=addrInput(document.getElementById('addAddress').value);
+  if(!code)return status('Entrez le CODE PRODUIT',false);
+  if(!cachedProduct(code))return status('PRODUIT INCONNU',false);
+  if(!address)return status("Entrez l'ADRESSE",false);
+  const batches=[1,2,3].map(s=>({qty:num(document.getElementById('addQ'+s).value),dlc:normalizeDateText(document.getElementById('addD'+s).value)})).filter(x=>x.qty>0);
+  if(!batches.length)return status('Entrez au moins une quantité',false);
+  for(const b of batches){
+    if(!b.dlc)return status('Chaque quantité doit avoir une date DLC',false);
+    const m=b.dlc.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if(!m || Number(m[2])<1 || Number(m[2])>12 || Number(m[1])<1 || Number(m[1])>31)return status('Date invalide. Utilisez JJ/MM/AAAA',false);
+  }
+
+  addBusy=true;
+  const btn=document.getElementById('submitAddBtn');
+  if(btn)btn.disabled=true;
+  const operationId='ADD_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+  const payload={operationId,code,address,batches,qteGold:(cachedProduct(code)?.gold ?? ''),selection:{new:true}};
+
+  // UI is updated immediately, exactly like RETIRER.
+  optimisticAdd(code,address,batches);
+  clearAddFields();
+  document.getElementById('addCode').value='';
+  state.add=null;
+  document.getElementById('addProduct').innerHTML='';
+  document.getElementById('addAddresses').innerHTML='<div class="empty">Entrez le CODE PRODUIT pour afficher les adresses.</div>';
+  status('AJOUTÉ ✓ — sauvegarde en arrière-plan',true);
+
+  const addId='add_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+  pendingAdds.set(addId,payload);
+  pendingWrites++;
+
+  // FAST request: only the critical quantity/address write happens here.
+  runServer('addStock',[payload])
+    .then(()=>{
+      pendingAdds.delete(addId);
+      status('AJOUTÉ ✓',true);
+
+      // Finish DLC ordering + QTE PALETTE + QTE RESERVE in the background.
+      runServer('finalizeAddStock',[{code,qteGold:(cachedProduct(code)?.gold ?? '')}])
+        .then(()=>{
+          // Local cache is already correct; the normal 5-second sync will fetch Sheet state.
+        })
+        .catch(()=>{
+          // The next synchronization can repair the displayed state; do not block the UI.
+        });
+    })
+    .catch(()=>{
+      status('AJOUT : sauvegarde en attente — données locales conservées',false);
+    })
+    .finally(()=>{
+      pendingWrites=Math.max(0,pendingWrites-1);
+      addBusy=false;
+      if(btn)btn.disabled=false;
+    });
+}
+function submitRemove(){
+  const code=normCode(document.getElementById('removeCode').value),rowIndex=state.selectedRow;
+  if(!code)return status('Entrez le CODE PRODUIT',false);if(rowIndex===null)return status("Choisissez l'ADRESSE",false);
+  const rows=state.remove?.stock?.rows||[],row=rows[rowIndex];if(!row)return status('Adresse introuvable',false);
+  const ops=[];for(let s=1;s<=3;s++){const q=num(document.getElementById('removeQ'+s).value);if(q>0)ops.push({qty:q,slot:s,rowIndex})}
+  if(!ops.length)return status('Entrez au moins une quantité',false);
+  for(const op of ops){if(!row['dlc'+op.slot])return status('Choisissez une DLC existante avant le retrait',false);if(op.qty>num(row['qte'+op.slot]))return status('La quantité demandée dépasse la quantité disponible dans la DLC sélectionnée',false)}
+  // إرسال جميع عمليات الإزالة في طلب واحد لتفادي التعارض بين عدة طلبات على نفس الصف.
+  const payload={
+    code,
+    operations:ops.map(op=>({qty:op.qty,selection:{rowIndex:op.rowIndex,slot:op.slot}}))
+  };
+  optimisticRemove(code,rowIndex,ops);
+  document.getElementById('removeCode').value='';
+  state.remove=null;
+  state.selectedRow=null;
+  document.getElementById('removeProduct').innerHTML='';
+  document.getElementById('removeAddresses').innerHTML='<div class="empty">Entrez le CODE PRODUIT pour afficher le stock.</div>';
+  clearRemoveFields();
+  status('RETIRÉ ✓ — sauvegarde en arrière-plan',true);
+  pendingWrites++;
+  runServer('removeStock',[payload])
+    .then(()=>status('RETIRÉ ✓',true))
+    .catch(e=>status('RETIRER: erreur serveur — données locales conservées',false))
+    .finally(()=>{pendingWrites=Math.max(0,pendingWrites-1);if(pendingWrites===0)setTimeout(refreshStockCache,300);});
+}
+async function refreshCurrent(){const code=normCode(document.getElementById('pageAdd').classList.contains('active')?document.getElementById('addCode').value:document.getElementById('removeCode').value);if(code)lookupCode(code,document.getElementById('pageAdd').classList.contains('active')?'add':'remove');else status("Entrez d’abord le CODE PRODUIT",false)}
+function openReserveDetails(code){const data=(state.add?.stock||state.remove?.stock);if(!data)return;const rows=data.rows||[];let total=0;const html=rows.map(r=>{const batches=[1,2,3].map(s=>({q:num(r['qte'+s]),d:r['dlc'+s]})).filter(x=>x.q>0&&x.d);if(!batches.length)return '';const t=batches.reduce((a,b)=>a+b.q,0);total+=t;return `<div class="address-card"><div class="address-head"><span>${esc(addrDisplay(r.address))}</span><span class="address-total">${fmtNum(t)}</span></div><div class="batch-list">${batches.map(b=>`<div class="batch"><div class="q">${fmtNum(b.q)}</div><div class="d">${esc(b.d)}</div></div>`).join('')}</div></div>`}).join('');document.getElementById('reserveContent').innerHTML=`<div class="product"><div class="name">${esc(state.add?.product?.name||state.remove?.product?.name||code)}</div><div style="font-weight:900;margin-bottom:10px">TOTAL RESERVE: ${fmtNum(total)}</div></div>${html||'<div class="empty">AUCUNE RÉSERVE</div>'}`;document.getElementById('reserveModal').classList.add('show')}
+function closeReserve(){document.getElementById('reserveModal').classList.remove('show')}
+function setBusy(v){document.body.classList.toggle('loading',v)}
+
+// ===== Scanner =====
+async function openScanner(target){state.scannerTarget=target;document.getElementById('scannerModal').classList.add('show');try{state.scannerStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:state.scannerFacing,width:{ideal:1280},height:{ideal:720}},audio:false});document.getElementById('scannerVideo').srcObject=state.scannerStream;await document.getElementById('scannerVideo').play();scanLoop()}catch(e){status("Impossible d'ouvrir la caméra : "+e.message,false);closeScanner()}}
+let scanRAF=0;async function scanLoop(){const video=document.getElementById('scannerVideo');if(!document.getElementById('scannerModal').classList.contains('show'))return;if('BarcodeDetector' in window){try{const detector=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});const codes=await detector.detect(video);if(codes.length){const value=codes[0].rawValue;const target=state.scannerTarget;if(target&&document.getElementById(target))document.getElementById(target).value=value;if(state.adminScanner){document.getElementById('admProductCode').dispatchEvent(new Event('input'));state.adminScanner=false;closeScanner();openAdminAddressPicker();return;}document.getElementById(target).dispatchEvent(new Event('input'));if(target==='addCode')lookupCode(value,'add');else if(target==='removeCode')lookupCode(value,'remove');closeScanner();return}}catch(e){}}scanRAF=requestAnimationFrame(scanLoop)}
+async function switchCamera(){state.scannerFacing=state.scannerFacing==='environment'?'user':'environment';const target=state.scannerTarget,isAdmin=state.adminScanner;closeScanner();setTimeout(()=>{if(isAdmin)openAdminScanner(target);else openScanner(target)},150)}
+function closeScanner(){cancelAnimationFrame(scanRAF);if(state.scannerStream){state.scannerStream.getTracks().forEach(t=>t.stop());state.scannerStream=null}document.getElementById('scannerVideo').srcObject=null;document.getElementById('scannerModal').classList.remove('show');state.adminScanner=false}
+
+document.getElementById('addCode').addEventListener('input',()=>{clearTimeout(window.t1);window.t1=setTimeout(()=>lookupCode(document.getElementById('addCode').value,'add'),180)});
+document.getElementById('removeCode').addEventListener('input',()=>{clearTimeout(window.t2);window.t2=setTimeout(()=>lookupCode(document.getElementById('removeCode').value,'remove'),180)});
+document.getElementById('addAddress').addEventListener('click',()=>{if((state.add?.stock?.rows||[]).length && !manualAddAddress)openAddressPicker();else manualAddAddress=false});
+document.getElementById('addAddress').addEventListener('focus',()=>{if((state.add?.stock?.rows||[]).length && !manualAddAddress)openAddressPicker();else manualAddAddress=false});
+[1,2,3].forEach(s=>{
+  const el=document.getElementById('addD'+s);
+  el.addEventListener('click',()=>{
+    if(!manualAddDate[s]) openDatePicker(s);
+  });
+  el.addEventListener('focus',()=>{
+    if(!manualAddDate[s]) openDatePicker(s);
+  });
+});
+
+['addD1','addD2','addD3'].forEach(id=>document.getElementById(id).addEventListener('input',function(){formatDateField(this)}));
+['addQ1','addQ2','addQ3','removeQ1','removeQ2','removeQ3'].forEach(id=>{const el=document.getElementById(id);el.addEventListener('focus',function(){if(this.value==='0')this.value=''});el.addEventListener('input',function(){formatQtyField(this)});el.addEventListener('blur',function(){if(this.value==='')this.value='0';else formatQtyField(this)})});
+window.addEventListener('pagehide',closeScanner);
+window.addEventListener('blur',closeScanner);
+
+// حماية إضافية عند التجربة داخل Acode/WebView: الأزرار لا تعتمد فقط على inline onclick.
+document.getElementById('tabAdd').addEventListener('click',()=>showPage('add'));
+document.getElementById('tabRemove').addEventListener('click',()=>showPage('remove'));
+document.getElementById('submitAddBtn').addEventListener('click',()=>submitAdd());
+document.getElementById('submitRemoveBtn').addEventListener('click',()=>submitRemove());
+
+// لا نسمح بتعطل واجهة التطبيق بسبب خطأ JavaScript غير متوقع.
+window.addEventListener('error',e=>{
+  try{status('Erreur JavaScript : '+(e.message||'erreur inconnue'),false);}catch(_){}
+});
+window.addEventListener('unhandledrejection',e=>{
+  try{status('Erreur: '+(e.reason?.message||e.reason||'opération impossible'),false);}catch(_){}
+});
+
+loadInitialCaches();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<style id="admin-emplacements-css">
+#adminEmplacementsPage{display:none;padding:16px;max-width:620px;margin:auto}
+.admin-card{background:#fff;border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 4px 16px rgba(0,0,0,.08);border-left:3px solid #3498db}
+.admin-card h3{margin:0 0 14px;font-size:20px;line-height:1.2}
+.admin-grid{display:grid;gap:10px}
+.admin-code-row{display:flex;gap:8px;align-items:center}
+.admin-grid input,.admin-code-row input{width:100%;box-sizing:border-box;padding:14px 12px;border:1px solid #dfe4ea;border-radius:11px;font-size:18px;height:54px;text-align:center;background:#fff;text-transform:uppercase}
+.admin-code-row input{flex:1;min-width:0}
+.admin-scan{height:54px;border:0;border-radius:11px;background:#3498db;color:#fff;font-weight:900;padding:0 14px;font-size:14px}
+.admin-btn{width:100%;border:0;border-radius:11px;padding:15px;font-weight:900;cursor:pointer;font-size:16px}
+.admin-blue{background:#3498db;color:#fff}.admin-orange{background:#f39c12;color:#fff}.admin-red{background:#e74c3c;color:#fff}
+.admin-result{margin-top:10px;padding:12px;border-radius:10px;display:none;font-weight:800}
+.admin-ok{background:#eaf8ee;color:#176b2d}.admin-err{background:#fdecec;color:#9b1c1c}
+.admin-busy{opacity:.7;pointer-events:none}
+.admin-back{width:100%;height:46px;border:0;border-radius:11px;background:#ecf0f1;color:#34495e;font-weight:900;font-size:15px;margin-bottom:8px}
+.admin-modal-note{font-size:13px;color:#7f8c8d;text-align:center;margin:-4px 0 10px}
+</style>
+
+
+<style id="admin-confirm-css">
+#adminConfirmModal{z-index:300}
+.admin-confirm-box{width:min(430px,100%);background:#fff;border-radius:24px;padding:24px 20px 18px;box-shadow:0 18px 55px rgba(0,0,0,.28);text-align:center;animation:adminConfirmIn .18s ease-out}
+.admin-confirm-icon{width:66px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:31px}
+.admin-confirm-icon.primary{background:#eaf4ff}.admin-confirm-icon.warning{background:#fff4df}.admin-confirm-icon.danger{background:#ffebeb}
+.admin-confirm-box h2{margin:0 0 10px;color:#2c3e50;font-size:22px;font-weight:900}
+.admin-confirm-message{color:#66717c;font-size:16px;line-height:1.55;margin:0 4px 22px}
+.admin-confirm-message strong{color:#2c3e50}
+.admin-confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.admin-confirm-actions button{height:50px;border:0;border-radius:13px;font-size:15px;font-weight:900;cursor:pointer}
+.admin-confirm-cancel{background:#edf1f4;color:#34495e}
+.admin-confirm-ok.primary{background:#3498db;color:#fff}.admin-confirm-ok.warning{background:#f39c12;color:#fff}.admin-confirm-ok.danger{background:#e74c3c;color:#fff}
+@keyframes adminConfirmIn{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+
+<section id="adminEmplacementsPage">
+  <button id="closeAdminEmplacementsBtn" type="button" class="admin-back" onclick="closeAdminEmplacements()">← RETOUR</button>
+
+  <div class="admin-card">
+    <h3>CHANGER L'EMPLACEMENT D'UN PRODUIT</h3>
+    <div class="admin-grid">
+      <div class="admin-code-row">
+        <input id="admProductCode" inputmode="tel" pattern="[0-9]*" placeholder="CODE PRODUIT" autocomplete="off">
+        <button type="button" class="admin-scan" onclick="openAdminScanner('admProductCode')">SCANNER</button>
+      </div>
+      <input id="admProductOld" inputmode="tel" pattern="[0-9/]*" placeholder="ANCIENNE ADRESSE" autocomplete="off">
+      <input id="admProductNew" inputmode="tel" pattern="[0-9/]*" placeholder="NOUVELLE ADRESSE" autocomplete="off">
+      <button class="admin-btn admin-blue" onclick="adminChangeProduct()">VALIDER</button>
+      <div id="admProductResult" class="admin-result"></div>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <h3>CHANGER L'EMPLACEMENT D'UN ADRESSE</h3>
+    <div class="admin-grid">
+      <input id="admAddressOld" inputmode="tel" pattern="[0-9/]*" placeholder="ANCIENNE ADRESSE" autocomplete="off">
+      <input id="admAddressNew" inputmode="tel" pattern="[0-9/]*" placeholder="NOUVELLE ADRESSE" autocomplete="off">
+      <button class="admin-btn admin-orange" onclick="adminChangeAddress()">TOUS LES PRODUITS</button>
+      <div id="admAddressResult" class="admin-result"></div>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <h3>SUPPRIMER UN ADRESSE</h3>
+    <div class="admin-grid">
+      <input id="admDeleteAddress" inputmode="tel" pattern="[0-9/]*" placeholder="ADRESSE À SUPPRIMER" autocomplete="off">
+      <button class="admin-btn admin-red" onclick="adminDeleteAddress()">TOUS LES PRODUITS</button>
+      <div id="admDeleteResult" class="admin-result"></div>
+    </div>
+  </div>
+</section>
+
+<script id="admin-emplacements-js">
+const ADMIN_EMPLACEMENTS_URL = "https://script.google.com/macros/s/AKfycbxHS5PAmDserh1ceVWATRHgwAfGkKTdADcDcvliBQAtx8B2V6tYZhEj5QNni1NbU8bt/exec";
+let adminAddressPickerBusy=false;
+
+function adminNormalizeAddress(v){
+  let s=String(v||'').trim().toUpperCase().replace(/\s+/g,'');
+  if(!s)return '';
+  if(/^Z\d+P\d+$/.test(s))return s;
+  let m=s.match(/^(?:Z)?(\d+)\/(?:P)?(\d+)$/);
+  if(m)return 'Z'+m[1]+'P'+m[2];
+  m=s.match(/^(\d+)P(\d+)$/);
+  if(m)return 'Z'+m[1]+'P'+m[2];
+  return s;
+}
+function adminAddressDisplay(v){
+  const s=adminNormalizeAddress(v); const m=s.match(/^Z(\d+)P(\d+)$/);
+  return m?m[1]+'/'+m[2]:s;
+}
+function adminShowResult(id,ok,message,busy=false){
+  const el=document.getElementById(id); if(!el)return;
+  el.style.display='block';
+  el.className='admin-result '+(ok?'admin-ok':'admin-err');
+  el.textContent=message;
+  if(busy)el.textContent=message+'…';
+}
+function adminJsonp(action,payload){
+  return new Promise((resolve,reject)=>{
+    const cb='adminCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const script=document.createElement('script');
+    let timer;
+    const cleanup=()=>{clearTimeout(timer);delete window[cb];script.remove();};
+    window[cb]=(data)=>{cleanup();if(data&&data.ok===false)reject(new Error(data.error||'Erreur'));else resolve(data||{});};
+    script.onerror=()=>{cleanup();reject(new Error('Connexion à ADMIN-EMPLACEMENTS impossible'));};
+    timer=setTimeout(()=>{cleanup();reject(new Error('Délai de connexion dépassé'));},20000);
+    script.src=ADMIN_EMPLACEMENTS_URL+'?action='+encodeURIComponent(action)+'&data='+encodeURIComponent(JSON.stringify(payload||{}))+'&callback='+encodeURIComponent(cb)+'&_='+Date.now();
+    document.head.appendChild(script);
+  });
+}
+function adminClearFields(ids){ ids.forEach(id=>{const el=document.getElementById(id); if(el) el.value='';}); }
+function adminSetButtonBusy(btn,busy){
+  if(!btn)return;
+  if(busy){btn.dataset.oldText=btn.textContent;btn.textContent='EN COURS…';btn.disabled=true;}
+  else{btn.textContent=btn.dataset.oldText||btn.textContent;btn.disabled=false;}
+}
+function adminAddressSort(a,b){
+  const ma=String(a).match(/^Z(\d+)P(\d+)$/i),mb=String(b).match(/^Z(\d+)P(\d+)$/i);
+  if(!ma||!mb)return String(a).localeCompare(String(b),'fr');
+  return Number(ma[1])-Number(mb[1]) || Number(ma[2])-Number(mb[2]);
+}
+function openAdminAddressPicker(){
+  const code=normCode(document.getElementById('admProductCode').value);
+  if(!code){document.getElementById('admProductCode').focus();adminShowResult('admProductResult',false,'Entrez le CODE PRODUIT.');return;}
+  if(adminAddressPickerBusy)return;
+  adminAddressPickerBusy=true;
+  const old=document.getElementById('admProductOld');
+  old.blur();
+  adminJsonp('addressesForProduct',{code})
+    .then(r=>{
+      const addresses=Array.from(new Set((r.addresses||[]).map(adminNormalizeAddress).filter(Boolean))).sort(adminAddressSort);
+      const list=document.getElementById('adminAddressPickerList');
+      if(!addresses.length){list.innerHTML='<div class="empty">AUCUNE ADRESSE POUR CE PRODUIT.</div>';}else{
+        list.innerHTML=addresses.map(a=>`<button class="picker-btn existing" onclick="chooseAdminOldAddress('${escAttr(a)}')">${esc(adminAddressDisplay(a))}</button>`).join('');
+      }
+      document.getElementById('adminAddressModal').classList.add('show');
+    })
+    .catch(e=>adminShowResult('admProductResult',false,e.message||String(e)))
+    .finally(()=>{adminAddressPickerBusy=false;});
+}
+function chooseAdminOldAddress(address){
+  document.getElementById('admProductOld').value=adminAddressDisplay(address);
+  closePicker('adminAddressModal');
+  document.getElementById('admProductNew').focus();
+}
+function adminChangeProduct(){
+  const code=normCode(document.getElementById('admProductCode').value);
+  const oldAddress=adminNormalizeAddress(document.getElementById('admProductOld').value);
+  const newAddress=adminNormalizeAddress(document.getElementById('admProductNew').value);
+  const resultId='admProductResult';
+  const btn=document.querySelector('#admProductResult')?.parentElement?.querySelector('.admin-btn');
+  if(!code||!oldAddress||!newAddress)return adminShowResult(resultId,false,'Remplissez tous les champs.');
+  if(oldAddress===newAddress)return adminShowResult(resultId,false,'Les deux adresses sont identiques.');
+  openAdminConfirmModal({
+    type:'primary',
+    icon:'📦',
+    title:'CONFIRMER LE CHANGEMENT',
+    message:`Modifier l’emplacement du produit <strong>${esc(code)}</strong> de <strong>${esc(adminAddressDisplay(oldAddress))}</strong> vers <strong>${esc(adminAddressDisplay(newAddress))}</strong> ?`,
+    confirmText:'CONFIRMER',
+    cancelText:'ANNULER',
+    onConfirm:()=>{
+      adminShowResult(resultId,true,'Opération envoyée en arrière-plan',true);adminSetButtonBusy(btn,true);
+      adminJsonp('changeAddressForProduct',{code,oldAddress,newAddress})
+        .then(r=>{adminShowResult(resultId,true,(r.changed||0)+' ligne(s) modifiée(s).');adminClearFields(['admProductCode','admProductOld','admProductNew']);})
+        .catch(e=>adminShowResult(resultId,false,e.message||String(e)))
+        .finally(()=>adminSetButtonBusy(btn,false));
+    }
+  });
+}
+function adminChangeAddress(){
+  const oldAddress=adminNormalizeAddress(document.getElementById('admAddressOld').value);
+  const newAddress=adminNormalizeAddress(document.getElementById('admAddressNew').value);
+  const resultId='admAddressResult';
+  const btn=document.querySelector('#admAddressResult')?.parentElement?.querySelector('.admin-btn');
+  if(!oldAddress||!newAddress)return adminShowResult(resultId,false,'Remplissez les deux adresses.');
+  if(oldAddress===newAddress)return adminShowResult(resultId,false,'Les deux adresses sont identiques.');
+  openAdminConfirmModal({
+    type:'warning',
+    icon:'🔄',
+    title:'CONFIRMER LE REMPLACEMENT',
+    message:`Remplacer l’adresse <strong>${esc(adminAddressDisplay(oldAddress))}</strong> par <strong>${esc(adminAddressDisplay(newAddress))}</strong> pour <strong>TOUS LES PRODUITS</strong> ?`,
+    confirmText:'CONFIRMER',
+    cancelText:'ANNULER',
+    onConfirm:()=>{
+      adminShowResult(resultId,true,'Opération envoyée en arrière-plan',true);adminSetButtonBusy(btn,true);
+      adminJsonp('replaceAddressEverywhere',{oldAddress,newAddress})
+        .then(r=>{adminShowResult(resultId,true,(r.changed||0)+' ligne(s) modifiée(s) pour tous les produits.');adminClearFields(['admAddressOld','admAddressNew']);})
+        .catch(e=>adminShowResult(resultId,false,e.message||String(e)))
+        .finally(()=>adminSetButtonBusy(btn,false));
+    }
+  });
+}
+function adminDeleteAddress(){
+  const address=adminNormalizeAddress(document.getElementById('admDeleteAddress').value);
+  const resultId='admDeleteResult';
+  const btn=document.querySelector('#admDeleteResult')?.parentElement?.querySelector('.admin-btn');
+  if(!address)return adminShowResult(resultId,false,"Entrez l'adresse à supprimer.");
+  openAdminConfirmModal({
+    type:'danger',
+    icon:'🗑️',
+    title:'SUPPRIMER L’ADRESSE ?',
+    message:`Vous êtes sur le point de supprimer l’adresse <strong>${esc(adminAddressDisplay(address))}</strong> pour <strong>TOUS LES PRODUITS</strong>.`,
+    confirmText:'SUPPRIMER',
+    cancelText:'ANNULER',
+    onConfirm:()=>{
+      adminShowResult(resultId,true,'Opération envoyée en arrière-plan',true);adminSetButtonBusy(btn,true);
+      adminJsonp('deleteAddressEverywhere',{address})
+        .then(r=>{adminShowResult(resultId,true,(r.deleted||0)+' ligne(s) supprimée(s).');adminClearFields(['admDeleteAddress']);})
+        .catch(e=>adminShowResult(resultId,false,e.message||String(e)))
+        .finally(()=>adminSetButtonBusy(btn,false));
+    }
+  });
+}
+function openAdminEmplacements(){
+  const page=document.getElementById('adminEmplacementsPage'),app=document.querySelector('.app'),footer=document.querySelector('.footer-actions');
+  if(!page)return;
+  if(app)app.style.display='none'; if(footer)footer.style.display='none'; page.style.display='block'; window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeAdminEmplacements(){
+  const page=document.getElementById('adminEmplacementsPage'),app=document.querySelector('.app'),footer=document.querySelector('.footer-actions');
+  if(page)page.style.display='none'; if(app)app.style.display=''; if(footer)footer.style.display=''; window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// اختيار العنوان القديم عند الضغط/التركيز على الحقل، بعد إدخال كود المنتج.
+document.addEventListener('click',e=>{if(e.target&&e.target.id==='admProductOld')openAdminAddressPicker();});
+document.addEventListener('focusin',e=>{if(e.target&&e.target.id==='admProductOld')openAdminAddressPicker();});
+['admProductOld','admProductNew','admAddressOld','admAddressNew','admDeleteAddress'].forEach(id=>{
+  const el=document.getElementById(id); if(!el)return;
+  el.addEventListener('input',function(){this.value=this.value.replace(/[^0-9\/]/g,'').toUpperCase();});
+  el.addEventListener('blur',function(){if(this.value)this.value=adminAddressDisplay(this.value);});
+});
+</script>
+
+
+<div id="adminConfirmModal" class="modal">
+  <div class="admin-confirm-box" role="dialog" aria-modal="true" aria-labelledby="adminConfirmTitle">
+    <div id="adminConfirmIcon" class="admin-confirm-icon primary">✓</div>
+    <h2 id="adminConfirmTitle">CONFIRMER</h2>
+    <div id="adminConfirmMessage" class="admin-confirm-message"></div>
+    <div class="admin-confirm-actions">
+      <button id="adminConfirmCancel" type="button" class="admin-confirm-cancel">ANNULER</button>
+      <button id="adminConfirmOk" type="button" class="admin-confirm-ok primary">CONFIRMER</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let adminConfirmAction=null;
+function openAdminConfirmModal({type='primary',icon='✓',title='CONFIRMER',message='',confirmText='CONFIRMER',cancelText='ANNULER',onConfirm=null}){
+  const modal=document.getElementById('adminConfirmModal');
+  const iconEl=document.getElementById('adminConfirmIcon');
+  const titleEl=document.getElementById('adminConfirmTitle');
+  const messageEl=document.getElementById('adminConfirmMessage');
+  const ok=document.getElementById('adminConfirmOk');
+  const cancel=document.getElementById('adminConfirmCancel');
+  if(!modal)return;
+  adminConfirmAction=typeof onConfirm==='function'?onConfirm:null;
+  iconEl.className='admin-confirm-icon '+type;
+  iconEl.textContent=icon;
+  titleEl.textContent=title;
+  messageEl.innerHTML=message;
+  ok.className='admin-confirm-ok '+type;
+  ok.textContent=confirmText;
+  cancel.textContent=cancelText;
+  modal.classList.add('show');
+}
+function closeAdminConfirmModal(){
+  const modal=document.getElementById('adminConfirmModal');
+  if(modal)modal.classList.remove('show');
+  adminConfirmAction=null;
+}
+document.getElementById('adminConfirmCancel')?.addEventListener('click',closeAdminConfirmModal);
+document.getElementById('adminConfirmOk')?.addEventListener('click',()=>{
+  const action=adminConfirmAction;
+  closeAdminConfirmModal();
+  if(action) action();
+});
+document.getElementById('adminConfirmModal')?.addEventListener('click',e=>{
+  if(e.target.id==='adminConfirmModal')closeAdminConfirmModal();
+});
+</script>
+
+<div id="adminAddressModal" class="modal">
+  <div class="modalbox">
+    <h2>CHOISIR L'ANCIENNE ADRESSE</h2>
+    <div class="admin-modal-note">Adresses disponibles pour le CODE PRODUIT</div>
+    <div id="adminAddressPickerList" class="picker-list"></div>
+    <button class="modalclose" onclick="closePicker('adminAddressModal')">ANNULER</button>
+  </div>
+</div>
+
+<script>
+// Scanner مستقل للإدارة، مع نفس كاميرا التطبيق الرئيسية.
+function openAdminScanner(target){
+  state.scannerTarget=target;
+  state.adminScanner=true;
+  document.getElementById('scannerModal').classList.add('show');
+  navigator.mediaDevices.getUserMedia({video:{facingMode:state.scannerFacing,width:{ideal:1280},height:{ideal:720}},audio:false})
+    .then(stream=>{state.scannerStream=stream;const v=document.getElementById('scannerVideo');v.srcObject=stream;return v.play();})
+    .then(()=>scanLoop())
+    .catch(e=>{status('Impossible d\'ouvrir la caméra : '+e.message,false);closeScanner();});
+}
+</script>
+
+
+<script>
+/* ===== COMMANDE — ajout uniquement, AJOUTER/RETIRER restent inchangés ===== */
+let commandeRows=[];
+let commandeProducts=[];
+let commandeBusy=false;
+
+function commandeHeaderKey(v){
+  return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+}
+function commandeFindField(row,names){
+  const keys=Object.keys(row);
+  const wanted=names.map(commandeHeaderKey);
+  const k=keys.find(x=>wanted.includes(commandeHeaderKey(x)));
+  return k==null?'':row[k];
+}
+function commandeCode(v){return normCode(String(v??'').trim());}
+function commandeQty(v){return Math.max(0,num(v));}
+function commandeAddressSort(a,b){
+  const ma=String(a||'').toUpperCase().match(/^Z(\d+)P(\d+)$/);
+  const mb=String(b||'').toUpperCase().match(/^Z(\d+)P(\d+)$/);
+  if(!ma||!mb)return String(a).localeCompare(String(b));
+  return Number(ma[1])-Number(mb[1]) || Number(ma[2])-Number(mb[2]);
+}
+function commandeSetStatus(msg,ok=true){
+  const e=document.getElementById('commandeImportStatus');
+  if(!e)return;
+  e.textContent=msg;e.className='status show '+(ok?'ok':'err');
+}
+function commandeStockTotal(rows){
+  return (rows||[]).reduce((t,r)=>t+num(r.qte1)+num(r.qte2)+num(r.qte3),0);
+}
+function commandeAvailableProduct(code){
+  const p=cachedProduct(code);
+  const s=cachedStock(code);
+  return {product:p,stock:s};
+}
+function commandeBuildData(){
+  const map=new Map();
+  commandeRows.forEach((r,idx)=>{
+    const code=commandeCode(r.code);
+    if(!code)return;
+    const q=commandeQty(r.qty);
+    if(!q)return;
+    if(!map.has(code))map.set(code,{code,name:r.name||'',required:0,sourceIndexes:[]});
+    const x=map.get(code);x.required+=q;x.sourceIndexes.push(idx);
+    if(!x.name)x.name=r.name||'';
+  });
+  commandeProducts=[...map.values()].map(x=>{
+    const found=commandeAvailableProduct(x.code);
+    x.product=found.product;
+    x.stock=found.stock;
+    x.name=x.product?.name||x.name||'PRODUIT';
+    x.available=commandeStockTotal(x.stock.rows);
+    x.missing=x.available<=0;
+    return x;
+  });
+}
+function commandeRender(){
+  const content=document.getElementById('commandeContent');
+  const missingWrap=document.getElementById('commandeMissingWrap');
+  const actions=document.getElementById('commandeActions');
+  if(!content||!missingWrap)return;
+  content.innerHTML='';
+  missingWrap.innerHTML='';
+  const present=commandeProducts.filter(x=>!x.missing);
+  const missing=commandeProducts.filter(x=>x.missing);
+  if(!commandeProducts.length){
+    content.innerHTML='<div class="card"><div class="empty">AUCUN PRODUIT TROUVÉ DANS LE FICHIER.</div></div>';
+    actions.style.display='none';return;
+  }
+  present.forEach((p,pi)=>{
+    const rows=(p.stock.rows||[]).map((r,i)=>({...r,_index:i})).filter(r=>commandeStockTotal([r])>0).sort((a,b)=>commandeAddressSort(a.address,b.address));
+    const addresses=rows.map((r)=>{
+      const batches=[1,2,3].map(s=>({s,q:num(r['qte'+s]),d:r['dlc'+s]})).filter(x=>x.q>0);
+      return `<div class="commande-address" data-code="${escAttr(p.code)}" data-row="${r._index}">
+        <div class="commande-address-head"><span>${esc(addrDisplay(r.address))}</span><span>TOTAL ${fmtNum(commandeStockTotal([r]))}</span></div>
+        <div class="commande-batches">${[1,2,3].map(s=>{const b=batches.find(x=>x.s===s);return `<div class="commande-batch"><div class="q">${b?fmtNum(b.q):'0'}</div><div class="d">${b?esc(b.d||'—'):'—'}</div></div>`}).join('')}</div>
+        <div class="commande-withdraw"><label>QTE À RETIRER</label><input class="commandeQtyInput" inputmode="numeric" data-code="${escAttr(p.code)}" data-row="${r._index}" value="0" min="0" type="number" oninput="commandeUpdateTotals()"></div>
+      </div>`;
+    }).join('');
+    content.insertAdjacentHTML('beforeend',`<div class="commande-card">
+      <div class="commande-product-name">${esc(p.code)} — ${esc(p.name)}</div>
+      <div class="commande-meta"><div class="box"><div class="label">QTE DEMANDÉE</div><div class="value">${fmtNum(p.required)}</div></div><div class="box"><div class="label">QTE DISPONIBLE</div><div class="value">${fmtNum(p.available)}</div></div></div>
+      ${addresses}
+      <div class="commande-total" id="commandeTotal_${pi}">0 / ${fmtNum(p.required)}</div>
+    </div>`);
+  });
+  if(missing.length){
+    missingWrap.innerHTML=`<div class="card"><button type="button" class="primary" style="background:var(--red)" onclick="toggleCommandeMissing()">LES PRODUITS MANQUANTS</button><div id="commandeMissing" style="display:none;margin-top:10px"></div></div>`;
+    document.getElementById('commandeMissing').innerHTML=missing.map(p=>`<div class="commande-card commande-missing"><div class="commande-product-name">${esc(p.code)} — ${esc(p.name)}</div><div class="commande-meta"><div class="box"><div class="label">QTE GOLD</div><div class="gold">${fmtNum(p.product?.gold||0)}</div></div><div class="box"><div class="label">QTE DEMANDÉE</div><div class="value">${fmtNum(p.required)}</div></div></div></div>`).join('');
+  }
+  actions.style.display=present.length?'block':'none';
+  commandeUpdateTotals();
+}
+function toggleCommandeMissing(){
+  const e=document.getElementById('commandeMissing');
+  if(e)e.style.display=e.style.display==='none'?'block':'none';
+}
+function commandeUpdateTotals(){
+  commandeProducts.filter(x=>!x.missing).forEach((p,pi)=>{
+    let total=0;
+    document.querySelectorAll('.commandeQtyInput[data-code="'+CSS.escape(p.code)+'"]').forEach(e=>total+=commandeQty(e.value));
+    const t=document.getElementById('commandeTotal_'+pi);
+    if(t)t.textContent=fmtNum(total)+' / '+fmtNum(p.required);
+  });
+}
+function commandeConsumeOps(p){
+  const inputs=[...document.querySelectorAll('.commandeQtyInput[data-code="'+CSS.escape(p.code)+'"]')];
+  const ops=[];
+  for(const input of inputs){
+    const wanted=commandeQty(input.value);if(!wanted)continue;
+    const rowIndex=Number(input.dataset.row);
+    const row=(p.stock.rows||[])[rowIndex];if(!row)throw new Error('Adresse introuvable.');
+    let remaining=wanted;
+    const slots=[1,2,3].map(s=>({s,q:num(row['qte'+s]),d:row['dlc'+s]})).filter(x=>x.q>0);
+    slots.sort((a,b)=>dateSortKey(a.d)-dateSortKey(b.d)||a.s-b.s);
+    for(const b of slots){
+      if(remaining<=0)break;
+      const take=Math.min(remaining,b.q);
+      ops.push({qty:take,selection:{rowIndex,slot:b.s}});
+      remaining-=take;
+    }
+    if(remaining>0)throw new Error('La quantité demandée dépasse le stock de '+addrDisplay(row.address)+'.');
+  }
+  return ops;
+}
+function commandeOptimisticProduct(p,ops){
+  const rows=(p.stock.rows||[]).map(r=>({...r}));
+  const byRow=new Map();
+  ops.forEach(op=>{
+    const i=Number(op.selection.rowIndex),s=Number(op.selection.slot);
+    if(!byRow.has(i))byRow.set(i,[]);
+    byRow.get(i).push({slot:s,qty:num(op.qty)});
+  });
+  for(const [i,list] of byRow){
+    const r=rows[i];if(!r)continue;
+    list.forEach(o=>{r['qte'+o.slot]=Math.max(0,num(r['qte'+o.slot])-o.qty);if(!num(r['qte'+o.slot]))r['dlc'+o.slot]='';});
+  }
+  for(let i=rows.length-1;i>=0;i--)if(commandeStockTotal([rows[i]])<=0)rows.splice(i,1);
+  rebuildLocalStock(p.code,rows);
+  p.stock=stockCache[p.code];
+}
+async function validateCommande(){
+  if(commandeBusy)return;
+
+  const present=commandeProducts.filter(x=>!x.missing);
+  const allOps=[];
+
+  try{
+    for(const p of present){
+      // Nb étiquettes est informatif uniquement.
+      const ops=commandeConsumeOps(p);
+      if(ops.length)allOps.push({p,ops});
+    }
+
+    if(!allOps.length){
+      return commandeSetStatus('Aucune quantité à retirer.',false);
+    }
+  }catch(e){
+    return commandeSetStatus(e.message||String(e),false);
+  }
+
+  commandeBusy=true;
+  const btn=document.getElementById('commandeValidateBtn');
+  if(btn)btn.disabled=true;
+
+  try{
+    /*
+     * نحسب المخزون المحلي بعد الخصم قبل الإرسال.
+     * هذا لا يرسل أي شيء مرتين؛ هو فقط لتحديث الواجهة بعد نجاح POST.
+     */
+    const expectedByCode={};
+
+    allOps.forEach(x=>{
+      const rows=(x.p.stock?.rows||[]).map(r=>({...r}));
+      const byRow=new Map();
+
+      x.ops.forEach(op=>{
+        const i=Number(op.selection.rowIndex);
+        const slot=Number(op.selection.slot);
+        if(!byRow.has(i))byRow.set(i,[]);
+        byRow.get(i).push({slot,qty:num(op.qty)});
+      });
+
+      for(const [i,list] of byRow){
+        const r=rows[i];
+        if(!r)continue;
+
+        list.forEach(o=>{
+          r['qte'+o.slot]=Math.max(
+            0,
+            num(r['qte'+o.slot])-o.qty
+          );
+
+          if(!num(r['qte'+o.slot])){
+            r['dlc'+o.slot]='';
+          }
+        });
+      }
+
+      // نفس منطق compactDlc في Code.gs:
+      for(let i=0;i<rows.length;i++){
+        const r=rows[i];
+        const slots=[1,2,3]
+          .map(n=>({
+            q:num(r['qte'+n]),
+            d:r['dlc'+n]
+          }))
+          .filter(x=>x.q>0);
+
+        for(let n=1;n<=3;n++){
+          const z=slots[n-1];
+          r['qte'+n]=z?z.q:0;
+          r['dlc'+n]=z?z.d:'';
+        }
+      }
+
+      for(let i=rows.length-1;i>=0;i--){
+        if(commandeStockTotal([rows[i]])<=0){
+          rows.splice(i,1);
+        }
+      }
+
+      let reserve=0;
+      rows.forEach(r=>{
+        reserve+=
+          num(r.qte1)+
+          num(r.qte2)+
+          num(r.qte3);
+      });
+
+      expectedByCode[normCode(x.p.code)]={
+        rows,
+        reserve
+      };
+    });
+
+    commandeSetStatus('Enregistrement de la commande…',true);
+
+    /*
+     * COMMANDE: نستعمل JSONP مباشرة مع doGet.
+     * هذا مهم لأن POST داخل iframe لا يسمح للتطبيق بقراءة رد Apps Script،
+     * وبالتالي لا يمكنه معرفة هل Google Sheets قبلت العملية أم لا.
+     * JSONP يعيد نتيجة commandeRemove الحقيقية إلى callback،
+     * لذلك لا نعرض COMMANDE VALIDÉE إلا بعد نجاح الكتابة فعلياً.
+     */
+    for(const x of allOps){
+      await commandeRunServer(
+        'commandeRemove',
+        {
+          code:x.p.code,
+          operations:x.ops.map(op=>({
+            qty:op.qty,
+            selection:{
+              rowIndex:Number(op.selection.rowIndex),
+              slot:Number(op.selection.slot)
+            }
+          }))
+        }
+      );
+    }
+
+    /* السيرفر أكد عملية السحب؛ نحدّث الكاش محلياً بالنتيجة المتوقعة. */
+    Object.keys(expectedByCode).forEach(code=>{
+      stockCache[code]=expectedByCode[code];
+    });
+
+    await saveCaches();
+
+    commandeRows=[];
+    commandeProducts=[];
+
+    document.getElementById(
+      'commandeContent'
+    ).innerHTML='';
+
+    document.getElementById(
+      'commandeMissingWrap'
+    ).innerHTML='';
+
+    document.getElementById(
+      'commandeActions'
+    ).style.display='none';
+
+    commandeSetStatus(
+      'COMMANDE VALIDÉE ✓ — stock mis à jour',
+      true
+    );
+
+  }catch(e){
+
+    commandeSetStatus(
+      'Erreur serveur COMMANDE — '+
+      (e?.message||String(e)),
+      false
+    );
+
+  }finally{
+
+    commandeBusy=false;
+
+    if(btn)btn.disabled=false;
+  }
+}
+
+document.getElementById('commandeExcel')?.addEventListener('change',async e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  try{
+    if(typeof XLSX==='undefined')throw new Error('Bibliothèque Excel indisponible.');
+    commandeSetStatus('Lecture du fichier…',true);
+    const buf=await file.arrayBuffer();
+    const wb=XLSX.read(buf,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+    if(!rows.length)throw new Error('Fichier Excel vide.');
+    commandeRows=rows.map(r=>({
+      code:commandeFindField(r,['code caisse','Code caisse','Code Caisse','Code caisse produit','Code','EAN','Barcode','Code barre','Référence','Reference']),
+      name:commandeFindField(r,['Nom produit','Produit','Désignation','Designation','Nom','Name']),
+      qty:commandeFindField(r,['Nb etiquettes','Nb étiquettes','N etiquettes','Etiquettes','Etiquette','Qte etiquettes'])
+    })).filter(r=>commandeCode(r.code)&&commandeQty(r.qty)>0);
+    if(!commandeRows.length)throw new Error('لم أجد الأعمدة المطلوبة: code caisse و Nb étiquettes.');
+    if(!cacheReady || !Object.keys(productCache).length || !Object.keys(stockCache).length){
+      commandeSetStatus('Chargement de la base de données…',true);
+      // نستعمل نفس API المستعملة في AJOUTER و RETIRER، وليس COMMANDE_API.
+      // هذا يمنع خطأ Connexion au serveur COMMANDE impossible.
+      const snap=await runServer('snapshot',[]);
+      if(!snap?.ok)throw new Error(snap?.error||'Erreur base de données');
+      const nextProducts={};(snap.products||[]).forEach(p=>nextProducts[normCode(p.code)]=p);
+      const nextStock={};Object.keys(snap.stockByCode||{}).forEach(c=>nextStock[normCode(c)]=normalizeCachedStockValue(snap.stockByCode[c]));
+      if(Object.keys(nextProducts).length)productCache=nextProducts;
+      if(Object.keys(nextStock).length)stockCache=nextStock;
+      cacheReady=true;await saveCaches();
+    }
+    commandeBuildData();commandeRender();
+    commandeSetStatus(commandeProducts.length+' produit(s) importé(s).',true);
+    e.target.value='';
+  }catch(err){commandeSetStatus(err.message||String(err),false);e.target.value='';}
+});
+</script>
+
+</body>
+</html>
