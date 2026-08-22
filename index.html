@@ -1,0 +1,2996 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#3498db">
+<link rel="manifest" href="./manifest.webmanifest">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="FLUX MARCHANDISE">
+<title>FLUX MARCHANDISE — AJOUTER / RETIRER</title>
+<style>
+:root{--blue:#3498db;--blue2:#2980b9;--green:#27ae60;--green2:#219653;--dark:#34495e;--red:#e74c3c;--orange:#f39c12;--bg:#f4f7fb;--card:#fff;--text:#2c3e50;--muted:#7f8c8d;--border:#dde3ea}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text)}body{min-height:100vh;padding-bottom:76px}.app{max-width:620px;margin:auto;padding:12px}.topbar{position:sticky;top:0;z-index:20;background:rgba(244,247,251,.96);backdrop-filter:blur(8px);padding:8px 0 10px}.title{font-size:24px;font-weight:800;text-align:center;margin:4px 0 10px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tab{border:0;border-radius:10px;padding:13px;font-size:16px;font-weight:800;color:white;cursor:pointer}.tab.add{background:var(--green)}.tab.remove{background:var(--red)}.tab.active{box-shadow:0 0 0 3px rgba(52,152,219,.22)}.commande-open{width:100%;margin-top:8px;height:48px;border:0;border-radius:10px;background:var(--blue);color:#fff;font-weight:900;font-size:16px;cursor:pointer}.commande-open.active{box-shadow:0 0 0 3px rgba(52,152,219,.22)}.commande-card{position:relative;background:#fff;border-radius:12px;padding:12px;margin:10px 0;box-shadow:0 2px 10px rgba(0,0,0,.07);border-left:3px solid var(--blue)}.commande-card-index{position:absolute;right:10px;top:10px;color:#fff;background:#e74c3c;font-weight:900;font-size:13px;line-height:1;z-index:2;border:1px solid #e74c3c;border-radius:5px;padding:3px 6px}.commande-product-name{font-size:18px;font-weight:900;margin-bottom:6px}.commande-meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0}.commande-meta .box{padding:8px;border-radius:8px;text-align:center;border:1px solid var(--border);background:#f8fbff}.commande-meta .label{font-size:11px;font-weight:800;color:var(--muted)}.commande-meta .value{font-size:19px;font-weight:900;margin-top:3px}.commande-address{border:1px solid var(--border);border-radius:9px;padding:9px;margin-top:8px;background:#fbfcfe}.commande-address.selected{border:2px solid var(--blue);background:#eef7ff}.commande-address-head{display:flex;justify-content:space-between;align-items:center;font-weight:900}.commande-batches{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}.commande-batch{border:1px solid var(--border);border-radius:8px;padding:7px;text-align:center;background:#fafafa;transition:.15s}.commande-batch.available{cursor:text}.commande-batch.selected{border:2px solid var(--blue);background:#eef7ff}.commande-batch.empty{opacity:.45}.commande-batch .q{font-weight:900;font-size:17px}.commande-batch .d{font-size:11px;color:var(--muted);margin-top:2px;min-height:28px;display:flex;align-items:center;justify-content:center}.commande-batch .pick-label{display:block;font-size:10px;font-weight:800;color:var(--muted);margin-top:6px}.commande-batch input{width:100%;height:36px;border:1px solid var(--border);border-radius:7px;text-align:center;font-size:16px;font-weight:800;margin-top:4px;background:#fff}.commande-batch input:focus{outline:2px solid rgba(52,152,219,.25);border-color:var(--blue)}.commande-withdraw{display:flex;align-items:center;gap:7px;margin-top:8px}.commande-withdraw label{font-size:12px;font-weight:800;color:var(--muted);flex:1}.commande-withdraw input{width:120px;height:42px;border:1px solid var(--border);border-radius:8px;text-align:center;font-size:17px}.commande-total{margin-top:8px;text-align:right;font-weight:900}.commande-actions{position:sticky;bottom:76px;z-index:8;background:rgba(244,247,251,.96);padding:8px 0}.commande-missing{border-left-color:var(--red)}.commande-missing .gold{font-size:24px;font-weight:900;color:#219653}
+/* COMMANDE — تعديلات بصرية إضافية فقط */
+.commande-card{border-left-color:var(--green)}
+.commande-address.selected,.commande-batch.selected{border-color:var(--green);background:#eefaf2;box-shadow:0 0 0 2px rgba(39,174,96,.08)}
+.commande-batch input:focus{box-shadow:0 0 0 3px rgba(39,174,96,.14);border-color:var(--green)}
+.commande-product-code{text-align:center;font-size:18px;font-weight:900;color:#2f4053;line-height:1.15;margin:0 0 3px}
+.commande-product-name{text-align:center;font-size:17px;font-weight:900;color:#2f4053;line-height:1.25;margin:0 0 7px}
+.commande-addresses-top{text-align:center;font-size:15px;font-weight:900;color:var(--green2);margin:0 0 5px}
+.commande-addresses-top span{display:inline-block;padding:3px 10px;border-radius:999px;background:#eaf8ef;border:1px solid #bce7ca}
+.commande-meta .box{min-height:56px;padding:6px}
+.commande-meta .value{font-size:18px}
+.commande-batches{gap:5px}
+.commande-batch{padding:6px}
+.commande-batch .q{font-size:16px}
+.commande-batch input{height:34px;font-size:15px}
+.commande-batch .pick-label{font-size:9px;margin-top:4px}
+.commande-total{display:none}
+.commande-missing-rank{display:none!important}
+.commande-missing .commande-product-name{padding-right:0}
+.commande-db-summary{margin:10px 0 12px;padding:11px 14px;border-radius:12px;background:linear-gradient(135deg,#eaf8ef,#f7fff9);border:1px solid #bce7ca;box-shadow:0 3px 10px rgba(39,174,96,.08);text-align:center}
+.commande-db-summary .summary-label{display:block;font-size:11px;font-weight:800;color:#5f7d6b;margin-bottom:2px}
+.commande-db-summary .summary-value{display:block;font-size:23px;font-weight:900;color:var(--green2)}
+
+/* COMMANDE — تحسين بصري احترافي بدون تغيير المنطق */
+.commande-open{box-shadow:0 4px 12px rgba(52,152,219,.18);transition:transform .15s,box-shadow .15s}
+.commande-open:active{transform:translateY(1px)}
+.commande-card{border:1px solid #e2e8f0;border-left:4px solid var(--blue);border-radius:16px;padding:13px;margin:12px 0;background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);box-shadow:0 5px 16px rgba(35,55,80,.08)}
+.commande-card.status-red{border-left-color:var(--red)}
+.commande-card.status-green{border-left-color:var(--green)}
+.commande-product-name{font-size:18px;line-height:1.25;color:#2f4053;letter-spacing:.1px}
+.commande-meta .box{min-height:62px;display:flex;flex-direction:column;justify-content:center;background:#f8fbff;border-color:#dce5ee}
+.commande-meta .value{font-size:20px;color:#2f4053}
+.commande-address{border:1px solid #dce5ee;border-radius:12px;padding:10px;margin-top:10px;background:#f9fbfd;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
+.commande-address-head{font-size:14px;color:#30445a;padding-bottom:2px}
+.commande-batches{gap:7px;margin-top:9px}
+.commande-batch{border-radius:10px;padding:8px;background:#fff;border-color:#dfe6ed;box-shadow:0 2px 6px rgba(35,55,80,.04)}
+.commande-batch.available{border-color:#cdd9e5}
+.commande-batch.selected{border:2px solid var(--blue);background:#eef7ff;box-shadow:0 0 0 2px rgba(52,152,219,.08)}
+.commande-batch .q{font-size:18px;color:#2f4053}
+.commande-batch .d{font-size:11px;font-weight:700}
+.commande-batch input{height:38px;border-radius:9px;border-color:#cfd9e4;font-size:17px}
+.commande-batch input:focus{outline:none;box-shadow:0 0 0 3px rgba(52,152,219,.14);border-color:var(--blue)}
+.commande-total{margin-top:10px;padding:8px 10px;border-radius:9px;background:#f1f6fa;color:#30445a;font-size:14px}
+.commande-actions{padding:10px 0;background:rgba(244,247,251,.97);backdrop-filter:blur(5px)}
+.commande-missing-wrap{border-left-color:var(--red);padding:10px}
+.commande-missing-toggle{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#d64545,#c0392b)!important;box-shadow:0 4px 12px rgba(192,57,43,.18)}
+.commande-missing-count{display:inline-flex;align-items:center;justify-content:center;min-width:25px;height:25px;padding:0 7px;border-radius:999px;background:rgba(255,255,255,.2);font-size:13px}
+.commande-missing{position:relative;overflow:hidden;border-left:4px solid var(--red);background:linear-gradient(180deg,#fff 0%,#fffafa 100%)}
+.commande-missing-rank{position:absolute;top:10px;right:10px;min-width:26px;height:26px;padding:0 7px;border-radius:999px;background:#fff0ee;color:#c0392b;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.commande-missing .commande-product-name{padding-right:38px}
+.commande-missing .gold-box{background:#eefaf2!important;border-color:#c8e9d3!important}
+.commande-missing .gold{font-size:23px;color:#219653}
+.page{display:none}.page.active{display:block}.card{background:var(--card);border-radius:12px;padding:12px;margin:10px 0;box-shadow:0 2px 10px rgba(0,0,0,.07);border-left:3px solid var(--blue);position:relative}.card.add{border-left-color:var(--green)}.card.remove{border-left-color:var(--dark)}.row{display:flex;gap:8px;align-items:center;margin-bottom:9px}.row:last-child{margin-bottom:0}.row input{flex:1;min-width:0;height:48px;border:1px solid var(--border);border-radius:8px;text-align:center;font-size:16px;padding:8px 10px;background:#fff;text-transform:uppercase}.primary:disabled{opacity:.65;pointer-events:none}.scan{height:48px;border:0;border-radius:8px;background:var(--blue);color:#fff;font-weight:800;padding:0 12px;cursor:pointer}.product{background:#f8f9fa;border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center;margin:8px 0}.product .name{font-size:17px;font-weight:800;margin-bottom:9px}.info{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.info .box{padding:8px 4px;border-radius:8px;text-align:center;border:1px solid var(--border)}.info .label{font-size:10px;font-weight:800}.info .value{font-size:18px;font-weight:900;margin-top:3px}.stock{background:#eaf8ef;border-color:#bce7ca!important;color:#219653}.reserve{background:#fff5e6;border-color:#f5c477!important;color:#d35400;cursor:pointer}.uvc{background:#eef6ff;border-color:#bcd9f7!important;color:#2980b9}.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field label{display:block;text-align:center;font-size:11px;font-weight:800;color:var(--muted);margin-bottom:4px}.field input{width:100%;height:46px;border:1px solid var(--border);border-radius:8px;text-align:center;font-size:16px}.section-title{font-weight:900;text-align:center;margin:5px 0 9px}.primary{width:100%;height:48px;border:0;border-radius:9px;color:#fff;font-size:16px;font-weight:900;cursor:pointer}.primary.add{background:var(--green)}.primary.remove{background:var(--dark)}.danger{width:100%;height:44px;border:0;border-radius:9px;color:#fff;background:var(--red);font-weight:800;margin-top:8px}.summary{text-align:center;font-size:12px;color:var(--muted);margin-top:9px}.status{display:none;margin:10px 0;padding:10px;border-radius:9px;text-align:center;font-weight:800}.status.show{display:block}.status.ok{background:#eaf8ef;color:#1e8449}.status.err{background:#fdecea;color:#c0392b}.status.saving{background:#fff3df;color:#d98200}.field .dlc-msg{min-height:18px;text-align:center;font-size:11px;font-weight:900;margin-top:3px}.field .dlc-msg.invalid{color:#e74c3c}.field .dlc-msg.warning{color:#e74c3c}.field input.dlc-invalid{border:2px solid #e74c3c;background:#fff5f5}.loading{opacity:.65;pointer-events:none}.address-list{display:flex;flex-direction:column;gap:8px}.address-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer}.address-card.selected{border:2px solid var(--blue);background:#eef7ff}.address-head{display:flex;justify-content:space-between;align-items:center;font-weight:900;margin-bottom:8px}.address-total{background:#eef6ff;color:#2980b9;padding:4px 8px;border-radius:20px;font-size:12px}.batch-list{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.batch{border:1px solid #e5e7eb;border-radius:7px;padding:7px;text-align:center;background:#fafafa}.batch .q{font-size:17px;font-weight:900}.batch .d{font-size:11px;color:#666;margin-top:2px}.batch.empty{opacity:.45}.empty{text-align:center;color:var(--muted);padding:16px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:15px}.modal.show{display:flex}.modalbox{width:min(560px,100%);max-height:90vh;overflow:auto;background:white;border-radius:14px;padding:14px}.modalbox h2{text-align:center;margin:3px 0 12px}.picker-list{display:flex;flex-direction:column;gap:8px}.picker-btn{width:100%;min-height:48px;border:0;border-radius:9px;background:#3498db;color:#fff;font-weight:800;font-size:16px}.picker-btn.existing{background:#27ae60}.picker-btn.new{background:#3498db}.modalclose{width:100%;height:44px;border:0;border-radius:9px;background:var(--red);color:#fff;font-weight:800;margin-top:10px}.scanner-box{background:#111;border-radius:12px;overflow:hidden;min-height:300px;display:flex;align-items:center;justify-content:center;color:#fff}.scanner-box video{width:100%;max-height:60vh;object-fit:cover}.scanner-actions{display:flex;gap:8px;margin-top:8px}.scanner-actions button{flex:1;height:44px;border:0;border-radius:8px;font-weight:800}.small{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}.admin-open-btn{width:100%;margin-top:10px;border:0;border-radius:12px;padding:13px 12px;background:#f39c12;color:#fff;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.08)}.footer-actions{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);padding:8px calc(10px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left));z-index:30}.footer-actions .inner{max-width:620px;margin:auto;display:flex;gap:8px}.footer-actions button{flex:1;height:44px;border:0;border-radius:9px;font-weight:800}.refresh{background:#eef6ff;color:#2980b9}.home{background:#ecf0f1;color:#34495e}@media(max-width:380px){.info{gap:4px}.info .value{font-size:16px}.scan{padding:0 8px;font-size:12px}.batch-list{gap:4px}}
+
+#pageCommande.commande-standalone-page{display:none;min-height:100vh;padding:12px;max-width:620px;margin:auto;background:var(--bg)}
+.commande-standalone-head{position:sticky;top:0;z-index:25;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(244,247,251,.97);backdrop-filter:blur(8px);padding:8px 0 12px;margin-bottom:4px}
+.commande-standalone-head button{border:0;border-radius:9px;background:#ecf0f1;color:#34495e;height:42px;padding:0 14px;font-weight:900;font-size:14px}
+.commande-standalone-head strong{flex:none;text-align:center;font-size:22px;color:#2c3e50}
+
+
+/* COMMANDE - N° commande modal uniquement */
+.commande-order-modal{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;z-index:500;padding:18px}
+.commande-order-modal.show{display:flex}
+.commande-order-box{width:min(440px,100%);background:#fff;border-radius:18px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.25);text-align:center}
+.commande-order-box h2{margin:0 0 8px;color:#2c3e50;font-size:22px}
+.commande-order-box p{margin:0 0 16px;color:#7f8c8d;font-size:14px;font-weight:700}
+.commande-order-box input{width:100%;height:52px;border:2px solid #3498db;border-radius:11px;text-align:center;font-size:20px;font-weight:800;box-sizing:border-box;outline:none}
+.commande-order-box input:focus{border-color:#2980b9}
+.commande-order-box button{width:100%;height:50px;margin-top:14px;border:0;border-radius:11px;background:#3498db;color:#fff;font-size:16px;font-weight:900}
+
+/* AJOUTER — compteur du jour uniquement */
+.today-add-count-card{margin:0 40px 8px;padding:5px 10px;background:#eefaf1;border:1px solid #bfe8cb;border-radius:10px;text-align:center;box-sizing:border-box}
+.today-add-count-label{font-size:11px;font-weight:900;color:#5f7b69}
+.today-add-count-value{margin-top:1px;font-size:19px;line-height:1;font-weight:900;color:#27ae60}
+
+/* RETIRER — éléments demandés uniquement */
+.today-remove-count-card{margin:0 40px 8px;padding:5px 10px;background:#fdecea;border:1px solid #f5b7b1;border-radius:10px;text-align:center;box-sizing:border-box}
+.today-remove-count-label{font-size:11px;font-weight:900;color:#922b21}
+.today-remove-count-value{margin-top:1px;font-size:19px;line-height:1;font-weight:900;color:#c0392b}
+.remove-export-btn{width:100%;height:42px;border:0;border-radius:9px;background:#3498db;color:#fff;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap}
+/* AJOUTER — export uniquement */
+.add-saving{background:#fdecea!important;color:#c0392b!important}
+.remove-saving{background:#fdecea!important;color:#c0392b!important}
+.add-export-btn{width:100%;height:48px;border:0;border-radius:9px;background:#3498db;color:#fff;font-size:16px;font-weight:900;cursor:pointer}
+.add-export-modal{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;z-index:500;padding:18px}
+.add-export-modal.show{display:flex}
+.add-export-box{width:min(440px,100%);background:#fff;border-radius:18px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.25);text-align:center}
+.add-export-box h2{margin:0 0 8px;color:#2c3e50;font-size:22px}
+.add-export-box p{margin:0 0 16px;color:#7f8c8d;font-size:14px;font-weight:700}
+.add-export-box button{width:100%;height:50px;margin-top:10px;border:0;border-radius:11px;color:#fff;font-size:16px;font-weight:900}
+.add-export-pdf{background:#e74c3c}
+.add-export-excel{background:#27ae60}
+.add-export-cancel{background:#7f8c8d}
+
+
+/* ===== LOGIN MODAL - ONLY ADDITION ===== */
+#appLoginOverlay{position:fixed;inset:0;z-index:99999;background:rgba(24,38,52,.72);display:flex;align-items:center;justify-content:center;padding:20px}
+#appLoginBox{width:min(430px,100%);background:#fff;border-radius:24px;padding:28px 22px 22px;box-shadow:0 20px 70px rgba(0,0,0,.30);text-align:center}
+#appLoginBox h2{margin:0 0 7px;color:#2c3e50;font-size:25px;font-weight:900}
+#appLoginBox .login-subtitle{margin:0 0 22px;color:#7f8c8d;font-size:15px;font-weight:700}
+#appLoginBox .login-user{width:100%;height:54px;box-sizing:border-box;border:1px solid #dfe4ea;border-radius:12px;background:#f5f8fb;color:#34495e;font-size:18px;font-weight:900;text-align:center;margin-bottom:12px}
+#appLoginBox .login-password{width:100%;height:54px;box-sizing:border-box;border:1px solid #dfe4ea;border-radius:12px;background:#fff;color:#2c3e50;font-size:18px;text-align:center;outline:none;margin-bottom:16px}
+#appLoginBox .login-password:focus{border-color:#3498db;box-shadow:0 0 0 3px rgba(52,152,219,.15)}
+#appLoginBox .login-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#appLoginBox button{height:50px;border:0;border-radius:11px;color:#fff;font-size:16px;font-weight:900;cursor:pointer}
+#appLoginBtn{background:#27ae60}
+#appLoginCloseBtn{background:#e74c3c}
+#appLoginError{display:none;margin:0 0 14px;padding:11px 12px;border-radius:11px;background:#fdecec;color:#c0392b;font-weight:900;font-size:14px}
+#appLoginErrorOverlay{position:fixed;inset:0;z-index:100000;background:rgba(24,38,52,.55);display:none;align-items:center;justify-content:center;padding:20px}
+#appLoginErrorBox{width:min(390px,100%);background:#fff;border-radius:22px;padding:25px 20px 20px;box-shadow:0 20px 70px rgba(0,0,0,.30);text-align:center}
+#appLoginErrorBox .error-icon{width:58px;height:58px;border-radius:50%;background:#fdecec;color:#e74c3c;display:flex;align-items:center;justify-content:center;margin:0 auto 13px;font-size:30px;font-weight:900}
+#appLoginErrorBox h3{margin:0 0 8px;color:#2c3e50;font-size:21px;font-weight:900}
+#appLoginErrorBox p{margin:0 0 18px;color:#7f8c8d;font-size:15px;font-weight:700}
+#appLoginRetryBtn{width:100%;height:50px;border:0;border-radius:11px;background:#3498db;color:#fff;font-size:16px;font-weight:900;cursor:pointer}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+</head>
+<body>
+<!-- ===== LOGIN MODAL - ONLY ADDITION ===== -->
+<div id="appLoginOverlay">
+  <div id="appLoginBox" role="dialog" aria-modal="true" aria-labelledby="appLoginTitle">
+    <h2 id="appLoginTitle">CONNEXION</h2>
+    <p class="login-subtitle">Veuillez vous connecter pour continuer</p>
+    <input class="login-user" id="appLoginUser" value="AABDELLAOUI" readonly>
+    <input class="login-password" id="appLoginPassword" type="password" placeholder="MOT DE PASSE" autocomplete="off">
+    <div id="appLoginError"></div>
+    <div class="login-actions">
+      <button id="appLoginCloseBtn" type="button">FERMER</button>
+      <button id="appLoginBtn" type="button">ENTRER</button>
+    </div>
+  </div>
+</div>
+
+<div id="appLoginErrorOverlay">
+  <div id="appLoginErrorBox" role="alertdialog" aria-modal="true">
+    <div class="error-icon">!</div>
+    <h3>MOT DE PASSE INCORRECT</h3>
+    <p>Le mot de passe est incorrect. Veuillez réessayer.</p>
+    <button id="appLoginRetryBtn" type="button">RÉESSAYER</button>
+  </div>
+</div>
+
+<div class="app">
+  <div class="topbar">
+    <div class="title">FLUX MARCHANDISE</div>
+    <div class="tabs">
+      <button class="tab add active" id="tabAdd" onclick="showPage('add')">AJOUTER</button>
+      <button class="tab remove" id="tabRemove" onclick="showPage('remove')">RETIRER</button>
+    </div>
+    <button id="openAdminEmplacementsBtn" type="button" class="admin-open-btn" onclick="openAdminEmplacements()">GESTION DES EMPLACEMENTS</button>
+    <button id="openCommandeBtn" type="button" class="commande-open" onclick="openCommandePage()">COMMANDE</button>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <section id="pageAdd" class="page active">
+    <div id="todayAddCountCard" class="today-add-count-card">
+      <div class="today-add-count-label">NBR DES PRODUITS AJOUTER</div>
+      <div id="todayAddCount" class="today-add-count-value">0</div>
+    </div>
+
+    <div class="card add">
+      <div class="row">
+        <input id="addCode" inputmode="numeric" autocomplete="off" placeholder="CODE PRODUIT">
+        <button class="scan" onclick="openScanner('addCode')">SCANNER</button>
+      </div>
+      <div id="addProduct"></div>
+    </div>
+
+    <div class="card add">
+      <div class="section-title">ADRESSE</div>
+      <div class="row"><input id="addAddress" inputmode="tel" pattern="[0-9/]*" autocomplete="off" placeholder="ADRESSE (EX: 6/1)"><button class="scan" type="button" onclick="insertAddressSlash()">/</button></div>
+      <div class="fieldgrid">
+        <div class="field"><label>QTE 1</label><input id="addQ1" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 1</label><input id="addD1" inputmode="numeric" placeholder="JJ/MM/AAAA"><div id="addD1Msg" class="dlc-msg"></div></div>
+        <div class="field"><label>QTE 2</label><input id="addQ2" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 2</label><input id="addD2" inputmode="numeric" placeholder="JJ/MM/AAAA"><div id="addD2Msg" class="dlc-msg"></div></div>
+        <div class="field"><label>QTE 3</label><input id="addQ3" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 3</label><input id="addD3" inputmode="numeric" placeholder="JJ/MM/AAAA"><div id="addD3Msg" class="dlc-msg"></div></div>
+      </div>
+      <button id="submitAddBtn" type="button" class="primary add" onclick="submitAdd()">AJOUTER</button>
+    </div>
+
+    <div class="card add">
+      <div class="section-title">ADRESSES DU PRODUIT</div>
+      <div id="addAddresses" class="address-list"><div class="empty">Entrez le CODE PRODUIT pour afficher les adresses.</div></div>
+    </div>
+    <div class="card add">
+      <button type="button" class="add-export-btn" style="font-size:11px" onclick="openAddExportModal()">TÉLÉCHARGER LES PRODUITS QUI ONT AJOUTER</button>
+      <button type="button" class="add-export-btn" style="margin-top:8px;background:#34495e" onclick="openBasseExportModal()">TÉLÉCHARGER LA BASSE DES DONNÉES</button>
+    </div>
+  </section>
+
+  <section id="pageRemove" class="page">
+    <div class="today-remove-count-card">
+      <div class="today-remove-count-label">NBR DES PRODUITS RETIRER</div>
+      <div id="todayRemoveCount" class="today-remove-count-value">0</div>
+    </div>
+    <div class="card remove">
+      <div class="row">
+        <input id="removeCode" inputmode="numeric" autocomplete="off" placeholder="CODE PRODUIT">
+        <button class="scan" onclick="openScanner('removeCode')">SCANNER</button>
+      </div>
+      <div id="removeProduct"></div>
+    </div>
+
+    <div class="card remove">
+      <div class="section-title">CHOISIR L'ADRESSE</div>
+      <div id="removeAddresses" class="address-list"><div class="empty">Entrez le CODE PRODUIT pour afficher le stock.</div></div>
+    </div>
+
+    <div class="card remove">
+      <div class="section-title">RETIRER DE L'ADRESSE SÉLECTIONNÉE</div>
+      <div id="selectedAddressLabel" class="small">Aucune adresse sélectionnée</div>
+      <div class="fieldgrid">
+        <div class="field"><label>QTE 1</label><input id="removeQ1" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 1</label><input id="removeD1" inputmode="numeric" placeholder="JJ/MM/AAAA" readonly></div>
+        <div class="field"><label>QTE 2</label><input id="removeQ2" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 2</label><input id="removeD2" inputmode="numeric" placeholder="JJ/MM/AAAA" readonly></div>
+        <div class="field"><label>QTE 3</label><input id="removeQ3" inputmode="tel" placeholder="0"></div>
+        <div class="field"><label>DLC 3</label><input id="removeD3" inputmode="numeric" placeholder="JJ/MM/AAAA" readonly></div>
+      </div>
+      <button id="submitRemoveBtn" type="button" class="primary remove" onclick="submitRemove()">RETIRER</button>
+    </div>
+    <div class="card remove">
+      <button type="button" class="remove-export-btn" onclick="openRemoveExportModal()">TÉLÉCHARGER LES PRODUITS QUI ONT RETIRER</button>
+    </div>
+  </section>
+</div>
+
+<div id="removeExportModal" class="add-export-modal">
+  <div class="add-export-box">
+    <h2>TÉLÉCHARGER LES PRODUITS QUI ONT RETIRER</h2>
+    <p>Choisissez le format du fichier</p>
+    <button type="button" class="add-export-excel" onclick="exportRemovedExcel()">EXCEL</button>
+    <button type="button" class="add-export-pdf" onclick="exportRemovedPDF()">PDF</button>
+    <button type="button" class="add-export-cancel" onclick="closeRemoveExportModal()">ANNULER</button>
+  </div>
+</div>
+
+<div id="scannerModal" class="modal">
+  <div class="modalbox">
+    <h2>SCANNER</h2>
+    <div id="scannerBox" class="scanner-box"><video id="scannerVideo" playsinline></video></div>
+    <div class="scanner-actions"><button onclick="closeScanner()" style="background:#e74c3c;color:white">FERMER</button><button onclick="switchCamera()" style="background:#3498db;color:white">CAMÉRA</button></div>
+    <div class="small">Visez le CODE EAN avec la caméra.</div>
+  </div>
+</div>
+
+<div id="reserveModal" class="modal">
+  <div class="modalbox"><h2>QTE RESERVE DÉTAILLÉE</h2><div id="reserveContent"></div><button class="modalclose" onclick="closeReserve()">FERMER</button></div>
+</div>
+
+
+<div id="basseExportModal" class="add-export-modal">
+  <div class="add-export-box">
+    <h2>TÉLÉCHARGER LA BASSE DES DONNÉES</h2>
+    <p>Choisissez le format du fichier</p>
+    <button type="button" class="add-export-excel" onclick="exportBasseExcel()">EXCEL</button>
+    <button type="button" class="add-export-pdf" onclick="exportBassePDF()">PDF</button>
+    <button type="button" class="add-export-cancel" onclick="closeBasseExportModal()">ANNULER</button>
+  </div>
+</div>
+
+<div id="addExportModal" class="add-export-modal">
+  <div class="add-export-box">
+    <h2>TÉLÉCHARGER L'AJOUTER</h2>
+    <p>Choisissez le format du fichier</p>
+    <button type="button" class="add-export-pdf" onclick="exportAddsPDF()">PDF</button>
+    <button type="button" class="add-export-excel" onclick="exportAddsExcel()">EXCEL</button>
+    <button type="button" class="add-export-cancel" onclick="closeAddExportModal()">ANNULER</button>
+  </div>
+</div>
+
+<div id="commandeOrderModal" class="commande-order-modal">
+  <div class="commande-order-box">
+    <h2>N° COMMANDE</h2>
+    <p>Veuillez saisir le numéro de la commande</p>
+    <input id="commandeOrderNumber" type="text" inputmode="text" autocomplete="off" placeholder="N° COMMANDE">
+    <button type="button" onclick="commandeConfirmOrderNumber()">VALIDER</button>
+  </div>
+</div>
+
+<div id="addressModal" class="modal">
+  <div class="modalbox"><h2>CHOISIR UNE ADRESSE</h2><div id="addressPickerList" class="picker-list"></div><button class="modalclose" onclick="closePicker('addressModal')">ANNULER</button></div>
+</div>
+<div id="dateModal" class="modal">
+  <div class="modalbox"><h2 id="dateModalTitle">CHOISIR UNE DATE</h2><div id="datePickerList" class="picker-list"></div><button class="modalclose" onclick="closePicker('dateModal')">ANNULER</button></div>
+</div>
+
+
+  <section id="pageCommande" class="commande-standalone-page"><div class="commande-standalone-head"><button type="button" onclick="closeCommandePage()">← RETOUR</button><strong>COMMANDE</strong></div>
+    <div class="card">
+      <input id="commandeExcel" type="file" accept=".xlsx,.xls,.csv" style="display:none">
+      <button type="button" class="primary" style="background:var(--blue)" onclick="document.getElementById('commandeExcel').click()">IMPORTER LE FICHIER EXCEL</button>
+      <div id="commandeImportStatus" class="status"></div>
+    </div>
+    <div id="commandeContent"></div>
+    <div id="commandeMissingWrap"></div>
+    <div id="commandeActions" class="commande-actions" style="display:none">
+      <button id="commandeValidateBtn" type="button" class="primary" style="background:var(--green)" onclick="validateCommande()">VALIDER LA COMMANDE</button>
+    </div>
+  </section>
+
+
+<div class="footer-actions"><div class="inner"><button class="home" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ HAUT</button><button class="refresh" onclick="refreshCurrent()">↻ ACTUALISER</button></div></div>
+
+<script>
+const state={add:null,remove:null,selectedRow:null,scanner:null,scannerStream:null,scannerTarget:null,scannerFacing:'environment',adminScanner:false};
+const API_URL='https://script.google.com/macros/s/AKfycbzMI_3Hhy6Yk6Q6_3T14hEIvcWITTdVJmek58CT6mE3AlaNmP6Qq4t23ud_Q_CqyldU/exec';
+// COMMANDE يستعمل نفس API الرئيسي المستعمل في AJOUTER و RETIRER.
+const ACTION_MAP={lookup:'lookup',getProducts:'products',getProduct:'product',getStock:'stock',syncGoldForCode:'syncGold',addStock:'add',finalizeAddStock:'finalizeAdd',removeStock:'remove',ping:'ping'};
+function runServer(name,args=[]){
+  const action=ACTION_MAP[name]||name;
+  let data={};
+  if(name==='lookup'||name==='getProduct'||name==='getStock'||name==='syncGoldForCode') data={code:args[0]};
+  else if(name==='addStock'||name==='finalizeAddStock'||name==='removeStock') data=args[0]||{};
+  else if(name==='addressesForProduct'||name==='changeAddressForProduct'||name==='replaceAddressEverywhere'||name==='changeAddressEverywhere'||name==='deleteAddressEverywhere'||name==='getProductDateDetails'||name==='changeProductDate') data=args[0]||{};
+  return new Promise((resolve,reject)=>{
+    const cb='inventoryCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const script=document.createElement('script');
+    let timer;
+    const cleanup=()=>{clearTimeout(timer);delete window[cb];script.remove();};
+    window[cb]=(result)=>{cleanup();if(result&&result.ok===false)reject(new Error(result.error||'Erreur Apps Script'));else resolve(result);};
+    script.onerror=()=>{cleanup();reject(new Error('Connexion à Apps Script impossible'));};
+    timer=setTimeout(()=>{cleanup();reject(new Error('Délai de connexion à Apps Script dépassé'));},20000);
+    script.src=API_URL+'?action='+encodeURIComponent(action)+'&data='+encodeURIComponent(JSON.stringify(data))+'&callback='+encodeURIComponent(cb)+'&_='+Date.now();
+    document.head.appendChild(script);
+  });
+}
+
+
+function commandeSleep(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms));
+}
+function commandeStockEquivalent(a,b){
+  const ar=(a&&a.rows)||[], br=(b&&b.rows)||[];
+  if(ar.length!==br.length)return false;
+  for(let i=0;i<ar.length;i++){
+    const x=ar[i]||{}, y=br[i]||{};
+    if(String(x.address||'')!==String(y.address||''))return false;
+    for(const k of ['qte1','qte2','qte3']){
+      if(Math.abs(num(x[k])-num(y[k]))>0.000001)return false;
+    }
+  }
+  return Math.abs(num(a?.reserve)-num(b?.reserve))<=0.000001;
+}
+
+const PRODUCT_CACHE_KEY='inventory_recap_pgc_v2';
+const STOCK_CACHE_KEY='inventory_basse_v2';
+const CACHE_META_KEY='inventory_cache_meta_v2';
+let productCache={};
+let stockCache={};
+let cacheReady=false;
+let pendingWrites=0;
+let refreshInFlight=false;
+let addBusy=false;
+// عمليات AJOUTER التي لم يؤكدها Apps Script بعد. لا نسمح للمزامنة أن تمسحها.
+const pendingAdds=new Map();
+let manualAddAddress=false;
+const manualAddDate={1:false,2:false,3:false};
+
+// Cache كبيرة الحجم: لا نستعمل localStorage لأنها محدودة وتسبب QuotaExceededError.
+const DB_NAME='inventory_cache_db_v4';
+const DB_VERSION=1;
+let dbPromise=null;
+
+// JSONP: يقرأ الرد الحقيقي من Apps Script حتى من WebView.
+/* COMMANDE API — نفس السيرفر المستعمل في AJOUTER و RETIRER.
+   لا نستعمل iframe / postMessage / Bridge هنا.
+   هذا يمنع Timeout الخاص بـ Chrome. */
+async function commandeRunServer(action,data={}){
+  /* COMMANDE فقط: الطلبات الكبيرة تُرسل في أجزاء صغيرة.
+     AJOUTER / RETIRER لا يتأثران بهذه الدالة. */
+  const commandeRequest=(requestAction,requestData={})=>new Promise((resolve,reject)=>{
+    const cb='commandeCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const script=document.createElement('script');
+    let timer;
+
+    const cleanup=()=>{
+      if(timer)clearTimeout(timer);
+      try{delete window[cb];}catch(_){ }
+      try{script.remove();}catch(_){ }
+    };
+
+    window[cb]=(result)=>{
+      cleanup();
+      if(result && result.ok===false){
+        reject(new Error(result.error||result.message||'Erreur Apps Script COMMANDE'));
+      }else{
+        resolve(result||{});
+      }
+    };
+
+    script.onerror=()=>{
+      cleanup();
+      reject(new Error("Connexion à l'API principale impossible"));
+    };
+
+    timer=setTimeout(()=>{
+      cleanup();
+      reject(new Error("Délai de connexion à l'API principale dépassé"));
+    },30000);
+
+    script.src=API_URL+
+      '?action='+encodeURIComponent(requestAction)+
+      '&data='+encodeURIComponent(JSON.stringify(requestData||{}))+
+      '&callback='+encodeURIComponent(cb)+
+      '&_='+Date.now();
+
+    document.head.appendChild(script);
+  });
+
+  if(action!=='commandeValidateBatch' ||
+     !Array.isArray(data?.operations) ||
+     data.operations.length<=20){
+    return commandeRequest(action,data);
+  }
+
+  const operationId=String(data.operationId||(
+    'CMD_'+Date.now()+'_'+Math.random().toString(36).slice(2)
+  ));
+
+  const operations=data.operations;
+  const chunkSize=10;
+  const chunkCount=Math.ceil(operations.length/chunkSize);
+
+  for(let i=0;i<chunkCount;i++){
+    const part=operations.slice(i*chunkSize,(i+1)*chunkSize);
+    await commandeRequest('commandeChunk',{
+      operationId,
+      chunkIndex:i,
+      chunkCount,
+      operations:part
+    });
+  }
+
+  return commandeRequest('commandeValidateBatch',{
+    operationId,
+    chunked:true,
+    chunkCount
+  });
+}
+
+function openCacheDB(){
+  if(dbPromise)return dbPromise;
+  dbPromise=new Promise((resolve,reject)=>{
+    if(!window.indexedDB)return reject(new Error('IndexedDB غير متاح'));
+    const req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains('cache'))db.createObjectStore('cache');
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error('IndexedDB error'));
+  });
+  return dbPromise;
+}
+function idbGet(key){return openCacheDB().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction('cache','readonly');const r=tx.objectStore('cache').get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);}));}
+function idbSet(key,value){return openCacheDB().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction('cache','readwrite');tx.objectStore('cache').put(value,key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);}));}
+async function saveCaches(){
+  try{
+    await Promise.all([
+      idbSet(PRODUCT_CACHE_KEY,productCache),
+      idbSet(STOCK_CACHE_KEY,stockCache),
+      idbSet(CACHE_META_KEY,{updatedAt:new Date().toISOString()})
+    ]);
+  }catch(e){
+    // فشل التخزين المحلي لا يجب أبداً أن يوقف AJOUTER/RETIRER.
+    console.warn('Cache persistence failed:',e);
+  }
+}
+async function loadCaches(){
+  try{productCache=(await idbGet(PRODUCT_CACHE_KEY))||{};}catch(e){productCache={};}
+  try{stockCache=(await idbGet(STOCK_CACHE_KEY))||{};}catch(e){stockCache={};}
+  // لا نقرأ أي cache كبيرة من localStorage. نحذف المفاتيح القديمة فقط.
+  // هذا يمنع QuotaExceededError ويمنع تحميل بيانات قديمة/فاسدة.
+  try{
+    localStorage.removeItem(PRODUCT_CACHE_KEY);
+    localStorage.removeItem(STOCK_CACHE_KEY);
+    localStorage.removeItem(CACHE_META_KEY);
+  }catch(e){}
+  if(stockCache && typeof stockCache==='object'){
+    for(const code of Object.keys(stockCache)) stockCache[code]=normalizeCachedStockValue(stockCache[code]);
+  }
+}
+function cachedProduct(code){return productCache[normCode(code)]||null;}
+function normalizeCachedStockValue(v){
+  // دعم cache القديمة التي كانت تحفظ rows كمصفوفة مباشرة.
+  if(Array.isArray(v)){
+    const rows=v||[];
+    let reserve=0;
+    rows.forEach(r=>reserve+=num(r?.qte1)+num(r?.qte2)+num(r?.qte3));
+    return {rows,reserve};
+  }
+  if(v && typeof v==='object'){
+    const rows=Array.isArray(v.rows)?v.rows:[];
+    // لا نعتمد على reserve المخزن إذا كان غير موجود/قديم؛ نحسبه محلياً فوراً.
+    let reserve=0;
+    rows.forEach(r=>reserve+=num(r?.qte1)+num(r?.qte2)+num(r?.qte3));
+    return {rows,reserve};
+  }
+  return {rows:[],reserve:0};
+}
+function cachedStock(code){return normalizeCachedStockValue(stockCache[normCode(code)]);}
+function localLookup(code){
+  code=normCode(code);
+  const product=cachedProduct(code);
+  const stock=cachedStock(code);
+  if(product) productCache[code]=product;
+  return {ok:true,product:product||null,stock:{rows:stock.rows,reserve:stock.reserve,gold:product?product.gold:''}};
+}
+function renderLocalLookup(code,mode,clearSelection=true){
+  if(mode==='add'){
+    const normalized=normCode(code);
+    if(window.lastAddLookupCode!==normalized){
+      manualAddAddress=false;
+      manualAddDate[1]=manualAddDate[2]=manualAddDate[3]=false;
+      window.lastAddLookupCode=normalized;
+    }
+  }
+  const r=localLookup(code);
+  const productEl=document.getElementById(mode==='add'?'addProduct':'removeProduct');
+  productEl.innerHTML=productHtml(r.product,r.stock);
+  renderAddresses(r.stock.rows||[],mode);
+  if(mode==='add'){ state.add=r; updateAddAddressMode(); }
+  else {state.remove=r;if(clearSelection) clearRemoveFields();}
+  return r;
+}
+function cacheRows(code){return cachedStock(code);}
+function rebuildLocalStock(code,rows){
+  code=normCode(code);
+  let reserve=0;
+  (rows||[]).forEach(r=>reserve+=num(r.qte1)+num(r.qte2)+num(r.qte3));
+  stockCache[code]={rows:rows||[],reserve};
+  saveCaches();
+}
+async function loadInitialCaches(){
+  await loadCaches();
+  const oldProductCount=Object.keys(productCache).length;
+  const oldStockCount=Object.keys(stockCache).length;
+  if(oldProductCount&&oldStockCount){
+    cacheReady=true;
+    status('Données locales prêtes ✓',true);
+  }else{
+    status('Chargement initial des données…',true);
+  }
+  // À l'ouverture uniquement: RECAP PGC + BASSE DE DONNE.
+  runServer('snapshot',[]).then(r=>{
+    if(!r||!r.ok)throw new Error(r?.error||'Erreur snapshot');
+    const nextProducts={};
+    (r.products||[]).forEach(p=>nextProducts[normCode(p.code)]=p);
+    if(Object.keys(nextProducts).length) productCache=nextProducts;
+    const nextStock=r.stockByCode||{};
+    if(Object.keys(nextStock).length){
+      stockCache={};
+      for(const code of Object.keys(nextStock)) stockCache[code]=normalizeCachedStockValue(nextStock[code]);
+    }
+    saveCaches();
+    cacheReady=true;
+    status('Données chargées ✓',true);
+    refreshVisibleFromCache();
+  }).catch(e=>{
+    if(oldProductCount||oldStockCount){cacheReady=true;status('Mode local — dernière synchronisation conservée',true);refreshVisibleFromCache();}
+    else status('Erreur chargement: '+(e.message||e),false);
+  });
+  // BASSE DE DONNE فقط: تحديث كل 5 ثوانٍ. RECAP لا يُعاد تحميله هنا.
+  setInterval(refreshStockCache,5000);
+}
+function refreshStockCache(){
+  // لا نسمح بتحديث الخلفية أن يكتب فوق التغيير المتفائل أثناء الحفظ.
+  if(pendingWrites>0 || refreshInFlight)return;
+  refreshInFlight=true;
+  runServer('stockAll',[]).then(r=>{
+    if(!r||!r.ok)throw new Error(r?.error||'Erreur BASSE DE DONNE');
+
+    const nextStock=r.stockByCode||{};
+    const nextCache={};
+    for(const code of Object.keys(nextStock)){
+      nextCache[code]=normalizeCachedStockValue(nextStock[code]);
+    }
+
+    // إذا كانت هناك إضافة لم يؤكدها Apps Script بعد، لا نستبدل cache ذلك المنتج
+    // بالنسخة القديمة القادمة من Google Sheets.
+    const pendingCodes=new Set();
+    for(const payload of pendingAdds.values()) pendingCodes.add(normCode(payload.code));
+
+    for(const code of pendingCodes){
+      if(stockCache[code]) nextCache[code]=stockCache[code];
+    }
+
+    stockCache=nextCache;
+    saveCaches();
+    refreshVisibleFromCache();
+
+    // إعادة محاولة الإضافات التي فشل إرسالها سابقاً.
+    // لا نرسل أكثر من عملية واحدة في كل دورة حتى لا يحدث Lock.
+    const first=pendingAdds.entries().next();
+    if(!first.done){
+      const [id,payload]=first.value;
+      pendingWrites++;
+      runServer('addStock',[payload])
+        .then(()=>{
+          pendingAdds.delete(id);
+          recordAddedProduct(payload); status('AJOUTER VALIDÉE ✓',true);
+        })
+        .catch(()=>{})
+        .finally(()=>{pendingWrites=Math.max(0,pendingWrites-1);});
+    }
+  }).catch(()=>{}).finally(()=>{refreshInFlight=false;});
+}
+function refreshVisibleFromCache(){
+  const addCode=normCode(document.getElementById('addCode').value);
+  const removeCode=normCode(document.getElementById('removeCode').value);
+
+  // لا نعيد رسم نموذج AJOUTER أثناء الكتابة/الاختيار حتى لا نمسح QTE أو DLC.
+  const ae=document.activeElement;
+  const editingAdd=ae && /^add(Q|D|Address)/.test(ae.id||'');
+  const editingRemove=ae && /^removeQ/.test(ae.id||'');
+
+  if(addCode && !editingAdd) renderLocalLookup(addCode,'add',false);
+  if(removeCode && !editingRemove) renderLocalLookup(removeCode,'remove',false);
+}
+function lookupCode(code,mode){
+  code=normCode(code);
+  if(!code){
+    if(mode==='add')document.getElementById('addProduct').innerHTML='';
+    else {document.getElementById('removeProduct').innerHTML='';document.getElementById('removeAddresses').innerHTML='<div class="empty">Entrez le CODE PRODUIT pour afficher le stock.</div>';}
+    return null;
+  }
+  if(!cacheReady){
+    // إذا لم يكتمل التحميل الأول بعد، نستعمل آخر cache إن وُجد.
+    loadCaches();
+  }
+  return renderLocalLookup(code,mode,true);
+}
+function optimisticAdd(code,address,batches){
+  code=normCode(code); const c=cacheRows(code); const rows=(c.rows||[]).map(r=>({...r}));
+  let row=rows.find(r=>addrInput(r.address)===address);
+  if(!row){row={row:0,address,address,qte1:0,dlc1:'',qte2:0,dlc2:'',qte3:0,dlc3:'',palette:0,gold:cachedProduct(code)?.gold||''};rows.push(row);}
+  for(const b of batches){
+    if(!b.qty)continue;
+    let slot=-1;
+    for(let j=1;j<=3;j++)if(b.dlc && clean(row['dlc'+j])===clean(b.dlc)){slot=j;break;}
+    if(slot<0)for(let j=1;j<=3;j++)if(num(row['qte'+j])===0&&!clean(row['dlc'+j])){slot=j;break;}
+    if(slot<0)slot=1;
+    row['qte'+slot]=num(row['qte'+slot])+num(b.qty);
+    row['dlc'+slot]=b.dlc||row['dlc'+slot];
+  }
+  rows.forEach(r=>r.palette=num(r.qte1)+num(r.qte2)+num(r.qte3));
+  rebuildLocalStock(code,rows);
+}
+function optimisticRemove(code,rowIndex,ops){
+  code=normCode(code); const c=cacheRows(code); const rows=(c.rows||[]).map(r=>({...r})); const row=rows[rowIndex]; if(!row)return;
+  for(const op of ops){const slot=op.slot;row['qte'+slot]=Math.max(0,num(row['qte'+slot])-num(op.qty));if(num(row['qte'+slot])===0)row['dlc'+slot]='';}
+  for(let s=1;s<=3;s++)if(num(row['qte'+s])===0)row['dlc'+s]='';
+  if(num(row.qte1)+num(row.qte2)+num(row.qte3)===0)rows.splice(rowIndex,1);
+  rebuildLocalStock(code,rows);
+}
+
+function commandeLoad(){
+  // COMMANDE فقط: إعادة بناء وعرض البيانات الموجودة في الذاكرة.
+  // لا نعيد تحميل أو تعديل بيانات AJOUTER / RETIRER.
+  try{
+    if(Array.isArray(commandeRows) && commandeRows.length){
+      commandeBuildData();
+      commandeRender();
+    }else{
+      const content=document.getElementById('commandeContent');
+      const missingWrap=document.getElementById('commandeMissingWrap');
+      const actions=document.getElementById('commandeActions');
+      if(content) content.innerHTML='<div class="card"><div class="empty">IMPORTER LE FICHIER EXCEL POUR PRÉPARER LA COMMANDE.</div></div>';
+      if(missingWrap) missingWrap.innerHTML='';
+      if(actions) actions.style.display='none';
+    }
+  }catch(e){
+    commandeSetStatus('Erreur JavaScript COMMANDE : '+(e.message||String(e)),false);
+    console.error('commandeLoad:',e);
+  }
+}
+function openCommandePage(){
+  const page=document.getElementById('pageCommande'),app=document.querySelector('.app'),footer=document.querySelector('.footer-actions');
+  if(!page)return;
+  if(app)app.style.display='none';
+  if(footer)footer.style.display='none';
+  page.style.display='block';
+  document.getElementById('openCommandeBtn')?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  commandeLoad();
+}
+function closeCommandePage(){
+  const page=document.getElementById('pageCommande'),app=document.querySelector('.app'),footer=document.querySelector('.footer-actions');
+  if(page)page.style.display='none';
+  if(app)app.style.display='';
+  if(footer)footer.style.display='';
+  document.getElementById('openCommandeBtn')?.classList.remove('active');
+
+  // COMMANDE فقط: تفريغ معلومات الصفحة عند الخروج منها.
+  commandeRows=[];
+  commandeProducts=[];
+  const content=document.getElementById('commandeContent');
+  const missingWrap=document.getElementById('commandeMissingWrap');
+  const actions=document.getElementById('commandeActions');
+  const importStatus=document.getElementById('commandeImportStatus');
+  const excel=document.getElementById('commandeExcel');
+  if(content)content.innerHTML='';
+  if(missingWrap)missingWrap.innerHTML='';
+  if(actions)actions.style.display='none';
+  if(importStatus){
+    importStatus.textContent='';
+    importStatus.className='status';
+  }
+  if(excel)excel.value='';
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resetAddPage(){
+  state.add=null;
+  state.selectedRow=null;
+  clearAddFields();
+  document.getElementById('addCode').value='';
+  document.getElementById('addProduct').innerHTML='';
+  document.getElementById('addAddresses').innerHTML='<div class="empty">Entrez le CODE PRODUIT pour afficher les adresses.</div>';
+}
+function resetRemovePage(){
+  document.getElementById('removeCode').value='';
+  document.getElementById('removeProduct').innerHTML='';
+  document.getElementById('removeAddresses').innerHTML='<div class="empty">Entrez le CODE PRODUIT pour afficher le stock.</div>';
+  clearRemoveFields();
+  state.remove=null;
+  state.selectedRow=null;
+}
+
+function showPage(p){
+  const leavingAdd=(p!=='add' && document.getElementById('pageAdd').classList.contains('active'));
+  document.getElementById('pageAdd').classList.toggle('active',p==='add');
+  document.getElementById('pageRemove').classList.toggle('active',p==='remove');
+  document.getElementById('tabAdd').classList.toggle('active',p==='add');
+  document.getElementById('tabRemove').classList.toggle('active',p==='remove');
+  document.getElementById('openCommandeBtn').classList.remove('active');
+  if(leavingAdd) resetAddPage();
+  if(p==='remove') resetRemovePage();
+}
+function status(msg,ok=true){const e=document.getElementById('status');e.textContent=msg;e.className='status show '+(ok?'ok':'err');clearTimeout(status.t);status.t=setTimeout(()=>e.className='status',3500)}
+function normCode(v){return String(v||'').trim().replace(/^'/,'').replace(/\.0+$/,'')}
+function calcQty(v){
+  let s=String(v??'').trim().replace(/,/g,'.').replace(/[xX×]/g,'*');
+  if(!s)return 0;
+  if(/^[0-9.]+(?:[+\-*][0-9.]+)+$/.test(s)){
+    try{
+      const tokens=s.match(/[+\-*]?[^+\-*]+/g)||[];
+      let total=Number(tokens[0]);
+      for(let i=1;i<tokens.length;i++){
+        const op=tokens[i][0], n=Number(tokens[i].slice(1));
+        if(!Number.isFinite(n))return 0;
+        if(op==='+')total+=n;
+        else if(op==='-')total-=n;
+        else total*=n;
+      }
+      return Number.isFinite(total)?total:0;
+    }catch(_){return 0}
+  }
+  const n=Number(s);
+  return Number.isFinite(n)?n:0;
+}
+function num(v){return calcQty(v)}
+function formatQtyField(el){
+  let s=String(el.value||'').replace(/,/g,'.').replace(/[xX×]/g,'*').replace(/[^0-9.+\-*]/g,'');
+  el.value=s;
+}
+function calculateQtyField(el){
+  formatQtyField(el);
+  const s=String(el.value||'').trim();
+  if(/^[0-9.]+(?:[+\-*][0-9.]+)+$/.test(s)){
+    const n=calcQty(s);
+    if(Number.isFinite(n))el.value=Number.isInteger(n)?String(n):String(n);
+  }
+}
+function formatDateField(el){let s=String(el.value||'').replace(/\D/g,'').slice(0,8);if(s.length>4)s=s.slice(0,2)+'/'+s.slice(2,4)+'/'+s.slice(4);else if(s.length>2)s=s.slice(0,2)+'/'+s.slice(2);else if(s.length===2)s=s+'/';el.value=s}
+function insertAddressSlash(){
+  const el=document.getElementById('addAddress');
+  if(!el || el.readOnly)return;
+  manualAddAddress=true;
+  const p=el.selectionStart??el.value.length;
+  el.value=el.value.slice(0,p)+'/'+el.value.slice(el.selectionEnd??p);
+  el.focus();
+  el.setSelectionRange(p+1,p+1);
+}
+function clean(v){return v==null?'':String(v).trim()}
+function addrInput(v){const s=clean(v).toUpperCase().replace(/\s+/g,'');const m=s.match(/^(?:Z)?(\d+)\/(?:P)?(\d+)$/);return m?'Z'+m[1]+'P'+m[2]:s}
+function addrDisplay(v){const s=clean(v);const m=s.match(/^Z(\d+)P(\d+)$/i);return m?m[1]+'/'+m[2]:s}
+function fmtNum(v){const n=num(v);return Number.isInteger(n)?String(n):String(n)}
+function productHtml(p,stock){if(!p)return '<div class="product"><b style="color:#e74c3c">PRODUIT INCONNU</b></div>';const reserve=(stock?.rows||[]).reduce((t,r)=>t+num(r.qte1)+num(r.qte2)+num(r.qte3),0);const gold=stock?.gold!==undefined?stock.gold:p.gold||0;return `<div class="product"><div class="name">${esc(p.name||'PRODUIT')}</div><div class="info"><div class="box stock"><div class="label">QTE GOLD</div><div class="value">${esc(fmtNum(gold))}</div></div><div class="box reserve" onclick="openReserveDetails('${escAttr(p.code)}')"><div class="label">QTE RESERVE</div><div class="value">${esc(fmtNum(reserve))}</div></div><div class="box uvc"><div class="label">UVC/PCB</div><div class="value">${esc(fmtNum(p.uvc||0))}</div></div></div></div>`}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function escAttr(v){return String(v??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+function dateSortKey(v){
+  const m=clean(v).replace(/-/g,'/').match(/^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/);
+  if(!m)return Number.POSITIVE_INFINITY;
+  const y=m[3].length===2?2000+Number(m[3]):Number(m[3]);
+  return new Date(y,Number(m[2])-1,Number(m[1])).getTime();
+}
+function rowCard(r,i,mode){
+  const batches=[{q:r.qte1,d:r.dlc1,s:1},{q:r.qte2,d:r.dlc2,s:2},{q:r.qte3,d:r.dlc3,s:3}];
+  // Always show DLCs from oldest to newest, keeping each quantity attached to its date.
+  batches.sort((a,b)=>{
+    const ak=dateSortKey(a.d), bk=dateSortKey(b.d);
+    if(ak!==bk)return ak-bk;
+    if(!clean(a.d)&&clean(b.d))return 1;
+    if(clean(a.d)&&!clean(b.d))return -1;
+    return a.s-b.s;
+  });
+  const selected=mode==='remove'&&state.selectedRow===i?' selected':'';
+  return `<div class="address-card${selected}" onclick="${mode==='remove'?`selectRemoveRow(${i})`:`selectAddRow(${i})`}"><div class="address-head"><span>${esc(addrDisplay(r.address))}</span><span class="address-total">TOTAL ${fmtNum((num(r.qte1)+num(r.qte2)+num(r.qte3)))}</span></div><div class="batch-list">${batches.map(b=>`<div class="batch ${b.q>0?'':'empty'}"><div class="q">${fmtNum(b.q)}</div><div class="d">${esc(b.d||'—')}</div></div>`).join('')}</div></div>`
+}
+function renderAddresses(rows,mode){const id=mode==='add'?'addAddresses':'removeAddresses';const el=document.getElementById(id);if(!rows.length){el.innerHTML='<div class="empty">AUCUN STOCK DANS LES ADRESSES.</div>';return}el.innerHTML=rows.map((r,i)=>rowCard(r,i,mode)).join('')}
+function closePicker(id){document.getElementById(id).classList.remove('show')}
+function selectedAddRow(){
+  const address=addrInput(document.getElementById('addAddress').value);
+  if(!address)return null;
+  return (state.add?.stock?.rows||[]).find(r=>addrInput(r.address)===address)||null;
+}
+function updateAddAddressMode(){
+  const el=document.getElementById('addAddress');
+  const rows=state.add?.stock?.rows||[];
+  el.readOnly=rows.length>0;
+  if(rows.length===0) el.placeholder='ADRESSE (EX: 6/1)';
+  else el.placeholder='Appuyez pour choisir une adresse';
+  updateAddDateMode();
+}
+function updateAddDateMode(){
+  const row=selectedAddRow();
+  for(let s=1;s<=3;s++){
+    const el=document.getElementById('addD'+s);
+    el.readOnly=!!row;
+    el.placeholder=row?'Appuyez pour choisir une DLC':'JJ/MM/AAAA';
+  }
+}
+function openAddressPicker(){
+  const rows=state.add?.stock?.rows||[];
+  if(!rows.length){document.getElementById('addAddress').readOnly=false;document.getElementById('addAddress').focus();return;}
+  const unique=[];const seen={};
+  rows.forEach(r=>{const a=addrInput(r.address);if(a&&!seen[a]){seen[a]=1;unique.push(a);}});
+  const list=document.getElementById('addressPickerList');
+  list.innerHTML=unique.map(a=>`<button class="picker-btn existing" onclick="chooseAddress('${escAttr(a)}')">${esc(addrDisplay(a))}</button>`).join('')+`<button class="picker-btn new" onclick="chooseNewAddress()">＋ NOUVELLE ADRESSE</button>`;
+  document.getElementById('addressModal').classList.add('show');
+}
+function chooseAddress(address){
+  manualAddAddress=false;
+  document.getElementById('addAddress').value=addrDisplay(address);
+  document.getElementById('addAddress').readOnly=true;
+  ['addQ1','addD1','addQ2','addD2','addQ3','addD3'].forEach(id=>document.getElementById(id).value='');
+  closePicker('addressModal');
+  updateAddDateMode();
+  status('Adresse sélectionnée ✓',true);
+}
+function chooseNewAddress(){
+  manualAddAddress=true;
+  document.getElementById('addAddress').value='';
+  document.getElementById('addAddress').readOnly=false;
+  ['addQ1','addD1','addQ2','addD2','addQ3','addD3'].forEach(id=>document.getElementById(id).value='');
+  closePicker('addressModal');
+  updateAddDateMode();
+  setTimeout(()=>document.getElementById('addAddress').focus(),80);
+}
+function openDatePicker(slot){
+  const rows=state.add?.stock?.rows||[];
+
+  // Nouveau produit : saisie directe, sans fenêtre.
+  if(!rows.length){
+    manualAddDate[slot]=true;
+    const el=document.getElementById('addD'+slot);
+    el.readOnly=false;
+    closePicker('dateModal');
+    setTimeout(()=>el.focus(),0);
+    return;
+  }
+
+  // Produit déjà présent : proposer toutes les DLC de toutes ses adresses.
+  const dates=[];
+  rows.forEach(r=>{
+    for(let s=1;s<=3;s++){
+      const d=clean(r['dlc'+s]);
+      if(d&&!dates.some(x=>sameDateText(x,d)))dates.push(d);
+    }
+  });
+  dates.sort((a,b)=>dateSortKey(a)-dateSortKey(b));
+
+  const list=document.getElementById('datePickerList');
+  document.getElementById('dateModalTitle').textContent='CHOISIR UNE DATE — DLC '+slot;
+  const existing=dates.map(d=>`<button class="picker-btn existing" onclick="chooseDate('${escAttr(d)}',${slot})">${esc(d)}</button>`).join('');
+  list.innerHTML=(existing || '<div class="admin-modal-note">AUCUNE DATE EXISTANTE POUR CE PRODUIT</div>')+
+    `<button class="picker-btn new" onclick="chooseNewDate(${slot})">＋ SAISIR UNE NOUVELLE DATE</button>`;
+  document.getElementById('dateModal').classList.add('show');
+}
+function sameDateText(a,b){return normalizeDateText(a)===normalizeDateText(b)}
+function normalizeDateText(v){
+  const m=clean(v).replace(/-/g,'/').match(/^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/);
+  if(!m)return clean(v);
+  return String(m[1]).padStart(2,'0')+'/'+String(m[2]).padStart(2,'0')+'/'+(m[3].length===2?'20'+m[3]:m[3]);
+}
+function parseDlcDate(v){
+  const s=normalizeDateText(v);
+  const m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if(!m)return null;
+  const day=Number(m[1]), month=Number(m[2]), year=Number(m[3]);
+  const d=new Date(year,month-1,day);
+  if(d.getFullYear()!==year || d.getMonth()!==month-1 || d.getDate()!==day)return null;
+  d.setHours(23,59,59,999);
+  return d;
+}
+function nextMonthKey(){
+  const now=new Date();
+  return now.getFullYear()*12+now.getMonth()+1;
+}
+function validateAddDlcField(el,showStatus=false){
+  if(!el)return {valid:true,warning:false};
+  const s=normalizeDateText(el.value);
+  const msg=document.getElementById(el.id+'Msg');
+  el.classList.remove('dlc-invalid');
+  if(msg){msg.textContent='';msg.className='dlc-msg';}
+
+  if(!s){
+    return {valid:false,warning:false,empty:true};
+  }
+
+  const d=parseDlcDate(s);
+  if(!d){
+    el.classList.add('dlc-invalid');
+    if(msg){msg.textContent='DLC EXPIRÉE / DATE INVALIDE';msg.className='dlc-msg invalid';}
+    return {valid:false,warning:false};
+  }
+
+  const now=new Date();
+  const monthKey=d.getFullYear()*12+d.getMonth();
+  const currentKey=now.getFullYear()*12+now.getMonth();
+  const isNextMonth=(monthKey===currentKey+1);
+
+  if(d.getTime() < Date.now()){
+    el.classList.add('dlc-invalid');
+    if(msg){msg.textContent='DLC EXPIRÉE';msg.className='dlc-msg invalid';}
+    return {valid:false,warning:false};
+  }
+
+  if(isNextMonth && msg){
+    msg.textContent='PROCHE DLC';
+    msg.className='dlc-msg warning';
+  }
+  return {valid:true,warning:isNextMonth};
+}
+function validateAllAddDates(){
+  let ok=true;
+  [1,2,3].forEach(s=>{
+    const el=document.getElementById('addD'+s);
+    const qty=num(document.getElementById('addQ'+s).value);
+    if(qty>0){
+      const r=validateAddDlcField(el);
+      if(!r.valid)ok=false;
+    }else{
+      el.classList.remove('dlc-invalid');
+      const msg=document.getElementById(el.id+'Msg');
+      if(msg){msg.textContent='';msg.className='dlc-msg';}
+    }
+  });
+  return ok;
+}
+function chooseDate(date,slot){
+  manualAddDate[slot]=false;
+  const el=document.getElementById('addD'+slot);
+  el.value=normalizeDateText(date);
+  el.readOnly=true;
+  validateAddDlcField(el);
+  closePicker('dateModal');
+  document.getElementById('addQ'+slot).focus();
+}
+function chooseNewDate(slot){
+  manualAddDate[slot]=true;
+  const el=document.getElementById('addD'+slot);
+  el.value='';
+  el.readOnly=false;
+  closePicker('dateModal');
+  setTimeout(()=>el.focus(),80);
+}
+
+function selectAddRow(i){const r=state.add?.stock?.rows?.[i];if(!r)return;document.getElementById('addAddress').value=addrDisplay(r.address);document.getElementById('addAddress').readOnly=true;fillAddBatches(r);updateAddDateMode();window.scrollTo({top:document.getElementById('addAddress').getBoundingClientRect().top+window.scrollY-100,behavior:'smooth'});status('Adresse sélectionnée',true)}
+function fillAddBatches(r){['1','2','3'].forEach(s=>{document.getElementById('addQ'+s).value=r['qte'+s]||'';document.getElementById('addD'+s).value=r['dlc'+s]||''})}
+function selectRemoveRow(i){const r=state.remove?.stock?.rows?.[i];if(!r)return;state.selectedRow=i;document.getElementById('selectedAddressLabel').textContent='ADRESSE: '+addrDisplay(r.address);for(let s=1;s<=3;s++){document.getElementById('removeD'+s).value=r['dlc'+s]||'';document.getElementById('removeQ'+s).value=''}renderAddresses(state.remove.stock.rows,'remove');status('Adresse sélectionnée. Choisissez la DLC et la quantité à retirer.',true)}
+function clearRemoveFields(){state.selectedRow=null;document.getElementById('selectedAddressLabel').textContent='Aucune adresse sélectionnée';for(let s=1;s<=3;s++){document.getElementById('removeD'+s).value='';document.getElementById('removeQ'+s).value=''}}
+function clearAddFields(){
+  manualAddAddress=false;manualAddDate[1]=manualAddDate[2]=manualAddDate[3]=false;
+  ['addAddress','addQ1','addD1','addQ2','addD2','addQ3','addD3'].forEach(id=>document.getElementById(id).value='');
+  [1,2,3].forEach(s=>{const el=document.getElementById('addD'+s);el.classList.remove('dlc-invalid');const msg=document.getElementById('addD'+s+'Msg');if(msg){msg.textContent='';msg.className='dlc-msg';}});
+  document.getElementById('addAddress').readOnly=(state.add?.stock?.rows||[]).length>0;updateAddDateMode()
+}
+/* ===== AJOUTER — historique du jour + export ===== */
+const ADD_HISTORY_KEY='fluxMarchandiseAjouterHistory_v1';
+function addTodayKey(date=new Date()){
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+}
+function loadAddHistory(){
+  try{const v=JSON.parse(localStorage.getItem(ADD_HISTORY_KEY)||'[]');return Array.isArray(v)?v:[];}catch(e){return []}
+}
+function saveAddHistory(rows){
+  try{localStorage.setItem(ADD_HISTORY_KEY,JSON.stringify(rows));}catch(e){}
+}
+function recordAddedProduct(payload){
+  const now=new Date();
+  const rows=loadAddHistory();
+  const operationId=String(payload?.operationId||'');
+  // Une même opération peut recevoir deux réponses si la synchronisation
+  // relance la requête pendant que la première est encore en cours.
+  // On l'enregistre une seule fois dans l'historique d'export.
+  if(operationId && rows.some(r=>String(r?.operationId||'')===operationId))return;
+  rows.push({
+    operationId,
+    ts:now.toISOString(),
+    day:addTodayKey(now),
+    code:String(payload.code||''),
+    address:String(payload.address||''),
+    name:String(cachedProduct(payload.code)?.name||payload.name||''),
+    batches:(payload.batches||[]).map(b=>({qty:num(b.qty),dlc:normalizeDateText(b.dlc||'')}))
+  });
+  // Keep a bounded local history; today's records are always preserved.
+  saveAddHistory(rows.slice(-2000));
+  updateTodayAddCount();
+}
+function getTodayAddedProducts(){
+  const today=addTodayKey();
+  return loadAddHistory().filter(r=>r&&r.day===today);
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',updateTodayAddCount)}else{updateTodayAddCount()}
+function formatExportDate(date=new Date()){
+  return `${String(date.getDate()).padStart(2,'0')}/${String(date.getMonth()+1).padStart(2,'0')}/${date.getFullYear()}`;
+}
+
+function closeBasseExportModal(){document.getElementById('basseExportModal')?.classList.remove('show')}
+function openBasseExportModal(){document.getElementById('basseExportModal')?.classList.add('show')}
+
+function getBasseExportRows(){
+  const codes=Object.keys(stockCache||{});
+  const rows=[];
+  codes.forEach(code=>{
+    const p=cachedProduct(code)||{};
+    const st=cachedStock(code);
+    (st.rows||[]).forEach(r=>{
+      rows.push({
+        'ADRESSE':addrDisplay(r.address||''),
+        'GENCODE':code,
+        'NOM':p.name||'',
+        'QTE 1':fmtNum(r.qte1),
+        'DLC 1':r.dlc1||'',
+        'QTE 2':fmtNum(r.qte2),
+        'DLC 2':r.dlc2||'',
+        'QTE 3':fmtNum(r.qte3),
+        'DLC 3':r.dlc3||''
+      });
+    });
+  });
+  // Trier les adresses en ordre naturel : Z6P1, Z6P2, ... Z6P12, Z7P1...
+  rows.sort((a,b)=>{
+    const aa=String(a.ADRESSE||'').trim();
+    const bb=String(b.ADRESSE||'').trim();
+    return aa.localeCompare(bb, undefined, {numeric:true, sensitivity:'base'});
+  });
+  return rows;
+}
+
+function exportBasseExcel(){
+  const rows=getBasseExportRows();
+  if(!rows.length){status('AUCUNE DONNÉE DANS LA BASSE DE DONNE',false);return;}
+  closeBasseExportModal();
+  const ws=XLSX.utils.json_to_sheet(rows,{
+    header:['ADRESSE','GENCODE','NOM','QTE 1','DLC 1','QTE 2','DLC 2','QTE 3','DLC 3']
+  });
+  ws['!autofilter']=undefined;
+  ws['!cols']=[{wch:12},{wch:16},{wch:30},{wch:10},{wch:14},{wch:10},{wch:14},{wch:10},{wch:14}];
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'BASSE DE DONNE');
+  XLSX.writeFile(wb,'BASSE_DE_DONNE.xlsx');
+}
+
+function exportBassePDF(){
+  const rows=getBasseExportRows();
+  if(!rows.length){status('AUCUNE DONNÉE DANS LA BASSE DE DONNE',false);return;}
+  closeBasseExportModal();
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  const pageW=doc.internal.pageSize.getWidth(), pageH=doc.internal.pageSize.getHeight();
+  const headers=['ADRESSE','GENCODE','NOM','QTE 1','DLC 1','QTE 2','DLC 2','QTE 3','DLC 3'];
+  const widths=[25,30,55,18,25,18,25,18,25];
+  const totalW=widths.reduce((a,b)=>a+b,0);
+  const startX=Math.max(5,(pageW-totalW)/2);
+  let page=1;
+  function header(){
+    doc.setFont('helvetica','bold');doc.setFontSize(13);
+    doc.text('FLUX MARCHANDISE',pageW/2,12,{align:'center'});
+    doc.setFontSize(11);doc.text('BASSE DE DONNE',pageW/2,18,{align:'center'});
+    doc.setFont('helvetica','normal');doc.setFontSize(9);
+    doc.text(formatExportDate(),pageW/2,24,{align:'center'});
+  }
+  function footer(){
+    doc.setFontSize(8);doc.text(`${page}/${Math.max(1,doc.getNumberOfPages())}`,pageW/2,pageH-5,{align:'center'});
+  }
+  let y=31,rowH=8;
+  header();
+  const drawTableHeader=()=>{
+    let x=startX;
+    doc.setFont('helvetica','bold');doc.setFontSize(7);
+    headers.forEach((h,i)=>{doc.rect(x,y,widths[i],rowH);doc.text(h,x+widths[i]/2,y+5,{align:'center'});x+=widths[i]});
+    y+=rowH;
+    doc.setFont('helvetica','normal');
+  };
+  drawTableHeader();
+  rows.forEach(r=>{
+    if(y+rowH>pageH-10){
+      footer();doc.addPage();page++;y=12;header();y=31;drawTableHeader();
+    }
+    let x=startX;
+    headers.forEach((h,i)=>{
+      doc.rect(x,y,widths[i],rowH);
+      const val=String(r[h]??'');
+      doc.setFontSize(6.5);
+      doc.text(val.length>26?val.slice(0,26):val,x+widths[i]/2,y+5,{align:'center'});
+      x+=widths[i];
+    });
+    y+=rowH;
+  });
+  footer();
+  doc.save('BASSE_DE_DONNE.pdf');
+}
+
+function closeAddExportModal(){document.getElementById('addExportModal')?.classList.remove('show')}
+function openAddExportModal(){
+  const rows=getTodayAddedProducts();
+  if(!rows.length){
+    const e=document.getElementById('status');
+    e.textContent='AUCUN PRODUIT AJOUTÉ AUJOURD’HUI';
+    e.className='status show err';
+    clearTimeout(status.t);status.t=setTimeout(()=>e.className='status',3500);
+    return;
+  }
+  document.getElementById('addExportModal')?.classList.add('show');
+}
+function exportAddRows(){
+  const rows=getTodayAddedProducts();
+  const grouped=new Map();
+  rows.forEach(r=>{
+    const code=String(r.code||'');
+    const address=String(r.address||'');
+    const name=String(r.name||'');
+    const key=code+'\u0001'+address;
+    let g=grouped.get(key);
+    if(!g){
+      g={code,address,name,dates:new Map()};
+      grouped.set(key,g);
+    }
+    (r.batches||[]).forEach(b=>{
+      const qty=num(b.qty);
+      const dlc=normalizeDateText(b.dlc||'');
+      if(qty<=0 || !dlc)return;
+      g.dates.set(dlc,(g.dates.get(dlc)||0)+qty);
+    });
+  });
+
+  const out=[];
+  grouped.forEach(g=>{
+    const batches=[...g.dates.entries()].map(([dlc,qty])=>({qty,dlc})).slice(0,3);
+    out.push({
+      '#':0,
+      'ADRESSE':addrDisplay(g.address||''),
+      'GENCODE':g.code||'',
+      'NOM':g.name||'',
+      'QTE 1':batches[0]?.qty||0,
+      'DLC 1':batches[0]?.dlc||'',
+      'QTE 2':batches[1]?.qty||0,
+      'DLC 2':batches[1]?.dlc||'',
+      'QTE 3':batches[2]?.qty||0,
+      'DLC 3':batches[2]?.dlc||''
+    });
+  });
+  out.forEach((r,i)=>r['#']=i+1);
+  return out;
+}
+function updateTodayAddCount(){
+  const el=document.getElementById('todayAddCount');
+  if(!el)return;
+  const seen=new Set();
+  getTodayAddedProducts().forEach(r=>{
+    const code=String(r?.code||'');
+    const address=String(r?.address||'');
+    const hasQty=(r?.batches||[]).some(b=>num(b?.qty)>0);
+    if(hasQty) seen.add(code+'\u0001'+address);
+  });
+  el.textContent=String(seen.size);
+}
+
+function exportAddsExcel(){
+  try{
+    const XLSX=window.XLSX;
+    if(!XLSX)throw new Error('XLSX indisponible');
+    const rows=exportAddRows();
+    if(!rows.length)return;
+    const now=new Date(), date=formatExportDate(now);
+    const aoa=[
+      ['FLUX MARCHANDISE'],
+      ["LES PRODUITS AJOUTER"],
+      ['NBR DES PRODUITS',rows.length],
+      [date],
+      [],
+      ['#','ADRESSE','GENCODE','NOM','QTE 1','DLC 1','QTE 2','DLC 2','QTE 3','DLC3'],
+      ...rows.map(r=>['#' in r?r['#']:'',r['ADRESSE'],r['GENCODE'],r['NOM'],r['QTE 1'],r['DLC 1'],r['QTE 2'],r['DLC 2'],r['QTE 3'],r['DLC 3']])
+    ];
+    const ws=XLSX.utils.aoa_to_sheet(aoa);
+    ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:9}},{s:{r:1,c:0},e:{r:1,c:9}},{s:{r:3,c:0},e:{r:3,c:9}}];
+    ws['!cols']=[{wch:6},{wch:13},{wch:16},{wch:34},{wch:10},{wch:14},{wch:10},{wch:14},{wch:10},{wch:14}];
+    ws['!pageSetup']={orientation:'landscape',fitToWidth:1,fitToHeight:0,paperSize:9};
+    ws['!printHeader']={rows:'6:6'};
+    ws['!margins']={left:0.25,right:0.25,top:0.5,bottom:0.5,header:0.2,footer:0.2};
+    ws['!footer']={center:'Page &P of &N'};
+    // Professional alignment and title styling when supported by the XLSX build.
+    for(let c=0;c<10;c++){
+      const h=ws[XLSX.utils.encode_cell({r:5,c})];
+      if(h)h.s={font:{bold:true,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'3498DB'}},alignment:{horizontal:'center',vertical:'center'}};
+    }
+    for(let r=6;r<6+rows.length;r++)for(let c=0;c<10;c++){
+      const cell=ws[XLSX.utils.encode_cell({r,c})];
+      if(cell)cell.s={alignment:{horizontal:'center',vertical:'center',wrap_text:true}};
+    }
+    for(let r=0;r<4;r++){const cell=ws[`A${r+1}`];if(cell)cell.s={font:{bold:true,sz:r<2?16:11},alignment:{horizontal:'center',vertical:'center'}};}
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,'AJOUTER');
+    XLSX.writeFile(wb,`LES_PRODUITS_AJOUTER_${addTodayKey()}.xlsx`);
+    closeAddExportModal();
+  }catch(e){console.warn('Excel AJOUTER:',e)}
+}
+function exportAddsPDF(){
+  try{
+    const JsPDF=window.jspdf?.jsPDF;
+    if(!JsPDF)throw new Error('jsPDF indisponible');
+    const rows=exportAddRows();
+    if(!rows.length)return;
+    const doc=new JsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+    const pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight();
+    const margin=10, now=new Date(), date=formatExportDate(now);
+    const header=()=>{
+      doc.setFillColor(52,152,219);doc.rect(0,0,pageW,28,'F');
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text('FLUX MARCHANDISE',pageW/2,8,{align:'center'});
+      doc.setFontSize(11);doc.text('LES PRODUITS AJOUTER',pageW/2,15,{align:'center'});
+      doc.setFontSize(9);doc.text(`NBR DES PRODUITS : ${rows.length}`,pageW/2,21,{align:'center'});
+      doc.text(date,pageW/2,26,{align:'center'});
+      doc.setTextColor(44,62,80);
+    };
+    header();
+    let y=36;
+    const widths=[8,27,32,70,16,24,16,24,16,24];
+    const labels=['#','ADRESSE','GENCODE','NOM','QTE 1','DLC 1','QTE 2','DLC 2','QTE 3','DLC3'];
+    const totalW=widths.reduce((a,b)=>a+b,0), scale=(pageW-2*margin)/totalW;
+    const w=widths.map(x=>x*scale);
+    const x=[];let xx=margin;w.forEach(v=>{x.push(xx);xx+=v});
+    const drawHead=()=>{
+      doc.setFillColor(52,152,219);doc.rect(margin,y,pageW-2*margin,8,'F');
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.5);
+      labels.forEach((l,i)=>doc.text(l,x[i]+w[i]/2,y+5.5,{align:'center'}));
+      y+=10;doc.setTextColor(44,62,80);
+    };
+    drawHead();
+    rows.forEach((r,idx)=>{
+      const nameLines=doc.splitTextToSize(String(r.NOM||''),w[3]-3);
+      const rowH=Math.max(8,nameLines.length*4+3);
+      if(y+rowH>pageH-12){doc.addPage();header();y=36;drawHead();}
+      if(idx%2===0){doc.setFillColor(247,250,252);doc.rect(margin,y-1,pageW-2*margin,rowH,'F');}
+      doc.setFontSize(7.2);doc.setFont('helvetica','normal');
+      const vals=[r['#'],r.ADRESSE,r.GENCODE,r.NOM,r['QTE 1'],r['DLC 1'],r['QTE 2'],r['DLC 2'],r['QTE 3'],r['DLC 3']];
+      vals.forEach((v,i)=>{
+        const lines=doc.splitTextToSize(String(v??''),w[i]-3);
+        doc.text(lines,x[i]+w[i]/2,y+4,{align:'center'});
+      });
+      y+=rowH;
+    });
+    const pages=doc.getNumberOfPages();
+    for(let i=1;i<=pages;i++){doc.setPage(i);doc.setTextColor(44,62,80);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text(`${i}/${pages}`,pageW/2,pageH-5,{align:'center'});}
+    doc.save(`LES_PRODUITS_AJOUTER_${addTodayKey()}.pdf`);
+    closeAddExportModal();
+  }catch(e){console.warn('PDF AJOUTER:',e)}
+}
+
+function submitAdd(){
+  if(addBusy)return;
+  const code=normCode(document.getElementById('addCode').value),address=addrInput(document.getElementById('addAddress').value);
+  if(!code){const e=document.getElementById('status');e.textContent="ENREGISTREMENT DE L'AJOUTER ...";e.className='status show add-saving';clearTimeout(status.t);status.t=setTimeout(()=>e.className='status',3500);return;}
+  if(!address)return status("Entrez l'ADRESSE",false);
+  const batches=[1,2,3].map(s=>({qty:num(document.getElementById('addQ'+s).value),dlc:normalizeDateText(document.getElementById('addD'+s).value)})).filter(x=>x.qty>0);
+  if(!batches.length)return status('Entrez au moins une quantité',false);
+  if(!validateAllAddDates())return status('Vérifiez les dates DLC en rouge',false);
+  for(const b of batches){
+    if(!b.dlc)return status('Chaque quantité doit avoir une date DLC',false);
+  }
+
+  addBusy=true;
+  const btn=document.getElementById('submitAddBtn');
+  if(btn)btn.disabled=true;
+  const operationId='ADD_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+  const payload={operationId,code,address,batches,qteGold:(cachedProduct(code)?.gold ?? ''),selection:{new:true}};
+
+  // UI is updated immediately, exactly like RETIRER.
+  optimisticAdd(code,address,batches);
+  clearAddFields();
+  document.getElementById('addCode').value='';
+  state.add=null;
+  document.getElementById('addProduct').innerHTML='';
+  document.getElementById('addAddresses').innerHTML='<div class="empty">Entrez le CODE PRODUIT pour afficher les adresses.</div>';
+  {const e=document.getElementById('status');e.textContent="ENREGISTREMENT DE L'AJOUTER ...";e.className='status show add-saving';clearTimeout(status.t);status.t=setTimeout(()=>e.className='status',3500);}window.scrollTo({top:0,behavior:'smooth'});
+
+  const addId='add_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+  pendingAdds.set(addId,payload);
+  pendingWrites++;
+
+  // FAST request: only the critical quantity/address write happens here.
+  runServer('addStock',[payload])
+    .then(()=>{
+      pendingAdds.delete(addId);
+      // Enregistrer chaque opération validée, même si le même produit/adresse
+      // a déjà été ajouté auparavant, afin que l'export du jour contienne
+      // toutes les opérations effectuées.
+      recordAddedProduct(payload);
+      status('AJOUTER VALIDÉE ✓',true);
+
+      // Finish DLC ordering + QTE PALETTE + QTE RESERVE in the background.
+      runServer('finalizeAddStock',[{code,qteGold:(cachedProduct(code)?.gold ?? '')}])
+        .then(()=>{
+          // Local cache is already correct; the normal 5-second sync will fetch Sheet state.
+        })
+        .catch(()=>{
+          // The next synchronization can repair the displayed state; do not block the UI.
+        });
+    })
+    .catch(()=>{
+      status('AJOUT : sauvegarde en attente — données locales conservées',false);
+    })
+    .finally(()=>{
+      pendingWrites=Math.max(0,pendingWrites-1);
+      addBusy=false;
+      if(btn)btn.disabled=false;
+    });
+}
+const REMOVE_HISTORY_KEY='fluxMarchandiseRetirerHistory_v1';
+function removeTodayKey(){return new Date().toISOString().slice(0,10)}
+function getRemoveHistory(){
+  try{
+    const a=JSON.parse(localStorage.getItem(REMOVE_HISTORY_KEY)||'[]');
+    return Array.isArray(a)?a:[];
+  }catch(_){return []}
+}
+function saveRemoveHistory(a){try{localStorage.setItem(REMOVE_HISTORY_KEY,JSON.stringify(a))}catch(_){}}
+function updateTodayRemoveCount(){
+  const el=document.getElementById('todayRemoveCount'); if(!el)return;
+  const today=removeTodayKey(),seen=new Set();
+  getRemoveHistory().filter(x=>x.date===today).forEach(x=>{
+    const code=normCode(x.code||''),address=addrInput(x.address||'');
+    if(code&&address)seen.add(code+'\u0001'+address);
+  });
+  el.textContent=String(seen.size);
+}
+function recordRemovedToday(code,address,ops,row){
+  const today=removeTodayKey(),a=getRemoveHistory().filter(x=>x.date===today);
+  const enriched=(ops||[]).map(op=>({...op,dlc:(row&&row['dlc'+op.slot])||op.dlc||''}));
+  a.push({date:today,code:normCode(code),address:addrInput(address),ops:enriched});
+  saveRemoveHistory(a);updateTodayRemoveCount();
+}
+function getRemovedTodayRows(){
+  const today=removeTodayKey();
+  const grouped=new Map();
+  getRemoveHistory().filter(x=>x.date===today).forEach(x=>{
+    const code=String(x.code||'');
+    const address=String(x.address||'');
+    const name=String(cachedProduct(x.code)?.name||'');
+    const key=code+'\u0001'+address;
+    let g=grouped.get(key);
+    if(!g){g={code,address,name,dates:new Map()};grouped.set(key,g);}
+    (x.ops||[]).forEach(op=>{
+      const qty=num(op.qty);
+      const dlc=normalizeDateText(op.dlc||'');
+      if(qty<=0)return;
+      const k=dlc||('__SLOT_'+String(op.slot||1));
+      g.dates.set(k,{dlc,qty:(g.dates.get(k)?.qty||0)+qty});
+    });
+  });
+  const out=[];
+  grouped.forEach(g=>{
+    const batches=[...g.dates.values()].slice(0,3);
+    out.push({
+      '#':0,
+      'ADRESSE':addrDisplay(g.address||''),
+      'GENCODE':g.code||'',
+      'NOM':g.name||'',
+      'QTE 1':batches[0]?.qty||0,
+      'DLC 1':batches[0]?.dlc||'',
+      'QTE 2':batches[1]?.qty||0,
+      'DLC 2':batches[1]?.dlc||'',
+      'QTE 3':batches[2]?.qty||0,
+      'DLC 3':batches[2]?.dlc||''
+    });
+  });
+  out.forEach((r,i)=>r['#']=i+1);
+  return out;
+}
+
+function openRemoveExportModal(){document.getElementById('removeExportModal')?.classList.add('show')}
+function closeRemoveExportModal(){document.getElementById('removeExportModal')?.classList.remove('show')}
+
+function exportRemovedExcel(){
+  try{
+    const XLSX=window.XLSX;
+    if(!XLSX)throw new Error('XLSX indisponible');
+    const rows=getRemovedTodayRows();
+    if(!rows.length)return status('AUCUN PRODUIT RETIRÉ AUJOURD’HUI',false);
+    const date=formatExportDate(new Date());
+    const aoa=[
+      ['FLUX MARCHANDISE'],
+      ['LES PRODUITS RETIRER'],
+      ['NBR DES PRODUITS',rows.length],
+      [date],
+      [],
+      ['#','ADRESSE','GENCODE','NOM','QTE 1','DLC 1','QTE 2','DLC 2','QTE 3','DLC3'],
+      ...rows.map(r=>[r['#'],r.ADRESSE,r.GENCODE,r.NOM,r['QTE 1'],r['DLC 1'],r['QTE 2'],r['DLC 2'],r['QTE 3'],r['DLC 3']])
+    ];
+    const ws=XLSX.utils.aoa_to_sheet(aoa);
+    ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:9}},{s:{r:1,c:0},e:{r:1,c:9}},{s:{r:3,c:0},e:{r:3,c:9}}];
+    ws['!cols']=[{wch:6},{wch:13},{wch:16},{wch:34},{wch:10},{wch:14},{wch:10},{wch:14},{wch:10},{wch:14}];
+    ws['!pageSetup']={orientation:'landscape',fitToWidth:1,fitToHeight:0,paperSize:9};
+    ws['!printHeader']={rows:'6:6'};
+    ws['!margins']={left:0.25,right:0.25,top:0.5,bottom:0.5,header:0.2,footer:0.2};
+    ws['!footer']={center:'Page &P of &N'};
+    for(let c=0;c<10;c++){
+      const h=ws[XLSX.utils.encode_cell({r:5,c})];
+      if(h)h.s={font:{bold:true,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'3498DB'}},alignment:{horizontal:'center',vertical:'center'}};
+    }
+    for(let r=6;r<6+rows.length;r++)for(let c=0;c<10;c++){
+      const cell=ws[XLSX.utils.encode_cell({r,c})];
+      if(cell)cell.s={alignment:{horizontal:'center',vertical:'center',wrap_text:true}};
+    }
+    for(let r=0;r<4;r++){
+      const cell=ws[`A${r+1}`];
+      if(cell)cell.s={font:{bold:true,sz:r<2?16:11},alignment:{horizontal:'center',vertical:'center'}};
+    }
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,'RETIRER');
+    XLSX.writeFile(wb,`LES_PRODUITS_RETIRER_${removeTodayKey()}.xlsx`);
+    closeRemoveExportModal();
+  }catch(e){console.warn('Excel RETIRER:',e)}
+}
+
+function exportRemovedPDF(){
+  try{
+    const JsPDF=window.jspdf?.jsPDF;
+    if(!JsPDF)throw new Error('jsPDF indisponible');
+    const rows=getRemovedTodayRows();
+    if(!rows.length)return status('AUCUN PRODUIT RETIRÉ AUJOURD’HUI',false);
+    const doc=new JsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+    const pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight();
+    const margin=10, date=formatExportDate(new Date());
+    const header=()=>{
+      doc.setFillColor(52,152,219);doc.rect(0,0,pageW,28,'F');
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(15);
+      doc.text('FLUX MARCHANDISE',pageW/2,8,{align:'center'});
+      doc.setFontSize(11);doc.text('LES PRODUITS RETIRER',pageW/2,15,{align:'center'});
+      doc.setFontSize(9);doc.text(`NBR DES PRODUITS : ${rows.length}`,pageW/2,21,{align:'center'});
+      doc.text(date,pageW/2,26,{align:'center'});
+      doc.setTextColor(44,62,80);
+    };
+    header();
+    let y=36;
+    const widths=[8,27,32,70,16,24,16,24,16,24];
+    const labels=['#','ADRESSE','GENCODE','NOM','QTE 1','DLC 1','QTE 2','DLC 2','QTE 3','DLC3'];
+    const totalW=widths.reduce((a,b)=>a+b,0),scale=(pageW-2*margin)/totalW;
+    const w=widths.map(x=>x*scale),x=[];let xx=margin;w.forEach(v=>{x.push(xx);xx+=v});
+    const drawHead=()=>{
+      doc.setFillColor(52,152,219);doc.rect(margin,y,pageW-2*margin,8,'F');
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.5);
+      labels.forEach((l,i)=>doc.text(l,x[i]+w[i]/2,y+5.5,{align:'center'}));
+      y+=10;doc.setTextColor(44,62,80);
+    };
+    drawHead();
+    rows.forEach((r,idx)=>{
+      const nameLines=doc.splitTextToSize(String(r.NOM||''),w[3]-3);
+      const rowH=Math.max(8,nameLines.length*4+3);
+      if(y+rowH>pageH-12){doc.addPage();header();y=36;drawHead();}
+      if(idx%2===0){doc.setFillColor(247,250,252);doc.rect(margin,y-1,pageW-2*margin,rowH,'F');}
+      doc.setFontSize(7.2);doc.setFont('helvetica','normal');
+      const vals=[r['#'],r.ADRESSE,r.GENCODE,r.NOM,r['QTE 1'],r['DLC 1'],r['QTE 2'],r['DLC 2'],r['QTE 3'],r['DLC 3']];
+      vals.forEach((v,i)=>{
+        const lines=doc.splitTextToSize(String(v??''),w[i]-3);
+        doc.text(lines,x[i]+w[i]/2,y+4,{align:'center'});
+      });
+      y+=rowH;
+    });
+    const pages=doc.getNumberOfPages();
+    for(let i=1;i<=pages;i++){
+      doc.setPage(i);doc.setTextColor(44,62,80);doc.setFontSize(8);doc.setFont('helvetica','normal');
+      doc.text(`${i}/${pages}`,pageW/2,pageH-5,{align:'center'});
+    }
+    doc.save(`LES_PRODUITS_RETIRER_${removeTodayKey()}.pdf`);
+    closeRemoveExportModal();
+  }catch(e){console.warn('PDF RETIRER:',e)}
+}
+
+function submitRemove(){
+  const code=normCode(document.getElementById('removeCode').value),rowIndex=state.selectedRow;
+  if(!code)return status('Entrez le CODE PRODUIT',false);if(rowIndex===null)return status("Choisissez l'ADRESSE",false);
+  const rows=state.remove?.stock?.rows||[],row=rows[rowIndex];if(!row)return status('Adresse introuvable',false);
+  const ops=[];for(let s=1;s<=3;s++){const q=num(document.getElementById('removeQ'+s).value);if(q>0)ops.push({qty:q,slot:s,rowIndex})}
+  if(!ops.length)return status('Entrez au moins une quantité',false);
+  for(const op of ops){if(!row['dlc'+op.slot])return status('Choisissez une DLC existante avant le retrait',false);if(op.qty>num(row['qte'+op.slot]))return status('La quantité demandée dépasse la quantité disponible dans la DLC sélectionnée',false)}
+  // إرسال جميع عمليات الإزالة في طلب واحد لتفادي التعارض بين عدة طلبات على نفس الصف.
+  const payload={
+    code,
+    operations:ops.map(op=>({qty:op.qty,selection:{rowIndex:op.rowIndex,slot:op.slot}}))
+  };
+  optimisticRemove(code,rowIndex,ops);
+  document.getElementById('removeCode').value='';
+  state.remove=null;
+  state.selectedRow=null;
+  document.getElementById('removeProduct').innerHTML='';
+  document.getElementById('removeAddresses').innerHTML='<div class="empty">Entrez le CODE PRODUIT pour afficher le stock.</div>';
+  clearRemoveFields();
+  status('ENREGISTREMENT DE LA RETIRER...',true);
+  document.getElementById('status').classList.add('saving','remove-saving');
+  window.scrollTo({top:0,behavior:'smooth'});
+  pendingWrites++;
+  runServer('removeStock',[payload])
+    .then(()=>{recordRemovedToday(code,row.address,ops,row);status('RETIRER VALIDÉE ✓',true)})
+    .catch(e=>status('RETIRER: erreur serveur — données locales conservées',false))
+    .finally(()=>{pendingWrites=Math.max(0,pendingWrites-1);if(pendingWrites===0)setTimeout(refreshStockCache,300);});
+}
+async function refreshCurrent(){const code=normCode(document.getElementById('pageAdd').classList.contains('active')?document.getElementById('addCode').value:document.getElementById('removeCode').value);if(code)lookupCode(code,document.getElementById('pageAdd').classList.contains('active')?'add':'remove');else status("Entrez d’abord le CODE PRODUIT",false)}
+function openReserveDetails(code){const data=(state.add?.stock||state.remove?.stock);if(!data)return;const rows=data.rows||[];let total=0;const html=rows.map(r=>{const batches=[1,2,3].map(s=>({q:num(r['qte'+s]),d:r['dlc'+s]})).filter(x=>x.q>0&&x.d);if(!batches.length)return '';const t=batches.reduce((a,b)=>a+b.q,0);total+=t;return `<div class="address-card"><div class="address-head"><span>${esc(addrDisplay(r.address))}</span><span class="address-total">${fmtNum(t)}</span></div><div class="batch-list">${batches.map(b=>`<div class="batch"><div class="q">${fmtNum(b.q)}</div><div class="d">${esc(b.d)}</div></div>`).join('')}</div></div>`}).join('');document.getElementById('reserveContent').innerHTML=`<div class="product"><div class="name">${esc(state.add?.product?.name||state.remove?.product?.name||code)}</div><div style="font-weight:900;margin-bottom:10px">TOTAL RESERVE: ${fmtNum(total)}</div></div>${html||'<div class="empty">AUCUNE RÉSERVE</div>'}`;document.getElementById('reserveModal').classList.add('show')}
+function closeReserve(){document.getElementById('reserveModal').classList.remove('show')}
+function setBusy(v){document.body.classList.toggle('loading',v)}
+
+// ===== Scanner =====
+async function openScanner(target){state.scannerTarget=target;document.getElementById('scannerModal').classList.add('show');try{state.scannerStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:state.scannerFacing,width:{ideal:1280},height:{ideal:720}},audio:false});document.getElementById('scannerVideo').srcObject=state.scannerStream;await document.getElementById('scannerVideo').play();scanLoop()}catch(e){status("Impossible d'ouvrir la caméra : "+e.message,false);closeScanner()}}
+let scanRAF=0;async function scanLoop(){const video=document.getElementById('scannerVideo');if(!document.getElementById('scannerModal').classList.contains('show'))return;if('BarcodeDetector' in window){try{const detector=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});const codes=await detector.detect(video);if(codes.length){const value=codes[0].rawValue;const target=state.scannerTarget;if(target&&document.getElementById(target))document.getElementById(target).value=value;if(state.adminScanner){
+  state.adminScanner=false;
+  closeScanner();
+  if(target==='admDateProductCode'){
+    document.getElementById(target).dispatchEvent(new Event('input'));
+  }else{
+    document.getElementById('admProductCode').dispatchEvent(new Event('input'));
+    openAdminAddressPicker();
+  }
+  return;
+}document.getElementById(target).dispatchEvent(new Event('input'));if(target==='addCode')lookupCode(value,'add');else if(target==='removeCode')lookupCode(value,'remove');closeScanner();return}}catch(e){}}scanRAF=requestAnimationFrame(scanLoop)}
+async function switchCamera(){state.scannerFacing=state.scannerFacing==='environment'?'user':'environment';const target=state.scannerTarget,isAdmin=state.adminScanner;closeScanner();setTimeout(()=>{if(isAdmin)openAdminScanner(target);else openScanner(target)},150)}
+function closeScanner(){cancelAnimationFrame(scanRAF);if(state.scannerStream){state.scannerStream.getTracks().forEach(t=>t.stop());state.scannerStream=null}document.getElementById('scannerVideo').srcObject=null;document.getElementById('scannerModal').classList.remove('show');state.adminScanner=false}
+
+updateTodayRemoveCount();
+document.getElementById('addCode').addEventListener('input',()=>{clearTimeout(window.t1);window.t1=setTimeout(()=>lookupCode(document.getElementById('addCode').value,'add'),180)});
+document.getElementById('removeCode').addEventListener('input',()=>{clearTimeout(window.t2);window.t2=setTimeout(()=>lookupCode(document.getElementById('removeCode').value,'remove'),180)});
+document.getElementById('addAddress').addEventListener('click',()=>{
+  if(manualAddAddress)return;
+  if((state.add?.stock?.rows||[]).length)openAddressPicker();
+});
+document.getElementById('addAddress').addEventListener('focus',()=>{
+  if(manualAddAddress)return;
+  if((state.add?.stock?.rows||[]).length)openAddressPicker();
+});
+[1,2,3].forEach(s=>{
+  const el=document.getElementById('addD'+s);
+  el.addEventListener('click',()=>{
+    const rows=state.add?.stock?.rows||[];
+    if(!rows.length){manualAddDate[s]=true;return;}
+    if(!manualAddDate[s]) openDatePicker(s);
+  });
+  el.addEventListener('focus',()=>{
+    const rows=state.add?.stock?.rows||[];
+    if(!rows.length){manualAddDate[s]=true;return;}
+    if(!manualAddDate[s]) openDatePicker(s);
+  });
+  el.addEventListener('input',function(){
+    formatDateField(this);
+    validateAddDlcField(this);
+  });
+  el.addEventListener('blur',function(){
+    formatDateField(this);
+    validateAddDlcField(this);
+  });
+});
+['addQ1','addQ2','addQ3','removeQ1','removeQ2','removeQ3'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener('focus',function(){if(this.value==='0')this.value=''});
+  el.addEventListener('input',function(){
+    formatQtyField(this);
+    clearTimeout(this._qtyCalcTimer);
+    const value=this.value.trim();
+    if((this.id.indexOf('addQ')===0 || this.id.indexOf('removeQ')===0) && /^[0-9.]+(?:[+\-*][0-9.]+)+$/.test(value)){
+      this._qtyCalcTimer=setTimeout(()=>{if(this.value.trim()===value)calculateQtyField(this);},700);
+    }
+  });
+  el.addEventListener('blur',function(){
+    clearTimeout(this._qtyCalcTimer);
+    if(this.value==='')this.value='0';
+    else calculateQtyField(this);
+  });
+});
+window.addEventListener('pagehide',closeScanner);
+window.addEventListener('blur',closeScanner);
+
+// حماية إضافية عند التجربة داخل Acode/WebView: الأزرار لا تعتمد فقط على inline onclick.
+document.getElementById('tabAdd').addEventListener('click',()=>showPage('add'));
+document.getElementById('tabRemove').addEventListener('click',()=>showPage('remove'));
+document.getElementById('submitAddBtn').addEventListener('click',()=>submitAdd());
+// RETIRER يستعمل onclick الموجود في الزر؛ لا نضيف مستمعاً ثانياً.
+
+// حماية خاصة عند تصغير التطبيق ثم الرجوع إليه.
+// بعض WebView/Chrome يرسل "Script error." عاماً عند استئناف تحميل
+// سكريبت خارجي/JSONP. لا نعرض هذه الرسالة الوهمية للمستخدم.
+let appResumeGuard=false;
+let appResumeTimer=null;
+
+function markAppResumed(){
+  appResumeGuard=true;
+  clearTimeout(appResumeTimer);
+  appResumeTimer=setTimeout(()=>{appResumeGuard=false;},5000);
+}
+
+window.addEventListener('pageshow',markAppResumed);
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden) markAppResumed();
+});
+
+// لا نسمح بتعطل واجهة التطبيق بسبب خطأ JavaScript غير متوقع.
+window.addEventListener('error',e=>{
+  const msg=String(e?.message||'').trim();
+  if(msg==='Script error.' || msg==='Script error'){try{e.preventDefault();}catch(_){} return;}
+  try{status('Erreur JavaScript : '+(msg||'erreur inconnue'),false);}catch(_){}
+});
+
+window.addEventListener('unhandledrejection',e=>{
+  const msg=String(e?.reason?.message||e?.reason||'').trim();
+  if((msg==='Script error.' || msg==='Script error') && (document.hidden || appResumeGuard)){
+    try{e.preventDefault();}catch(_){}
+    return;
+  }
+  try{status('Erreur: '+(msg||'opération impossible'),false);}catch(_){}
+});
+
+loadInitialCaches();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<style id="admin-emplacements-css">
+#adminEmplacementsPage{display:none;padding:16px;max-width:620px;margin:auto}
+.admin-card{background:#fff;border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 4px 16px rgba(0,0,0,.08);border-left:3px solid #3498db}
+.admin-card h3{margin:0 0 14px;font-size:20px;line-height:1.2}
+.admin-grid{display:grid;gap:10px}
+.admin-code-row{display:flex;gap:8px;align-items:center}
+.admin-grid input,.admin-code-row input{width:100%;box-sizing:border-box;padding:14px 12px;border:1px solid #dfe4ea;border-radius:11px;font-size:18px;height:54px;text-align:center;background:#fff;text-transform:uppercase}
+.admin-code-row input{flex:1;min-width:0}
+.admin-scan{height:54px;border:0;border-radius:11px;background:#3498db;color:#fff;font-weight:900;padding:0 14px;font-size:14px}
+.admin-btn{width:100%;border:0;border-radius:11px;padding:15px;font-weight:900;cursor:pointer;font-size:16px}
+.admin-blue{background:#3498db;color:#fff}.admin-orange{background:#f39c12;color:#fff}.admin-red{background:#e74c3c;color:#fff}
+.admin-result{margin-top:10px;padding:12px;border-radius:10px;display:none;font-weight:800}
+.admin-ok{background:#eaf8ee;color:#176b2d}.admin-err{background:#fdecec;color:#9b1c1c}
+.admin-busy{opacity:.7;pointer-events:none}
+.admin-back{width:100%;height:46px;border:0;border-radius:11px;background:#ecf0f1;color:#34495e;font-weight:900;font-size:15px;margin-bottom:8px}
+.admin-modal-note{font-size:13px;color:#7f8c8d;text-align:center;margin:-4px 0 10px}.admin-date-info{margin-top:2px;padding:12px;border-radius:12px;background:#f5f9fc;color:#34495e;text-align:center;font-weight:800;line-height:1.45}
+.admin-date-list{display:grid;gap:8px}
+.admin-date-row{width:100%;border:1px solid #dfe4ea;border-radius:12px;background:#fff;padding:12px;text-align:left}
+.admin-date-row .head{display:flex;justify-content:space-between;gap:8px;font-weight:900;color:#34495e}
+.admin-date-row .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.admin-date-slot{width:100%;box-sizing:border-box;border:1px solid #e3e8ed;border-radius:9px;padding:8px;text-align:center;background:#fff;cursor:pointer}
+.admin-date-slot:disabled{opacity:.45;cursor:default}
+.admin-date-slot.selected{border:2px solid #3498db;background:#eef7ff}
+.admin-date-slot .q{font-weight:900;color:#34495e}.admin-date-slot .d{font-size:12px;color:#7f8c8d;margin-top:3px}
+.admin-date-editor{display:grid;gap:10px;padding:12px;border-radius:12px;background:#f7fbff;border:1px solid #dbeaf6}
+.admin-date-selected{text-align:center;font-weight:900;color:#34495e}
+.admin-date-editor input{width:100%;box-sizing:border-box;height:54px;border:1px solid #dfe4ea;border-radius:11px;padding:10px 12px;font-size:18px;text-align:center;background:#fff}
+.admin-product-availability{margin-top:8px;padding:10px 12px;border-radius:10px;text-align:center;font-weight:900;display:none}.admin-product-availability.available{display:block;background:#eaf8ee;color:#1e8449}.admin-product-availability.unavailable{display:block;background:#fdecec;color:#c0392b}.admin-saving{background:#fff3df!important;color:#d98200!important}.admin-valid{background:#eaf8ee!important;color:#1e8449!important}
+</style>
+
+
+<style id="admin-confirm-css">
+#adminConfirmModal{z-index:300}
+.admin-confirm-box{width:min(430px,100%);background:#fff;border-radius:24px;padding:24px 20px 18px;box-shadow:0 18px 55px rgba(0,0,0,.28);text-align:center;animation:adminConfirmIn .18s ease-out}
+.admin-confirm-icon{width:66px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:31px}
+.admin-confirm-icon.primary{background:#eaf4ff}.admin-confirm-icon.warning{background:#fff4df}.admin-confirm-icon.danger{background:#ffebeb}
+.admin-confirm-box h2{margin:0 0 10px;color:#2c3e50;font-size:22px;font-weight:900}
+.admin-confirm-message{color:#66717c;font-size:16px;line-height:1.55;margin:0 4px 22px}
+.admin-confirm-message strong{color:#2c3e50}
+.admin-confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.admin-confirm-actions button{height:50px;border:0;border-radius:13px;font-size:15px;font-weight:900;cursor:pointer}
+.admin-confirm-cancel{background:#edf1f4;color:#34495e}
+.admin-confirm-ok.primary{background:#3498db;color:#fff}.admin-confirm-ok.warning{background:#f39c12;color:#fff}.admin-confirm-ok.danger{background:#e74c3c;color:#fff}
+@keyframes adminConfirmIn{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+
+<section id="adminEmplacementsPage">
+  <button id="closeAdminEmplacementsBtn" type="button" class="admin-back" onclick="closeAdminEmplacements()">← RETOUR</button>
+
+  <div class="admin-card">
+    <h3>CHANGER L'EMPLACEMENT D'UN PRODUIT</h3>
+    <div class="admin-grid">
+      <div class="admin-code-row">
+        <input id="admProductCode" inputmode="tel" pattern="[0-9]*" placeholder="CODE PRODUIT" autocomplete="off">
+        <button type="button" class="admin-scan" onclick="openAdminScanner('admProductCode')">SCANNER</button>
+      </div>
+      <div id="admProductAvailability" class="admin-product-availability"></div>
+      <input id="admProductOld" inputmode="tel" pattern="[0-9/]*" placeholder="ANCIENNE ADRESSE" autocomplete="off">
+      <input id="admProductNew" inputmode="tel" pattern="[0-9/]*" placeholder="NOUVELLE ADRESSE" autocomplete="off">
+      <button class="admin-btn admin-blue" onclick="adminChangeProduct()">VALIDER</button>
+      <div id="admProductResult" class="admin-result"></div>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <h3>CHANGER L'EMPLACEMENT D'UN ADRESSE</h3>
+    <div class="admin-grid">
+      <input id="admAddressOld" inputmode="tel" pattern="[0-9/]*" placeholder="ANCIENNE ADRESSE" autocomplete="off">
+      <input id="admAddressNew" inputmode="tel" pattern="[0-9/]*" placeholder="NOUVELLE ADRESSE" autocomplete="off">
+      <button class="admin-btn admin-orange" onclick="adminChangeAddress()">VALIDER</button>
+      <div id="admAddressResult" class="admin-result"></div>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <h3>SUPPRIMER UN ADRESSE</h3>
+    <div class="admin-grid">
+      <input id="admDeleteAddress" inputmode="tel" pattern="[0-9/]*" placeholder="ADRESSE À SUPPRIMER" autocomplete="off">
+      <button class="admin-btn admin-red" onclick="adminDeleteAddress()">VALIDER</button>
+      <div id="admDeleteResult" class="admin-result"></div>
+    </div>
+  </div>
+  <div class="admin-card">
+    <h3>CHANGER LA DATE D'UN PRODUIT</h3>
+    <div class="admin-grid">
+      <div class="admin-code-row">
+        <input id="admDateProductCode" inputmode="tel" pattern="[0-9]*" placeholder="CODE PRODUIT" autocomplete="off">
+        <button type="button" class="admin-scan" onclick="openAdminScanner('admDateProductCode')">SCANNER</button>
+      </div>
+      <div id="admDateProductInfo" class="admin-date-info"></div>
+      <div id="admDateRows" class="admin-date-list"></div>
+      <div id="admDateEditor" class="admin-date-editor" style="display:none">
+        <div id="admDateSelected" class="admin-date-selected"></div>
+        <input id="admDateNew" type="text" inputmode="numeric" autocomplete="off" placeholder="JJ/MM/AAAA">
+        <button class="admin-btn admin-blue" onclick="adminChangeSelectedDate()">VALIDER LA NOUVELLE DATE</button>
+      </div>
+      <div id="admDateResult" class="admin-result"></div>
+    </div>
+  </div>
+</section>
+
+<script id="admin-emplacements-js">
+const ADMIN_EMPLACEMENTS_URL = "https://script.google.com/macros/s/AKfycbxHS5PAmDserh1ceVWATRHgwAfGkKTdADcDcvliBQAtx8B2V6tYZhEj5QNni1NbU8bt/exec";
+let adminAddressPickerBusy=false;
+
+function adminNormalizeAddress(v){
+  let s=String(v||'').trim().toUpperCase().replace(/\s+/g,'');
+  if(!s)return '';
+  if(/^Z\d+P\d+$/.test(s))return s;
+  let m=s.match(/^(?:Z)?(\d+)\/(?:P)?(\d+)$/);
+  if(m)return 'Z'+m[1]+'P'+m[2];
+  m=s.match(/^(\d+)P(\d+)$/);
+  if(m)return 'Z'+m[1]+'P'+m[2];
+  return s;
+}
+function adminAddressDisplay(v){
+  const s=adminNormalizeAddress(v); const m=s.match(/^Z(\d+)P(\d+)$/);
+  return m?m[1]+'/'+m[2]:s;
+}
+function adminShowResult(id,ok,message,busy=false){
+  const el=document.getElementById(id); if(!el)return;
+  clearTimeout(el._hideTimer);
+  el.style.display='block';
+  el.className='admin-result '+(ok?(busy?'admin-saving':'admin-valid'):'admin-err');
+  el.textContent=message+(busy?'…':'');
+  if(ok&&!busy) el._hideTimer=setTimeout(()=>{el.style.display='none';el.textContent='';},1800);
+}
+function adminJsonp(action,payload){
+  const map={
+    addressesForProduct:'addressesForProduct',
+    changeAddressForProduct:'changeAddressForProduct',
+    replaceAddressEverywhere:'changeAddressEverywhere',
+    deleteAddressEverywhere:'deleteAddressEverywhere',
+    getProductDateDetails:'getProductDateDetails',
+    changeProductDate:'changeProductDate'
+  };
+  return runServer(map[action]||action,[payload||{}]);
+}
+function adminClearFields(ids){ ids.forEach(id=>{const el=document.getElementById(id); if(el) el.value='';}); }
+
+let adminDateState={rows:[],code:'',selected:null};
+
+function adminDateDisplay(v){
+  const s=String(v||'').trim();
+  if(!s)return '—';
+  let m=s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m)return m[3]+'/'+m[2]+'/'+m[1];
+  m=s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+  if(m)return String(m[1]).padStart(2,'0')+'/'+String(m[2]).padStart(2,'0')+'/'+m[3];
+  return s;
+}
+function adminDateInputValue(v){
+  const s=String(v||'').trim();
+  let m=s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m)return s;
+  m=s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+  return m?m[3]+'-'+String(m[2]).padStart(2,'0')+'-'+String(m[1]).padStart(2,'0'):'';
+}
+function adminLoadDateDetails(){
+  const code=normCode(document.getElementById('admDateProductCode').value);
+  const info=document.getElementById('admDateProductInfo');
+  const list=document.getElementById('admDateRows');
+  const editor=document.getElementById('admDateEditor');
+  if(!code){
+    adminDateState={rows:[],code:'',selected:null};
+    info.innerHTML='';list.innerHTML='';editor.style.display='none';return;
+  }
+  // عرض فوري من الـcache بدون رسالة Produit introuvable مؤقتة.
+  const localProduct=cachedProduct(code), localStock=cachedStock(code);
+  if(localProduct){
+    adminDateState={rows:(localStock.rows||[]).map((r,i)=>({...r,rowIndex:r.rowIndex??i})).sort((a,b)=>adminAddressSort(adminNormalizeAddress(a.address),adminNormalizeAddress(b.address))),code,selected:null};
+    info.innerHTML=`<strong>${esc(localProduct.code||code)}</strong><br>${esc(localProduct.name||'PRODUIT')}`;
+    adminRenderDateRows();
+  }else{
+    info.textContent='';list.innerHTML='';editor.style.display='none';
+  }
+  const requestCode=code;
+  adminJsonp('getProductDateDetails',{code})
+    .then(r=>{
+      if(normCode(document.getElementById('admDateProductCode').value)!==requestCode)return;
+      if(!r.product){
+        // لا نظهر Produit introuvable إذا كان لدينا المنتج محلياً؛ نترك البيانات المعروضة.
+        if(!localProduct){
+          adminDateState={rows:[],code,selected:null};
+          info.textContent='Produit introuvable.';
+          list.innerHTML='';
+        }
+        return;
+      }
+      adminDateState={rows:(r.rows||[]).map((x,i)=>({...x,rowIndex:x.rowIndex??i})).sort((a,b)=>adminAddressSort(adminNormalizeAddress(a.address),adminNormalizeAddress(b.address))),code,selected:null};
+      info.innerHTML=`<strong>${esc(r.product.code||code)}</strong><br>${esc(r.product.name||'PRODUIT')}`;
+      adminRenderDateRows();
+      const res=document.getElementById('admDateResult');if(res)res.style.display='none';
+    })
+    .catch(e=>{
+      if(normCode(document.getElementById('admDateProductCode').value)!==requestCode)return;
+      if(!localProduct){
+        adminDateState={rows:[],code,selected:null};
+        info.textContent='';list.innerHTML='';
+        adminShowResult('admDateResult',false,e.message||String(e));
+      }
+    });
+}
+function adminRenderDateRows(){
+  const list=document.getElementById('admDateRows');
+  const rows=adminDateState.rows||[];
+  if(!rows.length){
+    list.innerHTML='<div class="empty">Aucune ligne de stock trouvée pour ce produit.</div>';
+    return;
+  }
+  list.innerHTML=rows.map((r,i)=>{
+    const slots=[1,2,3].map(s=>`
+      <div class="admin-date-slot">
+        <div class="q">QTE ${fmtNum(r['qte'+s])}</div>
+        <div class="d">${esc(adminDateDisplay(r['dlc'+s]||''))}</div>
+      </div>`).join('');
+    const selected=adminDateState.selected&&adminDateState.selected.rowIndex===r.rowIndex;
+    return `<button type="button" class="admin-date-row${selected?' selected':''}" onclick="adminSelectDateRow(${i})">
+      <div class="head"><span>ADRESSE ${esc(addrDisplay(r.address))}</span><span>TOTAL ${fmtNum(r.total)}</span></div>
+      <div class="slots">${slots}</div>
+    </button>`;
+  }).join('');
+}
+function adminSelectDateRow(rowIndex){
+  const row=adminDateState.rows[rowIndex];
+  if(!row)return;
+  const datedSlots=[1,2,3].filter(s=>String(row['dlc'+s]||'').trim());
+  if(!datedSlots.length){
+    adminShowResult('admDateResult',false,'Aucune date disponible sur cette ligne.');
+    return;
+  }
+  // إذا كان للعنوان أكثر من تاريخ، نعرض الاختيار مباشرة داخل نفس البطاقة.
+  const slot=datedSlots.length===1?datedSlots[0]:Number(prompt('Choisissez DLC 1, 2 ou 3 :',String(datedSlots[0])));
+  if(![1,2,3].includes(slot)||!String(row['dlc'+slot]||'').trim())return;
+  adminDateState.selected={rowIndex:row.rowIndex,slot,address:row.address,oldDate:row['dlc'+slot],rowArrayIndex:rowIndex};
+  document.getElementById('admDateSelected').textContent=
+    `Adresse ${addrDisplay(row.address)} — DLC ${slot} — ancienne date : ${adminDateDisplay(row['dlc'+slot])}`;
+  document.getElementById('admDateNew').value=adminDateDisplay(row['dlc'+slot]);
+  document.getElementById('admDateEditor').style.display='grid';
+  adminRenderDateRows();
+}
+function adminFormatManualDate(v){
+  let s=String(v||'').replace(/\D/g,'').slice(0,8);
+  if(s.length>4)s=s.slice(0,2)+'/'+s.slice(2,4)+'/'+s.slice(4);
+  else if(s.length>2)s=s.slice(0,2)+'/'+s.slice(2);
+  return s;
+}
+function adminDateToServer(v){
+  const s=String(v||'').trim();
+  const m=s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+  return m?m[3]+'-'+String(m[2]).padStart(2,'0')+'-'+String(m[1]).padStart(2,'0'):s;
+}
+async function adminChangeSelectedDate(){
+  const s=adminDateState.selected;
+  const typed=String(document.getElementById('admDateNew').value||'').trim();
+  const newDate=adminDateToServer(typed);
+  if(!s)return adminShowResult('admDateResult',false,'Sélectionnez d’abord une date.');
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(newDate))return adminShowResult('admDateResult',false,'Entrez une date valide JJ/MM/AAAA.');
+  const btn=document.querySelector('#admDateEditor .admin-btn');
+  adminShowResult('admDateResult',true,'ENREGISTREMENT',true);
+  adminSetButtonBusy(btn,true);
+  try{
+    const r=await adminJsonp('changeProductDate',{code:adminDateState.code,rowIndex:s.rowIndex,slot:s.slot,newDate});
+    adminShowResult('admDateResult',true,'VALIDÉE');
+    adminDateState={rows:[],code:'',selected:null};
+    document.getElementById('admDateProductCode').value='';
+    document.getElementById('admDateProductInfo').innerHTML='';
+    document.getElementById('admDateRows').innerHTML='';
+    document.getElementById('admDateEditor').style.display='none';
+    document.getElementById('admDateNew').value='';
+  }catch(e){
+    adminShowResult('admDateResult',false,e.message||String(e));
+  }finally{adminSetButtonBusy(btn,false);}
+}
+function adminSetButtonBusy(btn,busy){
+  if(!btn)return;
+  if(busy){btn.dataset.oldText=btn.textContent;btn.textContent='EN COURS…';btn.disabled=true;}
+  else{btn.textContent=btn.dataset.oldText||btn.textContent;btn.disabled=false;}
+}
+function adminAddressSort(a,b){
+  const ma=String(a).match(/^Z(\d+)P(\d+)$/i),mb=String(b).match(/^Z(\d+)P(\d+)$/i);
+  if(!ma||!mb)return String(a).localeCompare(String(b),'fr');
+  return Number(ma[1])-Number(mb[1]) || Number(ma[2])-Number(mb[2]);
+}
+function openAdminAddressPicker(){
+  const code=normCode(document.getElementById('admProductCode').value);
+  if(!code){document.getElementById('admProductCode').focus();adminShowResult('admProductResult',false,'Entrez le CODE PRODUIT.');return;}
+  if(adminAddressPickerBusy)return;
+
+  const list=document.getElementById('adminAddressPickerList');
+  const modal=document.getElementById('adminAddressModal');
+  const renderAddresses=(addresses)=>{
+    const clean=Array.from(new Set((addresses||[]).map(adminNormalizeAddress).filter(Boolean))).sort(adminAddressSort);
+    list.innerHTML=clean.length
+      ? clean.map(a=>`<button class="picker-btn existing" onclick="chooseAdminOldAddress('${escAttr(a)}')">${esc(adminAddressDisplay(a))}</button>`).join('')
+      : '<div class="empty">AUCUNE ADRESSE POUR CE PRODUIT.</div>';
+  };
+
+  // Affichage immédiat depuis le cache local.
+  const localStock=cachedStock(code);
+  const localAddresses=(localStock&&localStock.rows||[]).map(r=>r.address);
+  renderAddresses(localAddresses);
+  modal.classList.add('show');
+
+  // Mise à jour en arrière-plan sans attendre avant d'afficher la fenêtre.
+  adminAddressPickerBusy=true;
+  adminJsonp('addressesForProduct',{code})
+    .then(r=>{
+      if(normCode(document.getElementById('admProductCode').value)!==code)return;
+      renderAddresses(r.addresses||[]);
+    })
+    .catch(e=>{
+      // On conserve les options déjà affichées depuis le cache.
+    })
+    .finally(()=>{adminAddressPickerBusy=false;});
+}
+function chooseAdminOldAddress(address){
+  document.getElementById('admProductOld').value=adminAddressDisplay(address);
+  closePicker('adminAddressModal');
+  document.getElementById('admProductNew').focus();
+}
+function adminChangeProduct(){
+  const code=normCode(document.getElementById('admProductCode').value);
+  const oldAddress=adminNormalizeAddress(document.getElementById('admProductOld').value);
+  const newAddress=adminNormalizeAddress(document.getElementById('admProductNew').value);
+  const resultId='admProductResult';
+  const btn=document.querySelector('#admProductResult')?.parentElement?.querySelector('.admin-btn');
+  if(!code||!oldAddress||!newAddress)return adminShowResult(resultId,false,'Remplissez tous les champs.');
+  if(oldAddress===newAddress)return adminShowResult(resultId,false,'Les deux adresses sont identiques.');
+  openAdminConfirmModal({
+    type:'primary',
+    icon:'📦',
+    title:'CONFIRMER LE CHANGEMENT',
+    message:`Modifier l’emplacement du produit <strong>${esc(code)}</strong> de <strong>${esc(adminAddressDisplay(oldAddress))}</strong> vers <strong>${esc(adminAddressDisplay(newAddress))}</strong> ?`,
+    confirmText:'CONFIRMER',
+    cancelText:'ANNULER',
+    onConfirm:()=>{
+      adminShowResult(resultId,true,'ENREGISTREMENT',true);adminSetButtonBusy(btn,true);
+      adminJsonp('changeAddressForProduct',{code,oldAddress,newAddress})
+        .then(r=>{adminShowResult(resultId,true,'VALIDÉE');adminClearFields(['admProductCode','admProductOld','admProductNew']);})
+        .catch(e=>adminShowResult(resultId,false,e.message||String(e)))
+        .finally(()=>adminSetButtonBusy(btn,false));
+    }
+  });
+}
+function adminChangeAddress(){
+  const oldAddress=adminNormalizeAddress(document.getElementById('admAddressOld').value);
+  const newAddress=adminNormalizeAddress(document.getElementById('admAddressNew').value);
+  const resultId='admAddressResult';
+  const btn=document.querySelector('#admAddressResult')?.parentElement?.querySelector('.admin-btn');
+  if(!oldAddress||!newAddress)return adminShowResult(resultId,false,'Remplissez les deux adresses.');
+  if(oldAddress===newAddress)return adminShowResult(resultId,false,'Les deux adresses sont identiques.');
+  openAdminConfirmModal({
+    type:'warning',
+    icon:'🔄',
+    title:'CONFIRMER LE REMPLACEMENT',
+    message:`Remplacer l’adresse <strong>${esc(adminAddressDisplay(oldAddress))}</strong> par <strong>${esc(adminAddressDisplay(newAddress))}</strong> pour <strong>TOUS LES PRODUITS</strong> ?`,
+    confirmText:'CONFIRMER',
+    cancelText:'ANNULER',
+    onConfirm:()=>{
+      adminShowResult(resultId,true,'ENREGISTREMENT',true);adminSetButtonBusy(btn,true);
+      adminJsonp('replaceAddressEverywhere',{oldAddress:adminAddressDisplay(oldAddress),newAddress:adminAddressDisplay(newAddress),oldAddressNormalized:oldAddress,newAddressNormalized:newAddress})
+        .then(r=>{adminShowResult(resultId,true,'VALIDÉE');adminClearFields(['admAddressOld','admAddressNew']);})
+        .catch(e=>adminShowResult(resultId,false,e.message||String(e)))
+        .finally(()=>adminSetButtonBusy(btn,false));
+    }
+  });
+}
+function adminDeleteAddress(){
+  const address=adminNormalizeAddress(document.getElementById('admDeleteAddress').value);
+  const resultId='admDeleteResult';
+  const btn=document.querySelector('#admDeleteResult')?.parentElement?.querySelector('.admin-btn');
+  if(!address)return adminShowResult(resultId,false,"Entrez l'adresse à supprimer.");
+  openAdminConfirmModal({
+    type:'danger',
+    icon:'🗑️',
+    title:'SUPPRIMER L’ADRESSE ?',
+    message:`Vous êtes sur le point de supprimer l’adresse <strong>${esc(adminAddressDisplay(address))}</strong> pour <strong>TOUS LES PRODUITS</strong>.`,
+    confirmText:'SUPPRIMER',
+    cancelText:'ANNULER',
+    onConfirm:()=>{
+      adminShowResult(resultId,true,'ENREGISTREMENT',true);adminSetButtonBusy(btn,true);
+      adminJsonp('deleteAddressEverywhere',{address})
+        .then(r=>{adminShowResult(resultId,true,'VALIDÉE');adminClearFields(['admDeleteAddress']);})
+        .catch(e=>adminShowResult(resultId,false,e.message||String(e)))
+        .finally(()=>adminSetButtonBusy(btn,false));
+    }
+  });
+}
+document.getElementById('admDateProductCode')?.addEventListener('input',()=>{
+  clearTimeout(window.adminDateTimer);
+  window.adminDateTimer=setTimeout(()=>{
+    const code=normCode(document.getElementById('admDateProductCode').value);
+    if(!code){adminLoadDateDetails();return;}
+    window.adminDateRequestCode=code;
+    adminLoadDateDetails();
+  },250);
+});
+function resetAdminEmplacementsPage(){
+  clearTimeout(window.adminDateTimer);
+  clearTimeout(window.adminProductAvailabilityTimer);
+  adminDateState={rows:[],code:'',selected:null};
+  adminAddressPickerBusy=false;
+  ['admProductCode','admProductOld','admProductNew','admAddressOld','admAddressNew','admDeleteAddress','admDateProductCode','admDateNew'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.value='';
+  });
+  const availability=document.getElementById('admProductAvailability');
+  if(availability){availability.style.display='none';availability.textContent='';availability.className='admin-product-availability';}
+  const dateInfo=document.getElementById('admDateProductInfo');
+  const dateRows=document.getElementById('admDateRows');
+  const dateEditor=document.getElementById('admDateEditor');
+  const dateSelected=document.getElementById('admDateSelected');
+  if(dateInfo)dateInfo.innerHTML='';
+  if(dateRows)dateRows.innerHTML='';
+  if(dateEditor)dateEditor.style.display='none';
+  if(dateSelected)dateSelected.textContent='';
+  ['admProductResult','admAddressResult','admDeleteResult','admDateResult'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){clearTimeout(el._hideTimer);el.style.display='none';el.textContent='';}
+  });
+  ['adminAddressModal','adminConfirmModal'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.classList.remove('show');
+  });
+}
+function openAdminEmplacements(){
+  const page=document.getElementById('adminEmplacementsPage'),app=document.querySelector('.app'),footer=document.querySelector('.footer-actions');
+  if(!page)return;
+  resetAdminEmplacementsPage();
+  if(app)app.style.display='none'; if(footer)footer.style.display='none'; page.style.display='block'; window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeAdminEmplacements(){
+  const page=document.getElementById('adminEmplacementsPage'),app=document.querySelector('.app'),footer=document.querySelector('.footer-actions');
+  resetAdminEmplacementsPage();
+  if(page)page.style.display='none'; if(app)app.style.display=''; if(footer)footer.style.display=''; window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// عرض اسم المنتج وحالته مباشرة بعد إدخال كود المنتج.
+const admProductCodeEl=document.getElementById('admProductCode');
+const admProductOldEl=document.getElementById('admProductOld');
+const admProductAvailabilityEl=document.getElementById('admProductAvailability');
+
+function adminRenderProductAvailability(product){
+  if(!admProductAvailabilityEl)return;
+  if(product){
+    admProductAvailabilityEl.className='admin-product-availability available';
+    admProductAvailabilityEl.innerHTML=`<strong>${esc(product.name||'PRODUIT')}</strong>`;
+    admProductAvailabilityEl.style.display='block';
+  }else{
+    admProductAvailabilityEl.className='admin-product-availability unavailable';
+    admProductAvailabilityEl.textContent='NON DISPONIBLE';
+    admProductAvailabilityEl.style.display='block';
+  }
+}
+
+function adminUpdateProductAvailability(){
+  const code=normCode(admProductCodeEl?.value);
+  if(!admProductAvailabilityEl)return;
+  if(!code){
+    admProductAvailabilityEl.style.display='none';
+    admProductAvailabilityEl.textContent='';
+    admProductAvailabilityEl.className='admin-product-availability';
+    return;
+  }
+
+  // عرض فوري من الذاكرة إن كان المنتج موجوداً.
+  const localProduct=cachedProduct(code);
+  if(localProduct)adminRenderProductAvailability(localProduct);
+  else{
+    admProductAvailabilityEl.className='admin-product-availability unavailable';
+    admProductAvailabilityEl.textContent='NON DISPONIBLE';
+  }
+
+  clearTimeout(window.adminProductAvailabilityTimer);
+  const requestId=Date.now()+'_'+Math.random();
+  window.adminProductAvailabilityRequestId=requestId;
+
+  // البحث في السيرفر إذا لم تكن المعلومة موجودة محلياً أو لتأكيدها.
+  runServer('lookup',[code])
+    .then(r=>{
+      if(window.adminProductAvailabilityRequestId!==requestId)return;
+      if(normCode(admProductCodeEl.value)!==code)return;
+      if(r&&r.product){
+        productCache[code]=r.product;
+        adminRenderProductAvailability(r.product);
+        return;
+      }
+      // بعض نسخ الـAPI ترجع المنتج من action=product.
+      return runServer('getProduct',[code]).then(r2=>{
+        if(window.adminProductAvailabilityRequestId!==requestId)return;
+        if(normCode(admProductCodeEl.value)!==code)return;
+        if(r2&&r2.product){
+          productCache[code]=r2.product;
+          adminRenderProductAvailability(r2.product);
+        }else if(!cachedProduct(code)){
+          adminRenderProductAvailability(null);
+        }
+      });
+    })
+    .catch(()=>{
+      if(window.adminProductAvailabilityRequestId!==requestId)return;
+      if(normCode(admProductCodeEl.value)!==code)return;
+      const p=cachedProduct(code);
+      if(p)adminRenderProductAvailability(p);
+    });
+}
+
+admProductCodeEl?.addEventListener('input',()=>{
+  if(admProductOldEl)admProductOldEl.value='';
+  const n=document.getElementById('admProductNew');if(n)n.value='';
+  adminUpdateProductAvailability();
+});
+admProductCodeEl?.addEventListener('change',adminUpdateProductAvailability);
+admProductCodeEl?.addEventListener('blur',adminUpdateProductAvailability);
+
+// عند الضغط على ANCIENNE ADRESSE تظهر نافذة الاختيار الخاصة بهذا المنتج.
+admProductOldEl?.addEventListener('click',()=>{
+  if(normCode(admProductCodeEl?.value)) openAdminAddressPicker();
+});
+admProductOldEl?.addEventListener('focus',()=>{
+  if(normCode(admProductCodeEl?.value)) openAdminAddressPicker();
+});
+['admProductOld','admProductNew','admAddressOld','admAddressNew','admDeleteAddress'].forEach(id=>{
+  const el=document.getElementById(id); if(!el)return;
+  el.addEventListener('input',function(){this.value=this.value.replace(/[^0-9\/]/g,'').toUpperCase();});
+  el.addEventListener('blur',function(){if(this.value)this.value=adminAddressDisplay(this.value);});
+});
+const admDateNewEl=document.getElementById('admDateNew');
+admDateNewEl?.addEventListener('input',()=>{admDateNewEl.value=adminFormatManualDate(admDateNewEl.value);});
+</script>
+
+
+<div id="adminConfirmModal" class="modal">
+  <div class="admin-confirm-box" role="dialog" aria-modal="true" aria-labelledby="adminConfirmTitle">
+    <div id="adminConfirmIcon" class="admin-confirm-icon primary">✓</div>
+    <h2 id="adminConfirmTitle">CONFIRMER</h2>
+    <div id="adminConfirmMessage" class="admin-confirm-message"></div>
+    <div class="admin-confirm-actions">
+      <button id="adminConfirmCancel" type="button" class="admin-confirm-cancel">ANNULER</button>
+      <button id="adminConfirmOk" type="button" class="admin-confirm-ok primary">CONFIRMER</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let adminConfirmAction=null;
+function openAdminConfirmModal({type='primary',icon='✓',title='CONFIRMER',message='',confirmText='CONFIRMER',cancelText='ANNULER',onConfirm=null}){
+  const modal=document.getElementById('adminConfirmModal');
+  const iconEl=document.getElementById('adminConfirmIcon');
+  const titleEl=document.getElementById('adminConfirmTitle');
+  const messageEl=document.getElementById('adminConfirmMessage');
+  const ok=document.getElementById('adminConfirmOk');
+  const cancel=document.getElementById('adminConfirmCancel');
+  if(!modal)return;
+  adminConfirmAction=typeof onConfirm==='function'?onConfirm:null;
+  iconEl.className='admin-confirm-icon '+type;
+  iconEl.textContent=icon;
+  titleEl.textContent=title;
+  messageEl.innerHTML=message;
+  ok.className='admin-confirm-ok '+type;
+  ok.textContent=confirmText;
+  cancel.textContent=cancelText;
+  modal.classList.add('show');
+}
+function closeAdminConfirmModal(){
+  const modal=document.getElementById('adminConfirmModal');
+  if(modal)modal.classList.remove('show');
+  adminConfirmAction=null;
+}
+document.getElementById('adminConfirmCancel')?.addEventListener('click',closeAdminConfirmModal);
+document.getElementById('adminConfirmOk')?.addEventListener('click',()=>{
+  const action=adminConfirmAction;
+  closeAdminConfirmModal();
+  if(action) action();
+});
+document.getElementById('adminConfirmModal')?.addEventListener('click',e=>{
+  if(e.target.id==='adminConfirmModal')closeAdminConfirmModal();
+});
+</script>
+
+<div id="adminAddressModal" class="modal">
+  <div class="modalbox">
+    <h2>CHOISIR L'ANCIENNE ADRESSE</h2>
+    <div class="admin-modal-note">Adresses disponibles pour le CODE PRODUIT</div>
+    <div id="adminAddressPickerList" class="picker-list"></div>
+    <button class="modalclose" onclick="closePicker('adminAddressModal')">ANNULER</button>
+  </div>
+</div>
+
+<script>
+// Scanner مستقل للإدارة، مع نفس كاميرا التطبيق الرئيسية.
+function openAdminScanner(target){
+  state.scannerTarget=target;
+  state.adminScanner=true;
+  document.getElementById('scannerModal').classList.add('show');
+  navigator.mediaDevices.getUserMedia({video:{facingMode:state.scannerFacing,width:{ideal:1280},height:{ideal:720}},audio:false})
+    .then(stream=>{state.scannerStream=stream;const v=document.getElementById('scannerVideo');v.srcObject=stream;return v.play();})
+    .then(()=>scanLoop())
+    .catch(e=>{status('Impossible d\'ouvrir la caméra : '+e.message,false);closeScanner();});
+}
+</script>
+
+
+<script>
+/* ===== COMMANDE — ajout uniquement, AJOUTER/RETIRER restent inchangés ===== */
+let commandeRows=[];
+let commandeProducts=[];
+let commandeBusy=false;
+
+// Diagnostic du serveur COMMANDE: ne modifie aucune donnée.
+async function testCommandeServer(){
+  const el=document.getElementById('commandeImportStatus');
+  try{
+    if(el){el.textContent='Test du serveur COMMANDE…';el.className='status show';}
+    const r=await commandeRunServer('ping',{});
+    if(el){el.textContent='Serveur COMMANDE OK ✓';el.className='status show ok';}
+    return r;
+  }catch(e){
+    if(el){el.textContent='Serveur COMMANDE ERREUR — '+(e.message||String(e));el.className='status show err';}
+    throw e;
+  }
+}
+
+
+function commandeHeaderKey(v){
+  return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+}
+function commandeFindField(row,names){
+  const keys=Object.keys(row);
+  const wanted=names.map(commandeHeaderKey);
+  const k=keys.find(x=>wanted.includes(commandeHeaderKey(x)));
+  return k==null?'':row[k];
+}
+function commandeCode(v){return normCode(String(v??'').trim());}
+function commandeQty(v){return Math.max(0,num(v));}
+function commandeAddressSort(a,b){
+  function key(v){
+    const s=String(v??'').trim().toUpperCase();
+    let m=s.match(/(?:^|[^0-9])Z\s*(\d+)\s*P\s*(\d+)(?:$|[^0-9])/);
+    if(m)return [Number(m[1]),Number(m[2])];
+    m=s.match(/(?:^|[^0-9])(\d+)\s*\/\s*(\d+)(?:$|[^0-9])/);
+    if(m)return [Number(m[1]),Number(m[2])];
+    return null;
+  }
+  const ka=key(a), kb=key(b);
+  if(ka&&kb){
+    if(ka[0]!==kb[0])return ka[0]-kb[0];
+    return ka[1]-kb[1];
+  }
+  if(ka&&!kb)return -1;
+  if(!ka&&kb)return 1;
+  return String(a??'').localeCompare(String(b??''),'fr',{numeric:true,sensitivity:'base'});
+}
+function commandeSetStatus(msg,ok=true){
+  const e=document.getElementById('commandeImportStatus');
+  if(!e)return;
+  e.textContent=msg;e.className='status show '+(/Enregistrement de la commande/.test(msg)?'err':(ok?'ok':'err'));
+}
+function commandeStockTotal(rows){
+  return (rows||[]).reduce((t,r)=>t+num(r.qte1)+num(r.qte2)+num(r.qte3),0);
+}
+function commandeAvailableProduct(code){
+  const p=cachedProduct(code);
+  const s=cachedStock(code);
+  return {product:p,stock:s};
+}
+function commandeBuildData(){
+  const map=new Map();
+  commandeRows.forEach((r,idx)=>{
+    const code=commandeCode(r.code);
+    if(!code)return;
+    const q=commandeQty(r.qty);
+    if(!q)return;
+    if(!map.has(code))map.set(code,{code,name:r.name||'',required:0,sourceIndexes:[]});
+    const x=map.get(code);x.required+=q;x.sourceIndexes.push(idx);
+    if(!x.name)x.name=r.name||'';
+  });
+  commandeProducts=[...map.values()].map(x=>{
+    const found=commandeAvailableProduct(x.code);
+    x.product=found.product;
+    x.stock=found.stock;
+    x.name=x.product?.name||x.name||'PRODUIT';
+    x.available=commandeStockTotal(x.stock.rows);
+    x.missing=x.available<=0;
+    return x;
+  });
+}
+function commandeRender(){
+  const content=document.getElementById('commandeContent');
+  const missingWrap=document.getElementById('commandeMissingWrap');
+  const actions=document.getElementById('commandeActions');
+  if(!content||!missingWrap)return;
+  content.innerHTML='';
+  missingWrap.innerHTML='';
+  const present=commandeProducts.filter(x=>!x.missing).sort((a,b)=>{
+    const aa=(a.stock?.rows||[]).map(r=>addrDisplay(r.address)).filter(Boolean);
+    const bb=(b.stock?.rows||[]).map(r=>addrDisplay(r.address)).filter(Boolean);
+    const aFirst=aa.length?aa.slice().sort(commandeAddressSort)[0]:'';
+    const bFirst=bb.length?bb.slice().sort(commandeAddressSort)[0]:'';
+    return commandeAddressSort(aFirst,bFirst);
+  });
+  const missing=commandeProducts.filter(x=>x.missing);
+  if(!commandeProducts.length){
+    content.innerHTML='<div class="card"><div class="empty">AUCUN PRODUIT TROUVÉ DANS LE FICHIER.</div></div>';
+    actions.style.display='none';return;
+  }
+
+  // عندما يكون نفس العنوان موجوداً في عدة منتجات، نرقّم المنتجات المرتبطة به 1/3، 2/3، 3/3.
+  const addressProductGroups={};
+  present.forEach(p=>{
+    const seen={};
+    (p.stock?.rows||[]).forEach(r=>{
+      const a=String(addrDisplay(r.address)||'').trim();
+      if(a&&!seen[a]){
+        seen[a]=1;
+        if(!addressProductGroups[a])addressProductGroups[a]=[];
+        addressProductGroups[a].push(p.code);
+      }
+    });
+  });
+
+  present.forEach((p,pi)=>{
+    /*
+     * IMPORTANT : chaque DLC possède maintenant son propre champ de retrait.
+     * L'utilisateur choisit donc explicitement ADRESSE + DLC.
+     * Aucun retrait automatique FIFO n'est effectué ici.
+     */
+    const rows=(p.stock.rows||[])
+      .map((r,i)=>({...r,_index:i}))
+      .filter(r=>commandeStockTotal([r])>0)
+      .sort((a,b)=>commandeAddressSort(a.address,b.address));
+
+    const addresses=rows.map(r=>{
+      const batches=[1,2,3].map(s=>({s,q:num(r['qte'+s]),d:r['dlc'+s]}));
+      return `<div class="commande-address" data-code="${escAttr(p.code)}" data-row="${r._index}">
+        <div class="commande-address-head">
+          <span>${esc(addrDisplay(r.address))}</span>
+          <span>TOTAL ${fmtNum(commandeStockTotal([r]))}</span>
+        </div>
+        <div class="commande-batches">
+          ${batches.map(b=>{
+            const available=b.q>0;
+            return `<div class="commande-batch ${available?'available':'empty'}">
+              <div class="q">${fmtNum(b.q)}</div>
+              <div class="d">${b.d?esc(b.d):'—'}</div>
+              ${available ? `<span class="pick-label">QTE À RETIRER</span><input class="commandeBatchQtyInput" inputmode="numeric" data-code="${escAttr(p.code)}" data-row="${r._index}" data-slot="${b.s}" value="0" min="0" max="${fmtNum(b.q)}" type="number" onfocus="if(this.value==='0')this.value='';" oninput="commandeBatchInputChanged(this)">` : ''}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }).join('');
+
+    const topAddresses=rows.map(r=>addrDisplay(r.address)).filter(Boolean);
+    const topAddressesHtml=topAddresses.map(a=>{
+      const aa=String(a||'').trim();
+      const g=addressProductGroups[aa]||[];
+      const n=g.indexOf(p.code)+1;
+      const marker=(g.length>1&&n>0)?` <span style="color:var(--red);font-weight:900">${n}/${g.length}</span>`:'';
+      return `<span>${esc(a)}${marker}</span>`;
+    }).join(' ');
+    const googleImagesUrl='https://www.google.com/search?tbm=isch&q='+encodeURIComponent(p.code);
+    const productHeader=`<div class="commande-card-index">${pi+1}/${present.length}</div><div class="commande-addresses-top">${topAddressesHtml}</div><div class="commande-product-code"><a href="${googleImagesUrl}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none">${esc(p.code)}</a></div><div class="commande-product-name">${esc(p.name)}</div>`;
+    const dbSummary=pi===0 ? `<div class="commande-db-summary"><span class="summary-label">PRODUITS À PRÉPARER</span><span class="summary-value">${fmtNum(present.length)}</span></div>` : '';
+    content.insertAdjacentHTML('beforeend',`${dbSummary}<div class="commande-card status-red" data-commande-code="${escAttr(p.code)}">
+      ${productHeader}
+      <div class="commande-meta">
+        <div class="box"><div class="label">QTE DEMANDÉE</div><div class="value">${fmtNum(p.required)}</div></div>
+        <div class="box"><div class="label">QTE DISPONIBLE</div><div class="value">${fmtNum(p.available)}</div></div>
+      </div>
+      ${addresses}
+      <div class="commande-total" id="commandeTotal_${pi}">0 / ${fmtNum(p.required)}</div>
+    </div>`);
+  });
+
+  if(missing.length){
+    /* Les produits manquants sont toujours classés du QTE GOLD le plus élevé au plus faible. */
+    const missingSorted=[...missing].sort((a,b)=>{
+      const ga=num(a.product?.gold||0);
+      const gb=num(b.product?.gold||0);
+      if(gb!==ga)return gb-ga;
+      return String(a.name||a.code||'').localeCompare(String(b.name||b.code||''),'fr',{numeric:true,sensitivity:'base'});
+    });
+    missingWrap.innerHTML=`<div class="card commande-missing-wrap"><button type="button" class="primary commande-missing-toggle" onclick="toggleCommandeMissing()"><span>LES PRODUITS MANQUANTS</span><span class="commande-missing-count">${missingSorted.length}</span></button><div id="commandeMissing" style="display:none;margin-top:10px"></div></div>`;
+    document.getElementById('commandeMissing').innerHTML=missingSorted.map((p,i)=>`<div class="commande-card commande-missing"><div class="commande-product-name">${esc(p.code)} — ${esc(p.name)}</div><div class="commande-meta"><div class="box gold-box"><div class="label">QTE GOLD</div><div class="gold">${fmtNum(p.product?.gold||0)}</div></div><div class="box"><div class="label">QTE DEMANDÉE</div><div class="value">${fmtNum(p.required)}</div></div></div></div>`).join('');
+  }
+  actions.style.display=present.length?'block':'none';
+  commandeUpdateTotals();
+}
+function toggleCommandeMissing(){
+  const e=document.getElementById('commandeMissing');
+  if(e)e.style.display=e.style.display==='none'?'block':'none';
+}
+function commandeBatchInputChanged(input){
+  const max=Number(input.max||0);
+  let wanted=commandeQty(input.value);
+  if(wanted>max){
+    wanted=max;
+    input.value=String(max);
+  }
+  const batch=input.closest('.commande-batch');
+  if(batch)batch.classList.toggle('selected',wanted>0);
+  const card=input.closest('.commande-card');
+  if(card){
+    const inputs=card.querySelectorAll('.commandeBatchQtyInput');
+    let hasQuantity=false;
+    inputs.forEach(el=>{if(commandeQty(el.value)>0)hasQuantity=true;});
+    card.classList.toggle('status-green',hasQuantity);
+    card.classList.toggle('status-red',!hasQuantity);
+  }
+  commandeUpdateTotals();
+}
+
+
+let commandeNumero = '';
+
+function commandeAskOrderNumber(){
+  const modal=document.getElementById('commandeOrderModal');
+  const input=document.getElementById('commandeOrderNumber');
+  if(!modal||!input)return Promise.resolve('');
+  modal.classList.add('show');
+  input.value='';
+  setTimeout(()=>input.focus(),80);
+  return new Promise(resolve=>{
+    window.__commandeOrderResolve=resolve;
+  });
+}
+
+function commandeConfirmOrderNumber(){
+  const input=document.getElementById('commandeOrderNumber');
+  const value=String(input?.value||'').trim();
+  if(!value){
+    if(input){
+      input.focus();
+      input.style.borderColor='#e74c3c';
+      setTimeout(()=>{input.style.borderColor='';},900);
+    }
+    return;
+  }
+  commandeNumero=value;
+  const modal=document.getElementById('commandeOrderModal');
+  if(modal)modal.classList.remove('show');
+  const resolve=window.__commandeOrderResolve;
+  window.__commandeOrderResolve=null;
+  if(resolve)resolve(value);
+}
+
+function commandeDownloadPDF(allOps){
+  try{
+    const JsPDF=window.jspdf?.jsPDF;
+    if(!JsPDF)throw new Error('jsPDF indisponible');
+
+    const doc=new JsPDF({orientation:'p',unit:'mm',format:'a4'});
+    const pageW=doc.internal.pageSize.getWidth();
+    const pageH=doc.internal.pageSize.getHeight();
+    const margin=14;
+    const now=new Date();
+    const pad=n=>String(n).padStart(2,'0');
+    const orderDate=`${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}`;
+
+    const addHeader=()=>{
+      doc.setFillColor(52,152,219);
+      doc.rect(0,0,pageW,32,'F');
+      doc.setTextColor(255,255,255);
+      doc.setFont('helvetica','bold');
+
+      // العنوان في الوسط، كل سطر تحت الآخر.
+      doc.setFontSize(16);
+      doc.text('FLUX MARCHANDISE',pageW/2,9,{align:'center'});
+      doc.setFontSize(12);
+      doc.text('COMMANDE PRÉPARÉE',pageW/2,17,{align:'center'});
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(10);
+      doc.text('N° COMMANDE : '+String(commandeNumero||''),pageW/2,23,{align:'center'});
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(9);
+      doc.text(orderDate,pageW/2,29,{align:'center'});
+      doc.setTextColor(44,62,80);
+    };
+
+    addHeader();
+    let y=44;
+    const preparedProducts=allOps||[];
+
+    // ترتيب الأعمدة المطلوب: # / ADRESSE / GENCODE / NOM / QTE / DLC
+    const tableW=pageW-margin*2;
+    const cols=[
+      {x:margin,w:10,label:'#'},
+      {x:margin+10,w:25,label:'ADRESSE'},
+      {x:margin+35,w:30,label:'GENCODE'},
+      {x:margin+65,w:60,label:'NOM'},
+      {x:margin+125,w:18,label:'QTE'},
+      {x:margin+143,w:tableW-153,label:'DLC'}
+    ];
+
+    const centerText=(text,c,yPos,maxWidth)=>{
+      const lines=doc.splitTextToSize(String(text??''),Math.max(4,maxWidth-4));
+      doc.text(lines,c.x+c.w/2,yPos,{align:'center'});
+      return lines.length;
+    };
+
+    const drawTableHeader=()=>{
+      doc.setFillColor(52,152,219);
+      doc.rect(margin,y,tableW,8,'F');
+      doc.setTextColor(255,255,255);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(8);
+      cols.forEach(c=>doc.text(c.label,c.x+c.w/2,y+5.5,{align:'center'}));
+      y+=10;
+      doc.setTextColor(44,62,80);
+    };
+    drawTableHeader();
+
+    let lineNo=0;
+    const ensureSpace=needed=>{
+      if(y+needed>pageH-14){
+        doc.addPage();
+        y=14;
+        drawTableHeader();
+      }
+    };
+
+    preparedProducts.forEach(item=>{
+      const product=item.p||{};
+      (item.ops||[]).forEach(op=>{
+        const rowIndex=Number(op.selection?.rowIndex);
+        const slot=Number(op.selection?.slot);
+        const row=(product.stock?.rows||[])[rowIndex]||{};
+        const name=String(product.name||'PRODUIT');
+        const address=addrDisplay(row.address||op.selection?.address||'');
+        const code=String(product.code||'');
+        const date=String(row['dlc'+slot]||'');
+        const qty=fmtNum(op.qty);
+
+        const nameLines=doc.splitTextToSize(name,cols[3].w-4);
+        const rowH=Math.max(9,nameLines.length*4.2+3);
+        ensureSpace(rowH);
+
+        if(lineNo%2===0){
+          doc.setFillColor(247,250,252);
+          doc.rect(margin,y-1,tableW,rowH,'F');
+        }
+
+        doc.setFontSize(7.5);
+        doc.setFont('helvetica','normal');
+        centerText(String(++lineNo),cols[0],y+4,cols[0].w);
+        centerText(address.slice(0,18),cols[1],y+4,cols[1].w);
+        centerText(code.slice(0,18),cols[2],y+4,cols[2].w);
+
+        doc.setFont('helvetica','bold');
+        centerText(name,cols[3],y+4,cols[3].w);
+
+        doc.setFont('helvetica','bold');
+        centerText(qty,cols[4],y+4,cols[4].w);
+
+        doc.setFont('helvetica','normal');
+        doc.text(date.slice(0,10),cols[5].x+cols[5].w/2,y+4,{align:'center'});
+
+        y+=rowH;
+      });
+    });
+
+    // ترقيم صفحات الـPDF فقط: 1/2، 2/2، ...
+    const totalPages=doc.getNumberOfPages();
+    for(let pageNo=1;pageNo<=totalPages;pageNo++){
+      doc.setPage(pageNo);
+      doc.setTextColor(44,62,80);
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(8);
+      doc.text(`${pageNo}/${totalPages}`,pageW/2,pageH-6,{align:'center'});
+    }
+
+    const fileName=`COMMANDE_PREPAREE_${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}.pdf`;
+    doc.save(fileName);
+  }catch(e){
+    console.warn('PDF COMMANDE:',e);
+  }
+}
+
+function commandeUpdateTotals(){
+  commandeProducts.filter(x=>!x.missing).forEach((p,pi)=>{
+    let total=0;
+    document.querySelectorAll('.commandeBatchQtyInput[data-code="'+CSS.escape(p.code)+'"]').forEach(e=>total+=commandeQty(e.value));
+    const t=document.getElementById('commandeTotal_'+pi);
+    if(t)t.textContent=fmtNum(total)+' / '+fmtNum(p.required);
+  });
+}
+
+function commandeConsumeOps(p){
+  /*
+   * لا نختار DLC تلقائياً حسب التاريخ.
+   * كل input مرتبط مباشرة بـ rowIndex + slot، وبالتالي يتم الخصم
+   * من العنوان والتاريخ اللذين حددهما المستخدم بالضبط.
+   */
+  const inputs=[...document.querySelectorAll('.commandeBatchQtyInput[data-code="'+CSS.escape(p.code)+'"]')];
+  const ops=[];
+  for(const input of inputs){
+    const wanted=commandeQty(input.value);
+    if(!wanted)continue;
+
+    const rowIndex=Number(input.dataset.row);
+    const slot=Number(input.dataset.slot);
+    const row=(p.stock.rows||[])[rowIndex];
+    if(!row)throw new Error('Adresse introuvable.');
+    if(!(slot>=1&&slot<=3))throw new Error('DLC introuvable.');
+
+    const available=num(row['qte'+slot]);
+    const date=row['dlc'+slot];
+    if(!date)throw new Error('DLC introuvable pour l’adresse '+addrDisplay(row.address)+'.');
+    if(wanted>available){
+      throw new Error('La quantité demandée dépasse le stock de '+addrDisplay(row.address)+' — DLC '+date+'.');
+    }
+
+    ops.push({qty:wanted,selection:{rowIndex,slot,address:String(row.address||'').trim()}});
+  }
+  return ops;
+}
+function commandeOptimisticProduct(p,ops){
+  const rows=(p.stock.rows||[]).map(r=>({...r}));
+  const byRow=new Map();
+  ops.forEach(op=>{
+    const i=Number(op.selection.rowIndex),s=Number(op.selection.slot);
+    if(!byRow.has(i))byRow.set(i,[]);
+    byRow.get(i).push({slot:s,qty:num(op.qty)});
+  });
+  for(const [i,list] of byRow){
+    const r=rows[i];if(!r)continue;
+    list.forEach(o=>{r['qte'+o.slot]=Math.max(0,num(r['qte'+o.slot])-o.qty);if(!num(r['qte'+o.slot]))r['dlc'+o.slot]='';});
+  }
+  for(let i=rows.length-1;i>=0;i--)if(commandeStockTotal([rows[i]])<=0)rows.splice(i,1);
+  rebuildLocalStock(p.code,rows);
+  p.stock=stockCache[p.code];
+}
+async function validateCommande(){
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(commandeBusy)return;
+
+  const present=commandeProducts.filter(x=>!x.missing);
+  const allOps=[];
+
+  try{
+    for(const p of present){
+      // Nb étiquettes est informatif uniquement.
+      const ops=commandeConsumeOps(p);
+      if(ops.length)allOps.push({p,ops});
+    }
+
+    if(!allOps.length){
+      return commandeSetStatus('Aucune quantité à retirer.',false);
+    }
+  }catch(e){
+    return commandeSetStatus(e.message||String(e),false);
+  }
+
+  commandeBusy=true;
+  const btn=document.getElementById('commandeValidateBtn');
+  if(btn)btn.disabled=true;
+
+  try{
+    /*
+     * نحسب المخزون المحلي بعد الخصم قبل الإرسال.
+     * هذا لا يرسل أي شيء مرتين؛ هو فقط لتحديث الواجهة بعد نجاح POST.
+     */
+    const expectedByCode={};
+
+    allOps.forEach(x=>{
+      const rows=(x.p.stock?.rows||[]).map(r=>({...r}));
+      const byRow=new Map();
+
+      x.ops.forEach(op=>{
+        const i=Number(op.selection.rowIndex);
+        const slot=Number(op.selection.slot);
+        if(!byRow.has(i))byRow.set(i,[]);
+        byRow.get(i).push({slot,qty:num(op.qty)});
+      });
+
+      for(const [i,list] of byRow){
+        const r=rows[i];
+        if(!r)continue;
+
+        list.forEach(o=>{
+          r['qte'+o.slot]=Math.max(
+            0,
+            num(r['qte'+o.slot])-o.qty
+          );
+
+          if(!num(r['qte'+o.slot])){
+            r['dlc'+o.slot]='';
+          }
+        });
+      }
+
+      // نفس منطق compactDlc في Code.gs:
+      for(let i=0;i<rows.length;i++){
+        const r=rows[i];
+        const slots=[1,2,3]
+          .map(n=>({
+            q:num(r['qte'+n]),
+            d:r['dlc'+n]
+          }))
+          .filter(x=>x.q>0);
+
+        for(let n=1;n<=3;n++){
+          const z=slots[n-1];
+          r['qte'+n]=z?z.q:0;
+          r['dlc'+n]=z?z.d:'';
+        }
+      }
+
+      for(let i=rows.length-1;i>=0;i--){
+        if(commandeStockTotal([rows[i]])<=0){
+          rows.splice(i,1);
+        }
+      }
+
+      let reserve=0;
+      rows.forEach(r=>{
+        reserve+=
+          num(r.qte1)+
+          num(r.qte2)+
+          num(r.qte3);
+      });
+
+      expectedByCode[normCode(x.p.code)]={
+        rows,
+        reserve
+      };
+    });
+
+    commandeSetStatus('Enregistrement de la commande…',true);
+
+    /*
+     * COMMANDE: نستعمل JSONP مباشرة مع doGet.
+     * الرد يرجع إلى callback خاص بهذه العملية،
+     * لذلك لا نعرض COMMANDE VALIDÉE إلا بعد نجاح الكتابة فعلياً.
+     */
+    /*
+     * نرسل الخصم إلى validateCommande الموجود فعلياً في Code.gs.
+     * العملية تكتب في Google Sheets فوراً، ثم نطلب finalizeCommande
+     * في الخلفية لإعادة ترتيب/تنظيف البيانات.
+     */
+    const allocations=[];
+    const touchedCodes=[];
+
+    allOps.forEach(x=>{
+      const code=normCode(x.p.code);
+      if(!touchedCodes.includes(code))touchedCodes.push(code);
+
+      x.ops.forEach(op=>{
+        allocations.push({
+          code,
+          qty:num(op.qty),
+          selection:{
+            rowIndex:Number(op.selection.rowIndex),
+            slot:Number(op.selection.slot),
+            address:String(op.selection.address||'').trim()
+          }
+        });
+      });
+    });
+
+    const operationId=(window.__commandeOperationId||(window.__commandeOperationId='CMD_'+Date.now()+'_'+Math.random().toString(36).slice(2)));
+
+    const saved=await commandeRunServer('commandeValidateBatch',{
+      operationId,
+      operations:allocations
+    });
+
+    if(!saved?.ok){
+      throw new Error(saved?.error||'Erreur validation COMMANDE');
+    }
+
+    window.__commandeOperationId=null;
+
+    /* السيرفر أكد الخصم فعلياً؛ نحدّث الكاش المحلي بعد النجاح. */
+    Object.keys(expectedByCode).forEach(code=>{
+      stockCache[code]=expectedByCode[code];
+    });
+
+    await saveCaches();
+
+    /*
+     * التنظيف والترتيب لا يمنعان إكمال الطلب.
+     * نطلقهما في الخلفية بعد نجاح الخصم.
+     */
+    commandeRunServer('commandeFinalize',{
+      codes:touchedCodes
+    }).catch(err=>console.warn('COMMANDE finalize:',err));
+
+    // بعد نجاح الحفظ الفعلي فقط: إنشاء وتحميل PDF بالمنتوجات التي تم تحضيرها.
+    commandeDownloadPDF(allOps);
+
+    commandeRows=[];
+    commandeProducts=[];
+
+    document.getElementById(
+      'commandeContent'
+    ).innerHTML='';
+
+    document.getElementById(
+      'commandeMissingWrap'
+    ).innerHTML='';
+
+    document.getElementById(
+      'commandeActions'
+    ).style.display='none';
+
+    commandeSetStatus(
+      'COMMANDE VALIDÉE ✓',
+      true
+    );
+    setTimeout(()=>{
+      const e=document.getElementById('commandeImportStatus');
+      if(e){
+        e.classList.remove('show');
+        e.textContent='';
+      }
+      const content=document.getElementById('commandeContent');
+      if(content){
+        content.innerHTML='<div class="card"><div class="empty">IMPORTER LE FICHIER EXCEL POUR PRÉPARER LA COMMANDE.</div></div>';
+      }
+    },2000);
+
+  }catch(e){
+
+    commandeSetStatus(
+      'Erreur serveur COMMANDE — '+
+      (e?.message||String(e)),
+      false
+    );
+
+  }finally{
+
+    commandeBusy=false;
+
+    if(btn)btn.disabled=false;
+  }
+}
+
+document.getElementById('commandeExcel')?.addEventListener('change',async e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  try{
+    if(typeof XLSX==='undefined')throw new Error('Bibliothèque Excel indisponible.');
+    commandeSetStatus('Lecture du fichier…',true);
+    const buf=await file.arrayBuffer();
+    const wb=XLSX.read(buf,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+    if(!rows.length)throw new Error('Fichier Excel vide.');
+    commandeRows=rows.map(r=>({
+      code:commandeFindField(r,['code caisse','Code caisse','Code Caisse','Code caisse produit','Code','EAN','Barcode','Code barre','Référence','Reference']),
+      name:commandeFindField(r,['Nom produit','Produit','Désignation','Designation','Nom','Name']),
+      qty:commandeFindField(r,['Nb etiquettes','Nb étiquettes','N etiquettes','Etiquettes','Etiquette','Qte etiquettes'])
+    })).filter(r=>commandeCode(r.code)&&commandeQty(r.qty)>0);
+    if(!commandeRows.length)throw new Error('لم أجد الأعمدة المطلوبة: code caisse و Nb étiquettes.');
+    await commandeAskOrderNumber();
+    if(!commandeNumero)throw new Error('N° COMMANDE obligatoire.');
+    if(!cacheReady || !Object.keys(productCache).length || !Object.keys(stockCache).length){
+      commandeSetStatus('Chargement de la base de données…',true);
+      // نستعمل نفس API المستعملة في AJOUTER و RETIRER، وليس COMMANDE_API.
+      // هذا يمنع خطأ Connexion au serveur COMMANDE impossible.
+      const snap=await runServer('snapshot',[]);
+      if(!snap?.ok)throw new Error(snap?.error||'Erreur base de données');
+      const nextProducts={};(snap.products||[]).forEach(p=>nextProducts[normCode(p.code)]=p);
+      const nextStock={};Object.keys(snap.stockByCode||{}).forEach(c=>nextStock[normCode(c)]=normalizeCachedStockValue(snap.stockByCode[c]));
+      if(Object.keys(nextProducts).length)productCache=nextProducts;
+      if(Object.keys(nextStock).length)stockCache=nextStock;
+      cacheReady=true;await saveCaches();
+    }
+    commandeBuildData();commandeRender();
+    commandeSetStatus(commandeProducts.length+' produit(s) importé(s).',true);
+    e.target.value='';
+  }catch(err){commandeSetStatus(err.message||String(err),false);e.target.value='';}
+});
+</script>
+
+
+<script>
+/* ===== LOGIN MODAL - ONLY ADDITION ===== */
+(function(){
+  const LOGIN_USER='ABDELLAOUI';
+  const LOGIN_PASSWORD='Marjane30';
+  const overlay=document.getElementById('appLoginOverlay');
+  const password=document.getElementById('appLoginPassword');
+  const loginBtn=document.getElementById('appLoginBtn');
+  const closeBtn=document.getElementById('appLoginCloseBtn');
+  const errorOverlay=document.getElementById('appLoginErrorOverlay');
+  const retryBtn=document.getElementById('appLoginRetryBtn');
+
+  function showError(){
+    errorOverlay.style.display='flex';
+  }
+  function retry(){
+    errorOverlay.style.display='none';
+    password.value='';
+    password.focus();
+  }
+  function login(){
+    if(password.value===LOGIN_PASSWORD){
+      overlay.style.display='none';
+      password.value='';
+      return;
+    }
+    showError();
+  }
+  function closeApp(){
+    try{ window.close(); }catch(e){}
+    setTimeout(function(){
+      try{ history.back(); }catch(e){}
+    },80);
+  }
+
+  loginBtn.addEventListener('click',login);
+  password.addEventListener('keydown',function(e){
+    if(e.key==='Enter') login();
+  });
+  closeBtn.addEventListener('click',closeApp);
+  retryBtn.addEventListener('click',retry);
+
+  password.focus();
+})();
+</script>
+</body>
+</html>
